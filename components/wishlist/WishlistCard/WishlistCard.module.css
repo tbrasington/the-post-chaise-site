@@ -1,7 +1,7 @@
 .root {
   @apply grid grid-cols-12 w-full gap-6 px-3 py-6 border-b border-accent-2 transition duration-100 ease-in-out;
 
-  &:nth-child(3n + 1) {
+  /* &:nth-child(3n + 1) {
     & .productBg {
       @apply bg-violet;
     }
@@ -17,5 +17,5 @@
     & .productBg {
       @apply bg-blue;
     }
-  }
+  } */
 }

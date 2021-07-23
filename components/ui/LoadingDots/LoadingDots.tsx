@@ -1,12 +1,11 @@
-import s from './LoadingDots.module.css'
-
+import { Box, Flex } from "@theme-ui/components"
 const LoadingDots: React.FC = () => {
   return (
-    <span className={s.root}>
-      <span className={s.dot} key={`dot_1`} />
-      <span className={s.dot} key={`dot_2`} />
-      <span className={s.dot} key={`dot_3`} />
-    </span>
+    <Flex as ="span">
+      <Box as="span"  key={`dot_1`} />
+      <Box as="span"   key={`dot_2`} />
+      <Box as="span"   key={`dot_3`} />
+    </Flex>
   )
 }
 

@@ -1,11 +1,13 @@
+import {Box, Flex} from 'theme-ui'
 import { FC, useEffect, useRef } from 'react'
-import s from './Sidebar.module.css'
-import cn from 'classnames'
 import {
+  clearAllBodyScrollLocks,
   disableBodyScroll,
   enableBodyScroll,
-  clearAllBodyScrollLocks,
 } from 'body-scroll-lock'
+
+import { ColorTokens } from '@theme/tokens'
+import { alpha } from '@theme-ui/color'
 
 interface SidebarProps {
   children: any
@@ -26,20 +28,49 @@ const Sidebar: FC<SidebarProps> = ({ children, onClose }) => {
       clearAllBodyScrollLocks()
     }
   }, [])
+  
+ 
 
   return (
-    <div className={cn(s.root)}>
-      <div className="absolute inset-0 overflow-hidden">
-        <div className={s.backdrop} onClick={onClose} />
-        <section className="absolute inset-y-0 right-0 max-w-full flex outline-none pl-10">
+    <Box sx={{
+      position : 'fixed',
+      top : 0,
+      left : 0,
+      right : 0,
+      bottom : 0,
+      width : '100%',
+      height : '100%',
+      zIndex :50
+    }}>
+      <Box  sx={{
+            position : 'absolute',
+            overflow : 'hidden',
+            width : '100%',
+            height : '100%',
+            }}>
+        <Box sx={{
+            position : 'absolute',
+            bg : alpha(ColorTokens.darken,0.9),
+            width : '100%',
+            height : '100%',
+            backdropFilter : 'blur(0.8px)'
+        }} onClick={onClose} />
+        <Flex as="section" className="absolute inset-y-0 right-0 max-w-full flex outline-none pl-10"
+          sx={{
+              position : 'absolute',
+              right : 0,
+              height : '100%', 
+              bg : ColorTokens.background,
+              px : 32
+          }}>
           <div className="h-full w-full md:w-screen md:max-w-md">
-            <div className={s.sidebar} ref={ref}>
+            <div  ref={ref}>
               {children}
             </div>
           </div>
-        </section>
-      </div>
-    </div>
+        </Flex>
+      </Box>
+    </Box>
   )
 }
 

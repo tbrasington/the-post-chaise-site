@@ -1,8 +1,8 @@
+import { ChevronLeft, Cross } from '@components/icons'
 import React, { FC } from 'react'
-import { Cross, ChevronLeft } from '@components/icons'
+
+import { Box } from 'theme-ui'
 import { UserNav } from '@components/common'
-import cn from 'classnames'
-import s from './SidebarLayout.module.css'
 
 type ComponentProps = { className?: string } & (
   | { handleClose: () => any; handleBack?: never }
@@ -16,8 +16,10 @@ const SidebarLayout: FC<ComponentProps> = ({
   handleBack,
 }) => {
   return (
-    <div className={cn(s.root, className)}>
-      <header className={s.header}>
+    <Box sx={{
+     
+    }}>
+      <header >
         {handleClose && (
           <button
             onClick={handleClose}
@@ -38,12 +40,12 @@ const SidebarLayout: FC<ComponentProps> = ({
             <span className="ml-2 text-accent-7 text-xs">Back</span>
           </button>
         )}
-        <span className={s.nav}>
+        <span >
           <UserNav />
         </span>
       </header>
-      <div className={s.container}>{children}</div>
-    </div>
+      <div>{children}</div>
+    </Box>
   )
 }
 

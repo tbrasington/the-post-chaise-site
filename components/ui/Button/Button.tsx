@@ -1,68 +1,75 @@
-import cn from 'classnames'
+/** @jsxImportSource theme-ui */
+
 import React, {
-  forwardRef,
   ButtonHTMLAttributes,
   JSXElementConstructor,
+  forwardRef,
   useRef,
 } from 'react'
-import mergeRefs from 'react-merge-refs'
-import s from './Button.module.css'
+
+import { ButtonTypes } from '@theme/buttons'
 import { LoadingDots } from '@components/ui'
+import mergeRefs from 'react-merge-refs'
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+   /**
+   * Link to the button
+   */
   href?: string
-  className?: string
-  variant?: 'flat' | 'slim' | 'ghost'
+    /**
+   * What kind of style?
+   */
+  variant?: ButtonTypes
   active?: boolean
   type?: 'submit' | 'reset' | 'button'
   Component?: string | JSXElementConstructor<any>
+    /**
+   * overide the width
+   */
   width?: string | number
+    /**
+   * Toggle loading dots on and off
+   */
   loading?: boolean
+  /**
+   * Disable the butotn
+   */
   disabled?: boolean
 }
 
 const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
   const {
     className,
-    variant = 'flat',
+    variant = 'primary',
     children,
     active,
     width,
     loading = false,
     disabled = false,
-    style = {},
+  
     Component = 'button',
     ...rest
   } = props
   const ref = useRef<typeof Component>(null)
 
-  const rootClassName = cn(
-    s.root,
-    {
-      [s.ghost]: variant === 'ghost',
-      [s.slim]: variant === 'slim',
-      [s.loading]: loading,
-      [s.disabled]: disabled,
-    },
-    className
-  )
-
+  
   return (
     <Component
       aria-pressed={active}
-      data-variant={variant}
       ref={mergeRefs([ref, buttonRef])}
-      className={rootClassName}
+   
       disabled={disabled}
-      style={{
-        width,
-        ...style,
+      sx={{
+        variant : `buttons.${variant}`
       }}
       {...rest}
     >
       {children}
       {loading && (
-        <i className="pl-2 m-0 flex">
+        <i sx={{
+          p : 4,
+          display : 'flex',
+        }}>
           <LoadingDots />
         </i>
       )}

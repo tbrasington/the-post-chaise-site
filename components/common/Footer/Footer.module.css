@@ -3,11 +3,11 @@
 }
 
 .link {
-  & > svg {
+  /* & > svg {
     @apply transform duration-75 ease-linear;
   }
 
   &:hover > svg {
     @apply scale-110;
-  }
+  } */
 }

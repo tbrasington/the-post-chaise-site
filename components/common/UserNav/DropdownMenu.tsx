@@ -1,20 +1,18 @@
-import cn from 'classnames'
-import Link from 'next/link'
-import { FC, useRef, useState, useEffect } from 'react'
-import { useTheme } from 'next-themes'
-import { useRouter } from 'next/router'
-import s from './DropdownMenu.module.css'
-import { Avatar } from '@components/common'
+import { FC, useEffect, useRef, useState } from 'react'
 import { Moon, Sun } from '@components/icons'
-import { useUI } from '@components/ui/context'
-import ClickOutside from '@lib/click-outside'
-import useLogout from '@framework/auth/use-logout'
-
 import {
+  clearAllBodyScrollLocks,
   disableBodyScroll,
   enableBodyScroll,
-  clearAllBodyScrollLocks,
 } from 'body-scroll-lock'
+
+import { Avatar } from '@components/common'
+import ClickOutside from '@lib/click-outside'
+import Link from 'next/link'
+import { useColorMode } from 'theme-ui'
+import useLogout from '@framework/auth/use-logout'
+import { useRouter } from 'next/router'
+import { useUI } from '@components/ui/context'
 
 interface DropdownMenuProps {
   open?: boolean
@@ -38,7 +36,7 @@ const LINKS = [
 const DropdownMenu: FC<DropdownMenuProps> = ({ open = false }) => {
   const logout = useLogout()
   const { pathname } = useRouter()
-  const { theme, setTheme } = useTheme()
+  const [mode, setMode] = useColorMode()
   const [display, setDisplay] = useState(false)
   const { closeSidebarIfPresent } = useUI()
   const ref = useRef() as React.MutableRefObject<HTMLUListElement>
@@ -60,22 +58,20 @@ const DropdownMenu: FC<DropdownMenuProps> = ({ open = false }) => {
     <ClickOutside active={display} onClick={() => setDisplay(false)}>
       <div>
         <button
-          className={s.avatarButton}
+          
           onClick={() => setDisplay(!display)}
           aria-label="Menu"
         >
           <Avatar />
         </button>
         {display && (
-          <ul className={s.dropdownMenu} ref={ref}>
+          <ul  ref={ref}>
             {LINKS.map(({ name, href }) => (
               <li key={href}>
                 <div>
                   <Link href={href}>
                     <a
-                      className={cn(s.link, {
-                        [s.active]: pathname === href,
-                      })}
+                      
                       onClick={() => {
                         setDisplay(false)
                         closeSidebarIfPresent()
@@ -89,17 +85,17 @@ const DropdownMenu: FC<DropdownMenuProps> = ({ open = false }) => {
             ))}
             <li>
               <a
-                className={cn(s.link, 'justify-between')}
+              
                 onClick={() => {
-                  theme === 'dark' ? setTheme('light') : setTheme('dark')
+                  mode === 'dark' ? setMode('light') : setMode('dark')
                   setDisplay(false)
                 }}
               >
                 <div>
-                  Theme: <strong>{theme}</strong>{' '}
+                  Theme: <strong>{mode}</strong>{' '}
                 </div>
                 <div className="ml-3">
-                  {theme == 'dark' ? (
+                  {mode == 'dark' ? (
                     <Moon width={20} height={20} />
                   ) : (
                     <Sun width="20" height={20} />
@@ -109,7 +105,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({ open = false }) => {
             </li>
             <li>
               <a
-                className={cn(s.link, 'border-t border-accent-2 mt-4')}
+              
                 onClick={() => logout()}
               >
                 Logout

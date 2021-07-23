@@ -1,7 +1,10 @@
 import React, { FC, useCallback, useMemo } from 'react'
-import { ThemeProvider } from 'next-themes'
+
+import { ThemeProvider } from 'theme-ui'
+import theme from '@theme/index'
 
 export interface State {
+  displayMenu: boolean
   displaySidebar: boolean
   displayDropdown: boolean
   displayModal: boolean
@@ -11,6 +14,7 @@ export interface State {
 }
 
 const initialState = {
+  displayMenu : false,
   displaySidebar: false,
   displayDropdown: false,
   displayModal: false,
@@ -20,6 +24,12 @@ const initialState = {
 }
 
 type Action =
+| {
+      type: 'OPEN_MENU'
+    }
+  | {
+      type: 'CLOSE_MENU'
+    }
   | {
       type: 'OPEN_SIDEBAR'
     }
@@ -66,6 +76,18 @@ UIContext.displayName = 'UIContext'
 
 function uiReducer(state: State, action: Action) {
   switch (action.type) {
+    case 'OPEN_MENU': {
+      return {
+        ...state,
+        displayMenu: true,
+      }
+    }
+    case 'CLOSE_MENU': {
+      return {
+        ...state,
+        displayMenu: false,
+      }
+    }
     case 'OPEN_SIDEBAR': {
       return {
         ...state,
@@ -127,6 +149,27 @@ function uiReducer(state: State, action: Action) {
 export const UIProvider: FC = (props) => {
   const [state, dispatch] = React.useReducer(uiReducer, initialState)
 
+  const openMenu= useCallback(
+    () => dispatch({ type: 'OPEN_MENU' }),
+    [dispatch]
+  )
+  const closeMenu = useCallback(
+    () => dispatch({ type: 'CLOSE_MENU' }),
+    [dispatch]
+  )
+  const toggleMenu = useCallback(
+    () =>
+      state.displayMenu
+        ? dispatch({ type: 'CLOSE_MENU' })
+        : dispatch({ type: 'OPEN_MENU' }),
+    [dispatch, state.displayMenu]
+  )
+  const closeMenuIfPresent = useCallback(
+    () => state.displayMenu && dispatch({ type: 'CLOSE_MENU' }),
+    [dispatch, state.displayMenu]
+  )
+
+
   const openSidebar = useCallback(
     () => dispatch({ type: 'OPEN_SIDEBAR' }),
     [dispatch]
@@ -183,6 +226,10 @@ export const UIProvider: FC = (props) => {
   const value = useMemo(
     () => ({
       ...state,
+      openMenu,
+      closeMenu,
+      toggleMenu,
+      closeMenuIfPresent,
       openSidebar,
       closeSidebar,
       toggleSidebar,
@@ -211,6 +258,6 @@ export const useUI = () => {
 
 export const ManagedUIContext: FC = ({ children }) => (
   <UIProvider>
-    <ThemeProvider>{children}</ThemeProvider>
+    <ThemeProvider theme={theme}>{children}</ThemeProvider>
   </UIProvider>
 )
