@@ -1,4 +1,4 @@
-import loginApi from '@framework/api/endpoints/login'
-import commerce from '@lib/api/commerce'
+import commerce from "@lib/api/commerce"
+import loginApi from "@framework/api/endpoints/login"
 
 export default loginApi(commerce)

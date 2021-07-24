@@ -1,9 +1,11 @@
+/** @jsxImportSource theme-ui */
 import { Button, Container, Logo, useUI } from '@components/ui'
-import React, { FC } from 'react'
 
+import  { FC } from 'react'
 import { Flex } from 'theme-ui'
 import Link from 'next/link'
 import NavbarRoot from './NavbarRoot'
+import { TextStyleNames } from '@theme/tokens'
 import { UserNav } from '@components/common'
 
 interface Link {
@@ -19,21 +21,39 @@ const Navbar: FC<NavbarProps> = ({ links }) => {
   return (
     <NavbarRoot>
       <Container>
-        <Flex>
+        <Flex
+          sx={{
+            justifyContent: 'space-evenly',
+            alignItems: 'center'
+          }}
+        >
+          <Flex
+            sx={{
+              flex: 1,
+            }}
+          >
             <Link href="/">
-              <a aria-label="Logo">
-                <Logo />
+              <a aria-label="Logo" sx={{
+                display: 'flex',
+                alignItems: 'center',
+                alignContent: 'center', 
+                variant : `text.${TextStyleNames.label_upper}`
+              }}>
+                <Logo sx={{ 
+                    width : [64, 64, 128],
+                    height:[64, 64, 128],
+                }}/>
+                <span sx={{ml : 32}}>The Post Chaise</span>
               </a>
             </Link>
-        
+          </Flex>
 
           <Flex>
-          <nav>
-            <Button onClick={() => toggleMenu()}>menu</Button>
-          </nav>
-          <UserNav />
+            <nav>
+              <Button onClick={() => toggleMenu()}>menu</Button>
+            </nav>
+            <UserNav />
           </Flex>
-         
         </Flex>
 
         {displayMenu ? (

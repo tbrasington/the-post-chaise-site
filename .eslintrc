@@ -1,0 +1,33 @@
+{
+  "extends": ["next", "prettier"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["prettier"],
+  "rules": {
+   
+    "prettier/prettier": [
+      2,
+      {
+        "arrowParens": "avoid",
+        "endOfLine": "lf",
+        "bracketSpacing": true,
+        "jsxBracketSameLine": false,
+        "semi": false,
+        "singleQuote": false,
+        "tabWidth": 2,
+        "trailingComma": "none",
+        "useTabs": false, 
+        "react/display-name": "off"
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    },
+    "react": {
+      "version": "detect"
+    }
+  }
+}

@@ -1,15 +1,16 @@
-import { ChangeEvent, FocusEventHandler, useEffect, useState } from 'react'
-import cn from 'classnames'
-import Image from 'next/image'
-import Link from 'next/link'
-import s from './CartItem.module.css'
-import { Trash, Plus, Minus, Cross } from '@components/icons'
-import { useUI } from '@components/ui/context'
-import type { LineItem } from '@commerce/types/cart'
-import usePrice from '@framework/product/use-price'
-import useUpdateItem from '@framework/cart/use-update-item'
-import useRemoveItem from '@framework/cart/use-remove-item'
-import Quantity from '@components/ui/Quantity'
+import { ChangeEvent, FocusEventHandler, useEffect, useState } from "react"
+import { Cross, Minus, Plus, Trash } from "@components/icons"
+
+import Image from "next/image"
+import type { LineItem } from "@commerce/types/cart"
+import Link from "next/link"
+import Quantity from "@components/ui/Quantity"
+import cn from "classnames"
+import s from "./CartItem.module.css"
+import usePrice from "@framework/product/use-price"
+import useRemoveItem from "@framework/cart/use-remove-item"
+import { useUI } from "@components/ui/context"
+import useUpdateItem from "@framework/cart/use-update-item"
 
 type ItemOption = {
   name: string
@@ -20,11 +21,11 @@ type ItemOption = {
 
 const CartItem = ({
   item,
-  variant = 'default',
+  variant = "default",
   currencyCode,
   ...rest
 }: {
-  variant?: 'default' | 'display'
+  variant?: "default" | "display"
   item: LineItem
   currencyCode: string
 }) => {
@@ -37,11 +38,11 @@ const CartItem = ({
   const { price } = usePrice({
     amount: item.variant.price * item.quantity,
     baseAmount: item.variant.listPrice * item.quantity,
-    currencyCode,
+    currencyCode
   })
 
   const handleChange = async ({
-    target: { value },
+    target: { value }
   }: ChangeEvent<HTMLInputElement>) => {
     setQuantity(Number(value))
     await updateItem({ quantity: Number(value) })
@@ -75,26 +76,26 @@ const CartItem = ({
   return (
     <li
       className={cn(s.root, {
-        'opacity-50 pointer-events-none': removing,
+        "opacity-50 pointer-events-none": removing
       })}
       {...rest}
     >
       <div className="flex flex-row space-x-4 py-4">
-        <div className="w-16 h-16 bg-violet relative overflow-hidden cursor-pointer z-0">
-          <Link href={`/product/${item.path}`}>
+        {" "}
+        <Link href={`/product/${item.path}`} passHref={true}>
+          <div className="w-16 h-16 bg-violet relative overflow-hidden cursor-pointer z-0">
             <Image
               onClick={() => closeSidebarIfPresent()}
-              className={s.productImage}
               width={150}
               height={150}
               src={item.variant.image!.url}
               alt={item.variant.image!.altText}
               unoptimized
             />
-          </Link>
-        </div>
+          </div>
+        </Link>
         <div className="flex-1 flex flex-col text-base">
-          <Link href={`/product/${item.path}`}>
+          <Link href={`/product/${item.path}`} passHref={true}>
             <span
               className={s.productName}
               onClick={() => closeSidebarIfPresent()}
@@ -110,11 +111,11 @@ const CartItem = ({
                   className="text-sm font-semibold text-accent-7 inline-flex items-center justify-center"
                 >
                   {option.name}
-                  {option.name === 'Color' ? (
+                  {option.name === "Color" ? (
                     <span
                       className="mx-2 rounded-full bg-transparent border w-5 h-5 p-1 text-accent-9 inline-flex items-center justify-center overflow-hidden"
                       style={{
-                        backgroundColor: `${option.value}`,
+                        backgroundColor: `${option.value}`
                       }}
                     ></span>
                   ) : (
@@ -122,12 +123,12 @@ const CartItem = ({
                       {option.value}
                     </span>
                   )}
-                  {i === options.length - 1 ? '' : <span className="mr-3" />}
+                  {i === options.length - 1 ? "" : <span className="mr-3" />}
                 </div>
               ))}
             </div>
           )}
-          {variant === 'display' && (
+          {variant === "display" && (
             <div className="text-sm tracking-wider">{quantity}x</div>
           )}
         </div>
@@ -135,7 +136,7 @@ const CartItem = ({
           <span>{price}</span>
         </div>
       </div>
-      {variant === 'default' && (
+      {variant === "default" && (
         <Quantity
           value={quantity}
           handleRemove={handleRemove}

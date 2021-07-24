@@ -1,11 +1,9 @@
+/** @jsxImportSource theme-ui */
 import React, {
-  FunctionComponent,
-  JSXElementConstructor,
   CSSProperties,
-} from 'react'
-import cn from 'classnames'
-import s from './Text.module.css'
-
+  FunctionComponent,
+  JSXElementConstructor
+} from "react"
 interface TextProps {
   variant?: Variant
   className?: string
@@ -15,23 +13,37 @@ interface TextProps {
   onClick?: () => any
 }
 
-type Variant = 'heading' | 'body' | 'pageHeading' | 'sectionHeading'
+type Variant =
+  | "page_title"
+  | "sub_heading"
+  | "statement"
+  | "paragraph"
+  | "paragraph_small"
+  | "caption"
+  | "label_standard"
+  | "label_upper"
+  | "action"
 
 const Text: FunctionComponent<TextProps> = ({
-  style,
-  className = '',
-  variant = 'body',
+  variant = "paragraph",
+
   children,
   html,
   onClick,
+  ...props
 }) => {
   const componentsMap: {
     [P in Variant]: React.ComponentType<any> | string
   } = {
-    body: 'div',
-    heading: 'h1',
-    pageHeading: 'h1',
-    sectionHeading: 'h2',
+    page_title: "h1",
+    sub_heading: "h2",
+    statement: "p",
+    paragraph: "p",
+    paragraph_small: "p",
+    caption: "p",
+    label_standard: "span",
+    label_upper: "span",
+    action: "span"
   }
 
   const Component:
@@ -42,25 +54,18 @@ const Text: FunctionComponent<TextProps> = ({
 
   const htmlContentProps = html
     ? {
-        dangerouslySetInnerHTML: { __html: html },
+        dangerouslySetInnerHTML: { __html: html }
       }
     : {}
 
   return (
     <Component
-      className={cn(
-        s.root,
-        {
-          [s.body]: variant === 'body',
-          [s.heading]: variant === 'heading',
-          [s.pageHeading]: variant === 'pageHeading',
-          [s.sectionHeading]: variant === 'sectionHeading',
-        },
-        className
-      )}
+      sx={{
+        variant: `text.${variant}`
+      }}
       onClick={onClick}
-      style={style}
       {...htmlContentProps}
+      {...props}
     >
       {children}
     </Component>

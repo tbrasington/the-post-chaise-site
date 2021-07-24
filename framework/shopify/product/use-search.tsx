@@ -1,22 +1,20 @@
-import { SWRHook } from '@commerce/utils/types'
-import useSearch, { UseSearch } from '@commerce/product/use-search'
-
 import {
   CollectionEdge,
   GetAllProductsQuery,
   GetProductsFromCollectionQueryVariables,
-  Product as ShopifyProduct,
   ProductEdge,
-} from '../schema'
-
+  Product as ShopifyProduct
+} from "../schema"
 import {
   getAllProductsQuery,
   getCollectionProductsQuery,
   getSearchVariables,
-  normalizeProduct,
-} from '../utils'
+  normalizeProduct
+} from "../utils"
+import useSearch, { UseSearch } from "@commerce/product/use-search"
 
-import type { SearchProductsHook } from '../types/product'
+import { SWRHook } from "@commerce/utils/types"
+import type { SearchProductsHook } from "../types/product"
 
 export type SearchProductsInput = {
   search?: string
@@ -30,7 +28,7 @@ export default useSearch as UseSearch<typeof handler>
 
 export const handler: SWRHook<SearchProductsHook> = {
   fetchOptions: {
-    query: getAllProductsQuery,
+    query: getAllProductsQuery
   },
   async fetcher({ input, options, fetch }) {
     const { categoryId, brandId } = input
@@ -46,20 +44,20 @@ export const handler: SWRHook<SearchProductsHook> = {
       >({
         query: getCollectionProductsQuery,
         method,
-        variables,
+        variables
       })
       // filter on client when brandId & categoryId are set since is not available on collection product query
       products = brandId
         ? data.node?.products?.edges?.filter(
             ({ node: { vendor } }: ProductEdge) =>
-              vendor.replace(/\s+/g, '-').toLowerCase() === brandId
+              vendor.replace(/\s+/g, "-").toLowerCase() === brandId
           )
         : data.node?.products?.edges
     } else {
       const data = await fetch<GetAllProductsQuery>({
         query: options.query,
         method,
-        variables,
+        variables
       })
       products = data.products?.edges
     }
@@ -68,22 +66,24 @@ export const handler: SWRHook<SearchProductsHook> = {
       products: products?.map(({ node }) =>
         normalizeProduct(node as ShopifyProduct)
       ),
-      found: !!products?.length,
+      found: !!products?.length
     }
   },
-  useHook: ({ useData }) => (input = {}) => {
-    return useData({
-      input: [
-        ['search', input.search],
-        ['categoryId', input.categoryId],
-        ['brandId', input.brandId],
-        ['sort', input.sort],
-        ['locale', input.locale],
-      ],
-      swrOptions: {
-        revalidateOnFocus: false,
-        ...input.swrOptions,
-      },
-    })
-  },
+  useHook:
+    ({ useData }) =>
+    (input = {}) => {
+      return useData({
+        input: [
+          ["search", input.search],
+          ["categoryId", input.categoryId],
+          ["brandId", input.brandId],
+          ["sort", input.sort],
+          ["locale", input.locale]
+        ],
+        swrOptions: {
+          revalidateOnFocus: false,
+          ...input.swrOptions
+        }
+      })
+    }
 }

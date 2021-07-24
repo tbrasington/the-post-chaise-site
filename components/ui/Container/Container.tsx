@@ -2,18 +2,21 @@
 
 import { FC } from 'react'
 import { StandardXPadding } from '@theme/tokens'
+import { ThemeUIStyleObject } from 'theme-ui'
 
 interface ContainerProps {
 
   children?: any
   el?: HTMLElement
   clean?: boolean
+  sx? : ThemeUIStyleObject
 }
 
 const Container: FC<ContainerProps> = ({
   children,
   el = 'div',
   clean,
+  ...props
 }) => {
  
 
@@ -22,7 +25,7 @@ const Container: FC<ContainerProps> = ({
 
   return <Component sx={{
     px : clean ? 0 : StandardXPadding
-  }}>{children}</Component>
+  }} {...props}>{children}</Component>
 }
 
 export default Container

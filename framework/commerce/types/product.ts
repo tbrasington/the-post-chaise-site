@@ -1,11 +1,13 @@
 export type ProductImage = {
   url: string
   alt?: string
+  width: number
+  height: number
 }
 
 export type ProductPrice = {
   value: number
-  currencyCode?: 'USD' | 'EUR' | 'ARS' | string
+  currencyCode?: "USD" | "EUR" | "ARS" | string
   retailPrice?: number
   salePrice?: number
   listPrice?: number
@@ -14,7 +16,7 @@ export type ProductPrice = {
 }
 
 export type ProductOption = {
-  __typename?: 'MultipleChoiceOption'
+  __typename?: "MultipleChoiceOption"
   id: string
   displayName: string
   values: ProductOptionValues[]
@@ -60,12 +62,12 @@ export type ProductTypes = {
 
 export type SearchProductsHook<T extends ProductTypes = ProductTypes> = {
   data: {
-    products: T['product'][]
+    products: T["product"][]
     found: boolean
   }
-  body: T['searchBody']
-  input: T['searchBody']
-  fetcherInput: T['searchBody']
+  body: T["searchBody"]
+  input: T["searchBody"]
+  fetcherInput: T["searchBody"]
 }
 
 export type ProductsSchema<T extends ProductTypes = ProductTypes> = {
@@ -77,23 +79,22 @@ export type ProductsSchema<T extends ProductTypes = ProductTypes> = {
   }
 }
 
-export type GetAllProductPathsOperation<
-  T extends ProductTypes = ProductTypes
-> = {
-  data: { products: Pick<T['product'], 'path'>[] }
-  variables: { first?: number }
-}
+export type GetAllProductPathsOperation<T extends ProductTypes = ProductTypes> =
+  {
+    data: { products: Pick<T["product"], "path">[] }
+    variables: { first?: number }
+  }
 
 export type GetAllProductsOperation<T extends ProductTypes = ProductTypes> = {
-  data: { products: T['product'][] }
+  data: { products: T["product"][] }
   variables: {
-    relevance?: 'featured' | 'best_selling' | 'newest'
+    relevance?: "featured" | "best_selling" | "newest"
     ids?: string[]
     first?: number
   }
 }
 
 export type GetProductOperation<T extends ProductTypes = ProductTypes> = {
-  data: { product?: T['product'] }
+  data: { product?: T["product"] }
   variables: { path: string; slug?: never } | { path?: never; slug: string }
 }

@@ -1,18 +1,19 @@
 import type {
   GetStaticPathsContext,
   GetStaticPropsContext,
-  InferGetStaticPropsType,
-} from 'next'
-import { useRouter } from 'next/router'
-import commerce from '@lib/api/commerce'
-import { Layout } from '@components/common'
-import { ProductView } from '@components/product'
+  InferGetStaticPropsType
+} from "next"
+
+import { Layout } from "@components/common"
+import { ProductView } from "@components/product"
+import commerce from "@lib/api/commerce"
+import { useRouter } from "next/router"
 
 export async function getStaticProps({
   params,
   locale,
   locales,
-  preview,
+  preview
 }: GetStaticPropsContext<{ slug: string }>) {
   const config = { locale, locales }
   const pagesPromise = commerce.getAllPages({ config, preview })
@@ -20,13 +21,13 @@ export async function getStaticProps({
   const productPromise = commerce.getProduct({
     variables: { slug: params!.slug },
     config,
-    preview,
+    preview
   })
 
   const allProductsPromise = commerce.getAllProducts({
     variables: { first: 4 },
     config,
-    preview,
+    preview
   })
   const { pages } = await pagesPromise
   const { categories } = await siteInfoPromise
@@ -42,9 +43,9 @@ export async function getStaticProps({
       pages,
       product,
       relatedProducts,
-      categories,
+      categories
     },
-    revalidate: 200,
+    revalidate: 200
   }
 }
 
@@ -61,13 +62,13 @@ export async function getStaticPaths({ locales }: GetStaticPathsContext) {
           return arr
         }, [])
       : products.map((product: any) => `/product${product.path}`),
-    fallback: 'blocking',
+    fallback: "blocking"
   }
 }
 
 export default function Slug({
   product,
-  relatedProducts,
+  relatedProducts
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const router = useRouter()
 

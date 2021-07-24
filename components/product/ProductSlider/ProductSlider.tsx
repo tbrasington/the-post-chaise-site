@@ -1,135 +1,142 @@
-import { useKeenSlider } from 'keen-slider/react'
-import React, {
-  Children,
-  FC,
-  isValidElement,
-  useState,
-  useRef,
-  useEffect,
-} from 'react'
-import cn from 'classnames'
-import { a } from '@react-spring/web'
-import s from './ProductSlider.module.css'
-import ProductSliderControl from '../ProductSliderControl'
+/** @jsxImportSource theme-ui */
+import { AnimatePresence, motion } from "framer-motion"
+import { Box, Flex } from "theme-ui"
+import React, { Children, Fragment, useRef, useState } from "react"
+
+import ProductSliderControl from "../ProductSliderControl"
+import { StandardXPadding } from "@theme/tokens"
+import { wrap } from "@popmotion/popcorn"
 
 interface ProductSliderProps {
   children: React.ReactNode[]
   className?: string
 }
 
-const ProductSlider: React.FC<ProductSliderProps> = ({
-  children,
-  className = '',
-}) => {
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const [isMounted, setIsMounted] = useState(false)
-  const sliderContainerRef = useRef<HTMLDivElement>(null)
-  const thumbsContainerRef = useRef<HTMLDivElement>(null)
+const variants = {
+  enter: (props: { direction: number; width: number }) => {
+    return {
+      x: props.direction > 0 ? props.width : -props.width,
+      opacity: 0
+    }
+  },
+  center: {
+    zIndex: 1,
+    x: 0,
+    opacity: 1
+  },
+  exit: (props: { direction: number; width: number }) => {
+    return {
+      zIndex: 0,
+      x: props.direction < 0 ? props.width : -props.width,
+      opacity: 0
+    }
+  }
+}
 
-  const [ref, slider] = useKeenSlider<HTMLDivElement>({
-    loop: true,
-    slidesPerView: 1,
-    mounted: () => setIsMounted(true),
-    slideChanged(s) {
-      const slideNumber = s.details().relativeSlide
-      setCurrentSlide(slideNumber)
+const swipeConfidenceThreshold = 10000
+const swipePower = (offset: number, velocity: number) => {
+  return Math.abs(offset) * velocity
+}
 
-      if (thumbsContainerRef.current) {
-        const $el = document.getElementById(
-          `thumb-${s.details().relativeSlide}`
-        )
-        if (slideNumber >= 3) {
-          thumbsContainerRef.current.scrollLeft = $el!.offsetLeft
-        } else {
-          thumbsContainerRef.current.scrollLeft = 0
-        }
-      }
-    },
+const ProductSlider: React.FC<ProductSliderProps> = ({ children }) => {
+  const [[page, direction], setPage] = useState([0, 0])
+
+  const slideTotal = Children.count(children)
+
+  const GallerySlides = Children.toArray(children).map((child, key) => {
+    return <Fragment key={key}>{child}</Fragment>
   })
 
-  // Stop the history navigation gesture on touch devices
-  useEffect(() => {
-    const preventNavigation = (event: TouchEvent) => {
-      // Center point of the touch area
-      const touchXPosition = event.touches[0].pageX
-      // Size of the touch area
-      const touchXRadius = event.touches[0].radiusX || 0
+  // gallery state actions
+  const galleryRef = useRef<HTMLDivElement>(null)
 
-      // We set a threshold (10px) on both sizes of the screen,
-      // if the touch area overlaps with the screen edges
-      // it's likely to trigger the navigation. We prevent the
-      // touchstart event in that case.
-      if (
-        touchXPosition - touchXRadius < 10 ||
-        touchXPosition + touchXRadius > window.innerWidth - 10
-      )
-        event.preventDefault()
+  const containerWidth = galleryRef.current
+    ? galleryRef.current.getBoundingClientRect().width
+    : "100%"
+
+  // gallery slide movements
+  const imageIndex = wrap(0, slideTotal, page)
+
+  const Slide: React.FC = () => {
+    if (GallerySlides[imageIndex]) {
+      return GallerySlides[imageIndex]
+    } else {
+      // Must return null. Returning undefined crashes React
+      return null
     }
+  }
 
-    sliderContainerRef.current!.addEventListener(
-      'touchstart',
-      preventNavigation
-    )
+  function paginate(newDirection: number) {
+    setPage([page + newDirection, newDirection])
+  }
 
-    return () => {
-      if (sliderContainerRef.current) {
-        sliderContainerRef.current!.removeEventListener(
-          'touchstart',
-          preventNavigation
-        )
-      }
-    }
-  }, [])
-
-  const onPrev = React.useCallback(() => slider.prev(), [slider])
-  const onNext = React.useCallback(() => slider.next(), [slider])
+  const onPrev = () => paginate(-1)
+  const onNext = () => paginate(1)
 
   return (
-    <div className={cn(s.root, className)} ref={sliderContainerRef}>
-      <div
-        ref={ref}
-        className={cn(s.slider, { [s.show]: isMounted }, 'keen-slider')}
+    <Flex
+      ref={galleryRef}
+      sx={{
+        width: "100%",
+        height: "100%",
+        alignContent: "center",
+        justifyContent: "center",
+        alignItems: "center",
+        position: "relative",
+        px: StandardXPadding,
+        py: 64,
+        flexDirection: "column"
+      }}
+    >
+      <Box
+        sx={{
+          position: "relative",
+          width: "100%",
+          height: "100%",
+          overflow: "hidden"
+        }}
       >
-        {slider && <ProductSliderControl onPrev={onPrev} onNext={onNext} />}
-        {Children.map(children, (child) => {
-          // Add the keen-slider__slide className to children
-          if (isValidElement(child)) {
-            return {
-              ...child,
-              props: {
-                ...child.props,
-                className: `${
-                  child.props.className ? `${child.props.className} ` : ''
-                }keen-slider__slide`,
-              },
-            }
-          }
-          return child
-        })}
-      </div>
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.div
+            custom={{ direction, width: containerWidth }}
+            sx={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              alignItems: "center",
+              alignContent: "center",
+              justifyContent: "center",
+              display: "flex"
+            }}
+            key={page}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: "spring", stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 }
+            }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={1}
+            onDragEnd={(e, { offset, velocity }) => {
+              const swipe = swipePower(offset.x, velocity.x)
 
-      <a.div className={s.album} ref={thumbsContainerRef}>
-        {slider &&
-          Children.map(children, (child, idx) => {
-            if (isValidElement(child)) {
-              return {
-                ...child,
-                props: {
-                  ...child.props,
-                  className: cn(child.props.className, s.thumb, {
-                    [s.selected]: currentSlide === idx,
-                  }),
-                  id: `thumb-${idx}`,
-                  onClick: () => {
-                    slider.moveToSlideRelative(idx)
-                  },
-                },
+              if (swipe < -swipeConfidenceThreshold) {
+                paginate(1)
+              } else if (swipe > swipeConfidenceThreshold) {
+                paginate(-1)
               }
-            }
-            return child
-          })}
-      </a.div>
-    </div>
+            }}
+          >
+            <Slide />
+          </motion.div>
+        </AnimatePresence>
+      </Box>
+
+      <ProductSliderControl onPrev={onPrev} onNext={onNext} />
+    </Flex>
   )
 }
 

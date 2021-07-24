@@ -1,4 +1,4 @@
-import { productConnectionFragment } from './get-all-products-query'
+import { productConnectionFragment } from "./get-all-products-query"
 
 const getCollectionProductsQuery = /* GraphQL */ `
   query getProductsFromCollection(

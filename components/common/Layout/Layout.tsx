@@ -1,44 +1,40 @@
-import cn from 'classnames'
-import React, { FC } from 'react'
-import dynamic from 'next/dynamic'
-import { useRouter } from 'next/router'
-import { CommerceProvider } from '@framework'
-import { useUI } from '@components/ui/context'
-import type { Page } from '@commerce/types/page'
-import { Navbar, Footer } from '@components/common'
-import type { Category } from '@commerce/types/site'
-import ShippingView from '@components/checkout/ShippingView'
-import CartSidebarView from '@components/cart/CartSidebarView'
-import { useAcceptCookies } from '@lib/hooks/useAcceptCookies'
-import { Sidebar, Button, Modal, LoadingDots } from '@components/ui'
-import PaymentMethodView from '@components/checkout/PaymentMethodView'
-import CheckoutSidebarView from '@components/checkout/CheckoutSidebarView'
+import { Footer, Navbar } from "@components/common"
+import { Modal, Sidebar } from "@components/ui"
+import React, { FC } from "react"
 
-import LoginView from '@components/auth/LoginView'
-import s from './Layout.module.css'
-
-const Loading = () => (
-  <div className="w-80 h-80 flex items-center text-center justify-center p-3">
-    <LoadingDots />
-  </div>
-)
+import CartSidebarView from "@components/cart/CartSidebarView"
+import type { Category } from "@commerce/types/site"
+import CheckoutSidebarView from "@components/checkout/CheckoutSidebarView"
+import { CommerceProvider } from "@framework"
+import Loader from "@components/ui/Loader"
+import LoginView from "@components/auth/LoginView"
+import type { Page } from "@commerce/types/page"
+import PaymentMethodView from "@components/checkout/PaymentMethodView"
+import ShippingView from "@components/checkout/ShippingView"
+import cn from "classnames"
+import dynamic from "next/dynamic"
+import s from "./Layout.module.css"
+import { useAcceptCookies } from "@lib/hooks/useAcceptCookies"
+import { useRouter } from "next/router"
+import { useUI } from "@components/ui/context"
 
 const dynamicProps = {
-  loading: () => <Loading />,
+  loading: function LoaderLoding() {
+    return <Loader />
+  }
 }
-
 const SignUpView = dynamic(
-  () => import('@components/auth/SignUpView'),
+  () => import("@components/auth/SignUpView"),
   dynamicProps
 )
 
 const ForgotPassword = dynamic(
-  () => import('@components/auth/ForgotPassword'),
+  () => import("@components/auth/ForgotPassword"),
   dynamicProps
 )
 
 const FeatureBar = dynamic(
-  () => import('@components/common/FeatureBar'),
+  () => import("@components/common/FeatureBar"),
   dynamicProps
 )
 
@@ -51,13 +47,13 @@ interface Props {
 
 const ModalView: FC<{ modalView: string; closeModal(): any }> = ({
   modalView,
-  closeModal,
+  closeModal
 }) => {
   return (
     <Modal onClose={closeModal}>
-      {modalView === 'LOGIN_VIEW' && <LoginView />}
-      {modalView === 'SIGNUP_VIEW' && <SignUpView />}
-      {modalView === 'FORGOT_VIEW' && <ForgotPassword />}
+      {modalView === "LOGIN_VIEW" && <LoginView />}
+      {modalView === "SIGNUP_VIEW" && <SignUpView />}
+      {modalView === "FORGOT_VIEW" && <ForgotPassword />}
     </Modal>
   )
 }
@@ -71,14 +67,14 @@ const ModalUI: FC = () => {
 
 const SidebarView: FC<{ sidebarView: string; closeSidebar(): any }> = ({
   sidebarView,
-  closeSidebar,
+  closeSidebar
 }) => {
   return (
     <Sidebar onClose={closeSidebar}>
-      {sidebarView === 'CART_VIEW' && <CartSidebarView />}
-      {sidebarView === 'CHECKOUT_VIEW' && <CheckoutSidebarView />}
-      {sidebarView === 'PAYMENT_VIEW' && <PaymentMethodView />}
-      {sidebarView === 'SHIPPING_VIEW' && <ShippingView />}
+      {sidebarView === "CART_VIEW" && <CartSidebarView />}
+      {sidebarView === "CHECKOUT_VIEW" && <CheckoutSidebarView />}
+      {sidebarView === "PAYMENT_VIEW" && <PaymentMethodView />}
+      {sidebarView === "SHIPPING_VIEW" && <ShippingView />}
     </Sidebar>
   )
 }
@@ -92,13 +88,13 @@ const SidebarUI: FC = () => {
 
 const Layout: FC<Props> = ({
   children,
-  pageProps: { categories = [], ...pageProps },
+  pageProps: { categories = [], ...pageProps }
 }) => {
   const { acceptedCookies, onAcceptCookies } = useAcceptCookies()
-  const { locale = 'en-US' } = useRouter()
-  const navBarlinks = categories.slice(0, 2).map((c) => ({
+  const { locale = "en-US" } = useRouter()
+  const navBarlinks = categories.slice(0, 2).map(c => ({
     label: c.name,
-    href: `/search/${c.slug}`,
+    href: `/search/${c.slug}`
   }))
 
   return (
@@ -109,7 +105,7 @@ const Layout: FC<Props> = ({
         <Footer pages={pageProps.pages} />
         <ModalUI />
         <SidebarUI />
-        <FeatureBar
+        {/* <FeatureBar
           title="This site uses cookies to improve your experience. By clicking, you agree to our Privacy Policy."
           hide={acceptedCookies}
           action={
@@ -117,7 +113,7 @@ const Layout: FC<Props> = ({
               Accept cookies
             </Button>
           }
-        />
+        /> */}
       </div>
     </CommerceProvider>
   )

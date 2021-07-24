@@ -25,7 +25,9 @@ const NavbarRoot: FC = ({ children }) => {
   }, [hasScrolled])
 
   return (
-    <Box className={cn("nav", { 'shadow-magical': hasScrolled })}>
+    <Box className={cn("nav", { 'shadow-magical': hasScrolled })} sx={{
+      py : [32, 32, 128]
+    }}>
       {children}
     </Box>
   )

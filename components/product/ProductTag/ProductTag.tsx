@@ -1,6 +1,6 @@
-import cn from 'classnames'
-import { inherits } from 'util'
-import s from './ProductTag.module.css'
+import cn from "classnames"
+import { inherits } from "util"
+import s from "./ProductTag.module.css"
 
 interface ProductTagProps {
   className?: string
@@ -12,8 +12,8 @@ interface ProductTagProps {
 const ProductTag: React.FC<ProductTagProps> = ({
   name,
   price,
-  className = '',
-  fontSize = 32,
+  className = "",
+  fontSize = 32
 }) => {
   return (
     <div className={cn(s.root, className)}>
@@ -22,7 +22,7 @@ const ProductTag: React.FC<ProductTagProps> = ({
           className={cn({ [s.fontsizing]: fontSize < 32 })}
           style={{
             fontSize: `${fontSize}px`,
-            lineHeight: `${fontSize}px`,
+            lineHeight: `${fontSize}px`
           }}
         >
           {name}

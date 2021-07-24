@@ -1,7 +1,11 @@
-import cn from 'classnames'
-import React from 'react'
-import s from './ProductSliderControl.module.css'
-import { ArrowLeft, ArrowRight } from '@components/icons'
+/** @jsxImportSource theme-ui */
+
+import { ArrowLeft, ArrowRight } from "@components/icons"
+
+import { Button } from "@components/ui"
+import { ButtonVariants } from "@theme/buttons"
+import { Flex } from "theme-ui"
+import React from "react"
 
 interface ProductSliderControl {
   onPrev: React.MouseEventHandler<HTMLButtonElement>
@@ -9,23 +13,33 @@ interface ProductSliderControl {
 }
 
 const ProductSliderControl: React.FC<ProductSliderControl> = React.memo(
-  ({ onPrev, onNext }) => (
-    <div className={s.control}>
-      <button
-        className={cn(s.leftControl)}
-        onClick={onPrev}
-        aria-label="Previous Product Image"
+  function Slider({ onPrev, onNext }) {
+    return (
+      <Flex
+        sx={{
+          alignSelf: "flex-end"
+        }}
       >
-        <ArrowLeft />
-      </button>
-      <button
-        className={cn(s.rightControl)}
-        onClick={onNext}
-        aria-label="Next Product Image"
-      >
-        <ArrowRight />
-      </button>
-    </div>
-  )
+        <Button
+          onClick={onPrev}
+          aria-label="Previous Product Image"
+          sx={{
+            variant: `buttons.${ButtonVariants.controls}`
+          }}
+        >
+          <ArrowLeft />
+        </Button>
+        <Button
+          onClick={onNext}
+          aria-label="Next Product Image"
+          sx={{
+            variant: `buttons.${ButtonVariants.controls}`
+          }}
+        >
+          <ArrowRight />
+        </Button>
+      </Flex>
+    )
+  }
 )
 export default ProductSliderControl

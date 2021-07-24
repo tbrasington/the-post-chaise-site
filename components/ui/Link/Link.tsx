@@ -1,4 +1,4 @@
-import NextLink, { LinkProps as NextLinkProps } from 'next/link'
+import NextLink, { LinkProps as NextLinkProps } from "next/link"
 
 const Link: React.FC<NextLinkProps> = ({ href, children, ...props }) => {
   return (

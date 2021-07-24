@@ -1,14 +1,15 @@
-import cn from 'classnames'
-import Link from 'next/link'
-import { FC } from 'react'
-import s from './CartSidebarView.module.css'
-import CartItem from '../CartItem'
-import { Button, Text } from '@components/ui'
-import { useUI } from '@components/ui/context'
-import { Bag, Cross, Check } from '@components/icons'
-import useCart from '@framework/cart/use-cart'
-import usePrice from '@framework/product/use-price'
-import SidebarLayout from '@components/common/SidebarLayout'
+import { Bag, Check, Cross } from "@components/icons"
+import { Button, Text } from "@components/ui"
+
+import CartItem from "../CartItem"
+import { FC } from "react"
+import Link from "next/link"
+import SidebarLayout from "@components/common/SidebarLayout"
+import cn from "classnames"
+import s from "./CartSidebarView.module.css"
+import useCart from "@framework/cart/use-cart"
+import usePrice from "@framework/product/use-price"
+import { useUI } from "@components/ui/context"
 
 const CartSidebarView: FC = () => {
   const { closeSidebar, setSidebarView } = useUI()
@@ -17,17 +18,17 @@ const CartSidebarView: FC = () => {
   const { price: subTotal } = usePrice(
     data && {
       amount: Number(data.subtotalPrice),
-      currencyCode: data.currency.code,
+      currencyCode: data.currency.code
     }
   )
   const { price: total } = usePrice(
     data && {
       amount: Number(data.totalPrice),
-      currencyCode: data.currency.code,
+      currencyCode: data.currency.code
     }
   )
   const handleClose = () => closeSidebar()
-  const goToCheckout = () => setSidebarView('CHECKOUT_VIEW')
+  const goToCheckout = () => setSidebarView("CHECKOUT_VIEW")
 
   const error = null
   const success = null
@@ -35,7 +36,7 @@ const CartSidebarView: FC = () => {
   return (
     <SidebarLayout
       className={cn({
-        [s.empty]: error || success || isLoading || isEmpty,
+        [s.empty]: error || success || isLoading || isEmpty
       })}
       handleClose={handleClose}
     >
@@ -73,10 +74,8 @@ const CartSidebarView: FC = () => {
       ) : (
         <>
           <div className="px-4 sm:px-6 flex-1">
-            <Link href="/cart">
-              <Text variant="sectionHeading" onClick={handleClose}>
-                My Cart
-              </Text>
+            <Link href="/cart" passHref={true}>
+              <h2 onClick={handleClose}>My Cart</h2>
             </Link>
             <ul className={s.lineItemsList}>
               {data!.lineItems.map((item: any) => (
