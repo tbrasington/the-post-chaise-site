@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { Bag, Check, Cross } from "@components/icons"
 import { Button, Text } from "@components/ui"
+import { ColorTokens, TextStyleNames } from "@theme/tokens"
 
 import CartItem from "../CartItem"
 import { FC } from "react"
@@ -49,7 +50,7 @@ const CartSidebarView: FC = () => {
             justifyContent: "center",
             alignContent: "center",
             flex: 1,
-            height: "100%",
+            minHeight: "100%",
             flexDirection: "column"
           }}
         >
@@ -76,11 +77,31 @@ const CartSidebarView: FC = () => {
         </div>
       ) : (
         <>
-          <div className="px-4 sm:px-6 flex-1">
+          <div
+            sx={{
+              flex: 1,
+              px: 32,
+              height: "auto"
+            }}
+          >
             <Link href="/cart" passHref={true}>
-              <h2 onClick={handleClose}>My Cart</h2>
+              <h2
+                onClick={handleClose}
+                sx={{ variant: `text.${TextStyleNames.sub_heading}` }}
+              >
+                My bag
+              </h2>
             </Link>
-            <ul className={s.lineItemsList}>
+            <ul
+              sx={{
+                m: 0,
+                p: 0,
+                listStyle: "none",
+                "& > li + li": {
+                  mt: 32
+                }
+              }}
+            >
               {data!.lineItems.map((item: any) => (
                 <CartItem
                   key={item.id}
@@ -91,26 +112,79 @@ const CartSidebarView: FC = () => {
             </ul>
           </div>
 
-          <div className="flex-shrink-0 px-6 py-6 sm:px-6 sticky z-20 bottom-0 w-full right-0 left-0 bg-accent-0 border-t text-sm">
-            <ul className="pb-2">
-              <li className="flex justify-between py-1">
+          <div
+            className="flex-shrink-0 px-6 py-6 sm:px-6 sticky z-20 bottom-0 w-full right-0 left-0 bg-accent-0 border-t text-sm"
+            sx={{
+              display: "flex",
+              flexShrink: 0,
+              flexDirection: "column",
+              position: "sticky",
+              bottom: 0,
+              right: 0,
+              bg: ColorTokens.background,
+              py: 32,
+              px: 32,
+              borderTopStyle: "solid",
+              borderTopWidth: "1px",
+              borderTopColor: ColorTokens.primary,
+              variant: `text.${TextStyleNames.label_standard}`
+            }}
+          >
+            <ul
+              sx={{
+                listStyle: "none",
+                p: 0,
+                m: 0,
+                color: ColorTokens.darken,
+                "& > li + li": {
+                  mt: 8
+                }
+              }}
+            >
+              <li
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between"
+                }}
+              >
                 <span>Subtotal</span>
                 <span>{subTotal}</span>
               </li>
-              <li className="flex justify-between py-1">
+              <li
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between"
+                }}
+              >
                 <span>Taxes</span>
                 <span>Calculated at checkout</span>
               </li>
-              <li className="flex justify-between py-1">
+              <li
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between"
+                }}
+              >
                 <span>Shipping</span>
                 <span className="font-bold tracking-wide">FREE</span>
               </li>
             </ul>
-            <div className="flex justify-between border-t border-accent-2 py-3 font-bold mb-2">
+            <div
+              sx={{
+                mt: 24,
+                display: "flex",
+                justifyContent: "space-between",
+                color: ColorTokens.text
+              }}
+            >
               <span>Total</span>
-              <span>{total}</span>
+              <span sx={{}}>{total}</span>
             </div>
-            <div>
+            <div
+              sx={{
+                mt: 32
+              }}
+            >
               {process.env.COMMERCE_CUSTOMCHECKOUT_ENABLED ? (
                 <Button Component="a" width="100%" onClick={goToCheckout}>
                   Proceed to Checkout ({total})

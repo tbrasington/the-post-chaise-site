@@ -74,7 +74,7 @@ export const Action: ThemeUICSSObject = {
   lineHeight: "normal",
   letterSpacing: "0.05rem",
   fontWeight: FontWeights.bold,
-  fontSize: FontSizes.stepNegativeOne
+  fontSize: FontSizes.stepZero
 }
 
 export const TextStyleVariants = {

@@ -1,10 +1,9 @@
 /** @jsxImportSource theme-ui */
 import { Box, Flex } from "theme-ui"
 import { ChevronLeft, Cross } from "@components/icons"
-import React, { FC } from "react"
+import { ColorTokens, TextStyleNames } from "@theme/tokens"
 
-import { TextStyleNames } from "@theme/tokens"
-import { TextStyleVariants } from "@theme/textStyles"
+import { FC } from "react"
 import { UserNav } from "@components/common"
 
 type ComponentProps = { className?: string } & (
@@ -18,11 +17,17 @@ const SidebarLayout: FC<ComponentProps> = ({
   handleBack
 }) => {
   return (
-    <Box sx={{ height: "100%" }}>
+    <Flex sx={{ flex: 1, flexDirection: "column" }}>
       <header
         sx={{
           py: 32,
-          display: "flex"
+          px: 32,
+          display: "flex",
+          position: "sticky",
+          top: 0,
+          left: 0,
+          bg: ColorTokens.background,
+          zIndex: 10
         }}
       >
         {handleClose && (
@@ -70,7 +75,7 @@ const SidebarLayout: FC<ComponentProps> = ({
       >
         {children}
       </Flex>
-    </Box>
+    </Flex>
   )
 }
 

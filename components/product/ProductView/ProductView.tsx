@@ -53,7 +53,8 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
           mt: 48,
           bg: ColorTokens.muted,
           width: "100%",
-          height: "60vh"
+          height: "60vh",
+          minHeight: "1000px"
         }}
       >
         <ProductSlider>
@@ -80,7 +81,7 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
                 objectFit="contain"
                 objectPosition="center"
                 priority={i === 0}
-                quality="85"
+                quality="100"
                 width={image.width}
                 height={image.height}
               />

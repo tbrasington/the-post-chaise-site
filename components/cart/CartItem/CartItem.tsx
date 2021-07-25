@@ -1,7 +1,16 @@
-import { ChangeEvent, FocusEventHandler, useEffect, useState } from "react"
+/** @jsxImportSource theme-ui */
+import { Box, Flex } from "theme-ui"
+import { ColorTokens, TextStyleNames } from "@theme/tokens"
 import { Cross, Minus, Plus, Trash } from "@components/icons"
+import React, {
+  ChangeEvent,
+  FocusEventHandler,
+  useEffect,
+  useState
+} from "react"
 
 import Image from "next/image"
+import { LabelRegular } from "@theme/textStyles"
 import type { LineItem } from "@commerce/types/cart"
 import Link from "next/link"
 import Quantity from "@components/ui/Quantity"
@@ -80,10 +89,22 @@ const CartItem = ({
       })}
       {...rest}
     >
-      <div className="flex flex-row space-x-4 py-4">
-        {" "}
+      <Flex
+        sx={{
+          flexFlow: "row",
+          flex: 1,
+          variant: `text.${TextStyleNames.label_standard}`,
+          color: ColorTokens.text,
+          pb: 16
+        }}
+      >
         <Link href={`/product/${item.path}`} passHref={true}>
-          <div className="w-16 h-16 bg-violet relative overflow-hidden cursor-pointer z-0">
+          <Box
+            sx={{
+              width: 48,
+              height: 48
+            }}
+          >
             <Image
               onClick={() => closeSidebarIfPresent()}
               width={150}
@@ -92,50 +113,61 @@ const CartItem = ({
               alt={item.variant.image!.altText}
               unoptimized
             />
-          </div>
+          </Box>
         </Link>
-        <div className="flex-1 flex flex-col text-base">
+        <Flex
+          sx={{
+            flexDirection: "column",
+            pl: 16,
+            flex: 1
+          }}
+        >
           <Link href={`/product/${item.path}`} passHref={true}>
-            <span
-              className={s.productName}
-              onClick={() => closeSidebarIfPresent()}
-            >
-              {item.name}
-            </span>
+            <span onClick={() => closeSidebarIfPresent()}>{item.name}</span>
           </Link>
           {options && options.length > 0 && (
-            <div className="flex items-center pb-1">
+            <Flex
+              sx={{
+                alignItems: "center",
+                flexDirection: "column",
+                mt: 16
+              }}
+            >
               {options.map((option: ItemOption, i: number) => (
-                <div
+                <Flex
                   key={`${item.id}-${option.name}`}
-                  className="text-sm font-semibold text-accent-7 inline-flex items-center justify-center"
+                  sx={{
+                    flexDirection: "column"
+                  }}
                 >
-                  {option.name}
-                  {option.name === "Color" ? (
-                    <span
-                      className="mx-2 rounded-full bg-transparent border w-5 h-5 p-1 text-accent-9 inline-flex items-center justify-center overflow-hidden"
-                      style={{
-                        backgroundColor: `${option.value}`
-                      }}
-                    ></span>
-                  ) : (
-                    <span className="mx-2 rounded-full bg-transparent border h-5 p-1 text-accent-9 inline-flex items-center justify-center overflow-hidden">
-                      {option.value}
-                    </span>
-                  )}
+                  <span
+                    sx={{
+                      variant: `text.${TextStyleNames.label_upper}`,
+                      color: ColorTokens.darken
+                    }}
+                  >
+                    {option.name}
+                  </span>
+                  <span>{option.value}</span>
                   {i === options.length - 1 ? "" : <span className="mr-3" />}
-                </div>
+                </Flex>
               ))}
-            </div>
+            </Flex>
           )}
           {variant === "display" && (
             <div className="text-sm tracking-wider">{quantity}x</div>
           )}
-        </div>
-        <div className="flex flex-col justify-between space-y-2 text-sm">
+        </Flex>
+        <Flex
+          className="flex flex-col justify-between space-y-2 text-sm"
+          sx={{
+            justifyContent: "space-between",
+            pl: 32
+          }}
+        >
           <span>{price}</span>
-        </div>
-      </div>
+        </Flex>
+      </Flex>
       {variant === "default" && (
         <Quantity
           value={quantity}

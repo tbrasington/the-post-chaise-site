@@ -99,7 +99,7 @@ const Layout: FC<Props> = ({
     <CommerceProvider locale={locale}>
       <div>
         <Navbar links={navBarlinks} />
-        <main className="fit">{children}</main>
+        <main>{children}</main>
         <Footer pages={pageProps.pages} />
         <ModalUI />
         <SidebarUI />

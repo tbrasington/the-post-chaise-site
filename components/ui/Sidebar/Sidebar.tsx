@@ -62,16 +62,17 @@ const Sidebar: FC<SidebarProps> = ({ children, onClose }) => {
         />
         <Flex
           as="section"
-          className="absolute inset-y-0 right-0 max-w-full flex outline-none pl-10"
           sx={{
             position: "absolute",
             right: 0,
             height: "100%",
             bg: ColorTokens.background,
-            px: 32
+            overflowY: "auto"
           }}
         >
-          <div ref={ref}>{children}</div>
+          <Box sx={{ display: "flex" }} ref={ref}>
+            {children}
+          </Box>
         </Flex>
       </Box>
     </Box>

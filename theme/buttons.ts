@@ -13,7 +13,8 @@ export const ButtonBase: ThemeUICSSObject = {
   variant: `text.${TextStyleNames.action}`,
   display: "inline-grid",
   alignItems: "center",
-  justifyContent: "center"
+  justifyContent: "center",
+  textDecoration: "none"
 }
 
 export type ButtonTypes = "primary" | "secondary" | "link" | "controls"
