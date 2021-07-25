@@ -1,10 +1,10 @@
 /** @jsxImportSource theme-ui */
 
+import { Box, Flex } from "theme-ui"
 import { ColorTokens, TextStyleNames } from "@theme/tokens"
 import type { ProductOption, ProductVariant } from "@commerce/types/product"
 import { SelectedOptions, getProductVariant } from "../helpers"
 
-import { Box } from "theme-ui"
 import type { Product } from "@commerce/types/product"
 import React from "react"
 import { Swatch } from "@components/product"
@@ -25,10 +25,10 @@ const ProductOptions: React.FC<ProductOptionsProps> = React.memo(
     setSelectedOptions
   }) {
     return (
-      <div>
+      <Box>
         {options.map(opt => {
           return (
-            <div className="pb-4" key={opt.displayName}>
+            <Box className="pb-4" key={opt.displayName}>
               <h2
                 sx={{
                   variant: `text.${TextStyleNames.label_upper}`
@@ -36,11 +36,12 @@ const ProductOptions: React.FC<ProductOptionsProps> = React.memo(
               >
                 {opt.displayName}
               </h2>
-              <Box
+              <Flex
                 sx={{
-                  borderStyle: "solid",
-                  borderWidth: "1px",
-                  borderColor: ColorTokens.primary
+                  flexDirection: "column",
+                  "& > button + button": {
+                    mt: 12
+                  }
                 }}
               >
                 {opt.values.map((v, i: number) => {
@@ -51,7 +52,7 @@ const ProductOptions: React.FC<ProductOptionsProps> = React.memo(
 
                   return (
                     <Swatch
-                      price={variant.price}
+                      price={variant && variant.price}
                       baseAmount={product.price.retailPrice}
                       currencyCode={product.price.currencyCode}
                       key={`${opt.id}-${i}`}
@@ -71,11 +72,11 @@ const ProductOptions: React.FC<ProductOptionsProps> = React.memo(
                     />
                   )
                 })}
-              </Box>
-            </div>
+              </Flex>
+            </Box>
           )
         })}
-      </div>
+      </Box>
     )
   }
 )

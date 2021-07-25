@@ -44,7 +44,11 @@ const ProductSidebar: FC<ProductSidebarProps> = ({ product }) => {
 
   return (
     <>
-      <Flex>
+      <Flex
+        sx={{
+          mt: 56
+        }}
+      >
         <ProductOptions
           product={product}
           options={product.options}

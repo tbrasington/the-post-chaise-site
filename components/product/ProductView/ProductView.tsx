@@ -66,10 +66,14 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
                 height: "100%",
                 alignItems: "center",
                 alignContent: "center",
-                justifyContent: "center"
+                justifyContent: "center",
+                "& > div": {
+                  height: "100%"
+                }
               }}
             >
               <Image
+                className="slider-image"
                 src={image.url!}
                 alt={image.alt || "Product Image"}
                 layout="intrinsic"
@@ -88,7 +92,7 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
       <Container>
         <ProductSidebar product={product} />
       </Container>
-      <Container sx={{ py: 64, bg: ColorTokens.muted }} el="section">
+      <Container sx={{ mt: 96, py: 64, bg: ColorTokens.muted }} el="section">
         <h2
           sx={{
             variant: `text.${TextStyleNames.sub_heading}`,
@@ -99,7 +103,7 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
         >
           Recommended prints prints
         </h2>
-        <Grid columns={[1, 2, 2]}>
+        <Grid columns={[1, 2, 3]} sx={{ mt: 32 }} gap={32}>
           {relatedProducts
             .filter(p => p.id !== product.id)
             .map(p => (

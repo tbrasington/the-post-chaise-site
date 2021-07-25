@@ -37,11 +37,19 @@ const UserNav: FC = () => {
               width: itemsCount > 0 ? 32 : 12,
               height: itemsCount > 0 ? 32 : 12,
               borderRadius: 100,
-              color: ColorTokens.background
+              color: ColorTokens.background,
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center"
             }}
           >
             {itemsCount > 0 && (
-              <span sx={{ variant: `text.${TextStyleNames.label_upper}` }}>
+              <span
+                sx={{
+                  variant: `text.${TextStyleNames.label_upper}`,
+                  textAlign: "center"
+                }}
+              >
                 {itemsCount}
               </span>
             )}

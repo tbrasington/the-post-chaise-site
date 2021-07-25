@@ -3,7 +3,6 @@
 import { ArrowLeft, ArrowRight } from "@components/icons"
 
 import { Button } from "@components/ui"
-import { ButtonVariants } from "@theme/buttons"
 import { Flex } from "theme-ui"
 import React from "react"
 
@@ -17,7 +16,10 @@ const ProductSliderControl: React.FC<ProductSliderControl> = React.memo(
     return (
       <Flex
         sx={{
-          alignSelf: "flex-end"
+          alignSelf: "flex-end",
+          "& > button + button": {
+            ml: 8
+          }
         }}
       >
         <Button

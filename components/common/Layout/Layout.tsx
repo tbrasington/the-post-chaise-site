@@ -11,9 +11,7 @@ import LoginView from "@components/auth/LoginView"
 import type { Page } from "@commerce/types/page"
 import PaymentMethodView from "@components/checkout/PaymentMethodView"
 import ShippingView from "@components/checkout/ShippingView"
-import cn from "classnames"
 import dynamic from "next/dynamic"
-import s from "./Layout.module.css"
 import { useAcceptCookies } from "@lib/hooks/useAcceptCookies"
 import { useRouter } from "next/router"
 import { useUI } from "@components/ui/context"
@@ -99,7 +97,7 @@ const Layout: FC<Props> = ({
 
   return (
     <CommerceProvider locale={locale}>
-      <div className={cn(s.root)}>
+      <div>
         <Navbar links={navBarlinks} />
         <main className="fit">{children}</main>
         <Footer pages={pageProps.pages} />

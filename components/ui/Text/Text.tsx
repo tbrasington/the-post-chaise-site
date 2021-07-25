@@ -63,7 +63,11 @@ const Text: FunctionComponent<TextProps> = ({
       sx={{
         m: 0,
         p: 0,
-        variant: `text.${variant}`
+        variant: `text.${variant}`,
+        "& p": {
+          m: 0,
+          p: 0
+        }
       }}
       onClick={onClick}
       {...htmlContentProps}

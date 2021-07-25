@@ -55,7 +55,7 @@ export default function Home({
         >
           Latest prints
         </h2>
-        <Grid columns={[1, 2, 2]}>
+        <Grid columns={[1, 2, 4]} gap={32}>
           {products.map((product: any, i: number) => (
             <ProductCard key={product.id} product={product} variant="simple" />
           ))}

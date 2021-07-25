@@ -1,8 +1,10 @@
+/** @jsxImportSource theme-ui */
 import { Bag, Check, Cross } from "@components/icons"
 import { Button, Text } from "@components/ui"
 
 import CartItem from "../CartItem"
 import { FC } from "react"
+import { Flex } from "theme-ui"
 import Link from "next/link"
 import SidebarLayout from "@components/common/SidebarLayout"
 import cn from "classnames"
@@ -41,17 +43,18 @@ const CartSidebarView: FC = () => {
       handleClose={handleClose}
     >
       {isLoading || isEmpty ? (
-        <div className="flex-1 px-4 flex flex-col justify-center items-center">
-          <span className="border border-dashed border-primary rounded-full flex items-center justify-center w-16 h-16 p-12 bg-secondary text-secondary">
-            <Bag className="absolute" />
-          </span>
-          <h2 className="pt-6 text-2xl font-bold tracking-wide text-center">
-            Your cart is empty
-          </h2>
-          <p className="text-accent-3 px-10 text-center pt-2">
-            Biscuit oat cake wafer icing ice cream tiramisu pudding cupcake.
-          </p>
-        </div>
+        <Flex
+          sx={{
+            alignItems: "center",
+            justifyContent: "center",
+            alignContent: "center",
+            flex: 1,
+            height: "100%",
+            flexDirection: "column"
+          }}
+        >
+          <Text variant="page_title">Your cart is empty</Text>
+        </Flex>
       ) : error ? (
         <div className="flex-1 px-4 flex flex-col justify-center items-center">
           <span className="border border-white rounded-full flex items-center justify-center w-16 h-16">

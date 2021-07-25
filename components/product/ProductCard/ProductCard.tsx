@@ -6,6 +6,7 @@ import Image, { ImageProps } from "next/image"
 import { FC } from "react"
 import Link from "next/link"
 import type { Product } from "@commerce/types/product"
+import { alpha } from "@theme-ui/color"
 import usePrice from "@framework/product/use-price"
 
 interface Props {
@@ -43,7 +44,9 @@ const ProductCard: FC<Props> = ({
           <Box
             sx={{
               position: "relative",
-              width: "100%"
+              width: "100%",
+              bg: alpha(ColorTokens.darken, 0.1),
+              p: 32
             }}
           >
             {product?.images && (
@@ -62,7 +65,8 @@ const ProductCard: FC<Props> = ({
           {!noNameTag && (
             <Flex
               sx={{
-                flexDirection: "column"
+                flexDirection: "column",
+                mt: 24
               }}
             >
               <h3

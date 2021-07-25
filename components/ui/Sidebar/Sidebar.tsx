@@ -71,9 +71,7 @@ const Sidebar: FC<SidebarProps> = ({ children, onClose }) => {
             px: 32
           }}
         >
-          <div className="h-full w-full md:w-screen md:max-w-md">
-            <div ref={ref}>{children}</div>
-          </div>
+          <div ref={ref}>{children}</div>
         </Flex>
       </Box>
     </Box>

@@ -16,7 +16,8 @@ const variants = {
   enter: (props: { direction: number; width: number }) => {
     return {
       x: props.direction > 0 ? props.width : -props.width,
-      opacity: 0
+      opacity: 0,
+      zIndex: 1
     }
   },
   center: {
@@ -27,7 +28,7 @@ const variants = {
   exit: (props: { direction: number; width: number }) => {
     return {
       zIndex: 0,
-      x: props.direction < 0 ? props.width : -props.width,
+      x: props.direction < 0 ? 1000 : -props.width,
       opacity: 0
     }
   }
@@ -44,7 +45,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({ children }) => {
   const slideTotal = Children.count(children)
 
   const GallerySlides = Children.toArray(children).map((child, key) => {
-    return <Fragment key={key}>{child}</Fragment>
+    return <Fragment key={`gallery-slide-${key}`}>{child}</Fragment>
   })
 
   // gallery state actions
@@ -84,7 +85,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({ children }) => {
         alignItems: "center",
         position: "relative",
         px: StandardXPadding,
-        py: 64,
+        py: [24, null, null, 64],
         flexDirection: "column"
       }}
     >
@@ -93,10 +94,14 @@ const ProductSlider: React.FC<ProductSliderProps> = ({ children }) => {
           position: "relative",
           width: "100%",
           height: "100%",
-          overflow: "hidden"
+          overflow: "hidden",
+          mb: 24
         }}
       >
-        <AnimatePresence initial={false} custom={direction}>
+        <AnimatePresence
+          initial={false}
+          custom={{ direction, width: containerWidth }}
+        >
           <motion.div
             custom={{ direction, width: containerWidth }}
             sx={{
