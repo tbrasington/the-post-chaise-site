@@ -917,7 +917,37 @@ type Attribute implements Node & ObjectWithMetadata {
   """
   List of attribute's values.
   """
-  values: [AttributeValue]
+  choices(
+    """
+    Sort attribute choices.
+    """
+    sortBy: AttributeChoicesSortingInput
+
+    """
+    Filtering options for attribute choices.
+    """
+    filter: AttributeValueFilterInput
+
+    """
+    Return the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Return the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Return the first n elements from the list.
+    """
+    first: Int
+
+    """
+    Return the last n elements from the list.
+    """
+    last: Int
+  ): AttributeValueCountableConnection
 
   """
   Whether the attribute requires values to be passed or not.
@@ -971,6 +1001,30 @@ type AttributeBulkDelete {
   attributeErrors: [AttributeError!]!
     @deprecated(reason: "Use errors field instead. This field will be removed in Saleor 4.0.")
   errors: [AttributeError!]!
+}
+
+enum AttributeChoicesSortField {
+  """
+  Sort attribute choice by name.
+  """
+  NAME
+
+  """
+  Sort attribute choice by slug.
+  """
+  SLUG
+}
+
+input AttributeChoicesSortingInput {
+  """
+  Specifies the direction in which to sort products.
+  """
+  direction: OrderDirection!
+
+  """
+  Sort attribute choices by the selected field.
+  """
+  field: AttributeChoicesSortField!
 }
 
 type AttributeCountableConnection {
@@ -1134,17 +1188,12 @@ input AttributeFilterInput {
   filterableInStorefront: Boolean
   filterableInDashboard: Boolean
   availableInGrid: Boolean
-  metadata: [MetadataInput]
+  metadata: [MetadataFilter]
   search: String
   ids: [ID]
   type: AttributeTypeEnum
   inCollection: ID
   inCategory: ID
-
-  """
-  Specifies the channel by which the data should be sorted.
-  """
-  channel: String
 }
 
 input AttributeInput {
@@ -1162,6 +1211,11 @@ input AttributeInput {
   The range that the returned values should be in.
   """
   valuesRange: IntRangeInput
+
+  """
+  The boolean value of the attribute.
+  """
+  boolean: Boolean
 }
 
 """
@@ -1174,6 +1228,7 @@ enum AttributeInputTypeEnum {
   REFERENCE
   NUMERIC
   RICH_TEXT
+  BOOLEAN
 }
 
 """
@@ -1268,7 +1323,7 @@ type AttributeTranslatableContent implements Node {
   """
   Custom attribute of a product.
   """
-  attribute: Attribute
+  attribute: Attribute @deprecated(reason: "Will be removed in Saleor 4.0. Get model fields from the root level.")
 }
 
 """
@@ -1427,6 +1482,11 @@ type AttributeValue implements Node {
   Represents the text (JSON) of the attribute value.
   """
   richText: JSONString
+
+  """
+  Represents the boolean value of the attribute value.
+  """
+  boolean: Boolean
 }
 
 """
@@ -1440,6 +1500,31 @@ type AttributeValueBulkDelete {
   attributeErrors: [AttributeError!]!
     @deprecated(reason: "Use errors field instead. This field will be removed in Saleor 4.0.")
   errors: [AttributeError!]!
+}
+
+type AttributeValueCountableConnection {
+  """
+  Pagination data for this connection.
+  """
+  pageInfo: PageInfo!
+  edges: [AttributeValueCountableEdge!]!
+
+  """
+  A total count of items in the collection.
+  """
+  totalCount: Int
+}
+
+type AttributeValueCountableEdge {
+  """
+  The item at the end of the edge.
+  """
+  node: AttributeValue!
+
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
 }
 
 """
@@ -1487,6 +1572,10 @@ type AttributeValueDelete {
   attributeValue: AttributeValue
 }
 
+input AttributeValueFilterInput {
+  search: String
+}
+
 input AttributeValueInput {
   """
   ID of the selected attribute.
@@ -1496,7 +1585,7 @@ input AttributeValueInput {
   """
   The value or slug of an attribute to resolve. If the passed value is non-existent, it will be created.
   """
-  values: [String]
+  values: [String!]
 
   """
   URL of the file attribute. Every time, a new value is created.
@@ -1517,6 +1606,11 @@ input AttributeValueInput {
   Text content in JSON format.
   """
   richText: JSONString
+
+  """
+  Represents the boolean value of the attribute value.
+  """
+  boolean: Boolean
 }
 
 type AttributeValueTranslatableContent implements Node {
@@ -1540,6 +1634,7 @@ type AttributeValueTranslatableContent implements Node {
   Represents a value of an attribute.
   """
   attributeValue: AttributeValue
+    @deprecated(reason: "Will be removed in Saleor 4.0. Get model fields from the root level.")
 }
 
 """
@@ -1594,7 +1689,7 @@ input BulkAttributeValueInput {
   """
   The value or slug of an attribute to resolve. If the passed value is non-existent, it will be created.
   """
-  values: [String]!
+  values: [String!]!
 }
 
 type BulkProductError {
@@ -1876,7 +1971,7 @@ type CategoryDelete {
 
 input CategoryFilterInput {
   search: String
-  metadata: [MetadataInput]
+  metadata: [MetadataFilter]
   ids: [ID]
 }
 
@@ -1936,11 +2031,6 @@ input CategorySortingInput {
   direction: OrderDirection!
 
   """
-  Specifies the channel in which to sort the data.
-  """
-  channel: String
-
-  """
   Sort categories by the selected field.
   """
   field: CategorySortField!
@@ -1974,7 +2064,7 @@ type CategoryTranslatableContent implements Node {
   """
   Represents a single category of products.
   """
-  category: Category
+  category: Category @deprecated(reason: "Will be removed in Saleor 4.0. Get model fields from the root level.")
 }
 
 """
@@ -1994,7 +2084,7 @@ type CategoryTranslation implements Node {
   id: ID!
   seoTitle: String
   seoDescription: String
-  name: String!
+  name: String
   description: JSONString
 
   """
@@ -2114,7 +2204,7 @@ input ChannelDeleteInput {
   """
   ID of channel to migrate orders from origin channel.
   """
-  targetChannel: ID!
+  channelId: ID!
 }
 
 type ChannelError {
@@ -2149,7 +2239,6 @@ enum ChannelErrorCode {
   NOT_FOUND
   REQUIRED
   UNIQUE
-  CHANNEL_TARGET_ID_MUST_BE_DIFFERENT
   CHANNELS_CURRENCY_MUST_BE_THE_SAME
   CHANNEL_WITH_ORDERS
   DUPLICATED_INPUT_ITEM
@@ -2590,7 +2679,7 @@ input CheckoutLineInput {
 }
 
 """
-Adds a checkout line to the existing checkout.
+Adds a checkout line to the existing checkout.If line was already in checkout, its quantity will be increased.
 """
 type CheckoutLinesAdd {
   """
@@ -2989,13 +3078,8 @@ enum CollectionErrorCode {
 input CollectionFilterInput {
   published: CollectionPublished
   search: String
-  metadata: [MetadataInput]
+  metadata: [MetadataFilter]
   ids: [ID]
-
-  """
-  Specifies the channel by which the data should be sorted.
-  """
-  channel: String
 }
 
 input CollectionInput {
@@ -3100,11 +3184,6 @@ input CollectionSortingInput {
   direction: OrderDirection!
 
   """
-  Specifies the channel in which to sort the data.
-  """
-  channel: String
-
-  """
   Sort collections by the selected field.
   """
   field: CollectionSortField!
@@ -3138,7 +3217,7 @@ type CollectionTranslatableContent implements Node {
   """
   Represents a collection of products.
   """
-  collection: Collection
+  collection: Collection @deprecated(reason: "Will be removed in Saleor 4.0. Get model fields from the root level.")
 }
 
 """
@@ -3158,7 +3237,7 @@ type CollectionTranslation implements Node {
   id: ID!
   seoTitle: String
   seoDescription: String
-  name: String!
+  name: String
   description: JSONString
 
   """
@@ -3649,6 +3728,11 @@ type CustomerEvent implements Node {
   user: User
 
   """
+  App that performed the action.
+  """
+  app: App
+
+  """
   Content of the event.
   """
   message: String
@@ -3693,6 +3777,7 @@ input CustomerFilterInput {
   numberOfOrders: IntRangeInput
   placedOrders: DateRangeInput
   search: String
+  metadata: [MetadataFilter]
 }
 
 input CustomerInput {
@@ -4148,7 +4233,7 @@ input DraftOrderCreateInput {
   """
   ID of the channel associated with the order.
   """
-  channel: ID
+  channelId: ID
 
   """
   URL of a view where users should be redirected to see the order details. URL in RFC 1808 format.
@@ -4210,7 +4295,7 @@ input DraftOrderInput {
   """
   ID of the channel associated with the order.
   """
-  channel: ID
+  channelId: ID
 
   """
   URL of a view where users should be redirected to see the order details. URL in RFC 1808 format.
@@ -4260,6 +4345,7 @@ type ExportError {
 An enumeration.
 """
 enum ExportErrorCode {
+  GRAPHQL_ERROR
   INVALID
   NOT_FOUND
   REQUIRED
@@ -5575,7 +5661,7 @@ enum MenuErrorCode {
 input MenuFilterInput {
   search: String
   slug: [String]
-  metadata: [MetadataInput]
+  metadata: [MetadataFilter]
 }
 
 input MenuInput {
@@ -5727,7 +5813,7 @@ type MenuItemDelete {
 
 input MenuItemFilterInput {
   search: String
-  metadata: [MetadataInput]
+  metadata: [MetadataFilter]
 }
 
 input MenuItemInput {
@@ -5818,7 +5904,7 @@ type MenuItemTranslatableContent implements Node {
   """
   Represents a single item of the related menu. Can store categories, collection or pages.
   """
-  menuItem: MenuItem
+  menuItem: MenuItem @deprecated(reason: "Will be removed in Saleor 4.0. Get model fields from the root level.")
 }
 
 """
@@ -5918,6 +6004,18 @@ enum MetadataErrorCode {
   INVALID
   NOT_FOUND
   REQUIRED
+}
+
+input MetadataFilter {
+  """
+  Key of a metadata item.
+  """
+  key: String!
+
+  """
+  Value of a metadata item.
+  """
+  value: String
 }
 
 input MetadataInput {
@@ -7977,7 +8075,7 @@ type Mutation {
     """
     ID of a channel for which the data should be modified.
     """
-    channel: ID
+    channelId: ID
 
     """
     ID of plugin to update.
@@ -8227,14 +8325,19 @@ type Mutation {
   """
   checkoutAddPromoCode(
     """
-    Checkout ID.
+    Checkout ID. DEPRECATED: Will be removed in Saleor 4.0. Use token instead.
     """
-    checkoutId: ID!
+    checkoutId: ID
 
     """
     Gift card code or voucher code.
     """
     promoCode: String!
+
+    """
+    Checkout token.
+    """
+    token: UUID
   ): CheckoutAddPromoCode
 
   """
@@ -8247,9 +8350,14 @@ type Mutation {
     billingAddress: AddressInput!
 
     """
-    ID of the checkout.
+    ID of the checkout.DEPRECATED: Will be removed in Saleor 4.0. Use token instead.
     """
-    checkoutId: ID!
+    checkoutId: ID
+
+    """
+    Checkout token.
+    """
+    token: UUID
   ): CheckoutBillingAddressUpdate
 
   """
@@ -8257,9 +8365,9 @@ type Mutation {
   """
   checkoutComplete(
     """
-    Checkout ID.
+    Checkout ID.DEPRECATED: Will be removed in Saleor 4.0. Use token instead.
     """
-    checkoutId: ID!
+    checkoutId: ID
 
     """
     Client-side generated data required to finalize the payment.
@@ -8275,6 +8383,11 @@ type Mutation {
     Determines whether to store the payment source for future usage.
     """
     storeSource: Boolean = false
+
+    """
+    Checkout token.
+    """
+    token: UUID
   ): CheckoutComplete
 
   """
@@ -8292,9 +8405,14 @@ type Mutation {
   """
   checkoutCustomerAttach(
     """
-    ID of the checkout.
+    ID of the checkout.DEPRECATED: Will be removed in Saleor 4.0. Use token instead.
     """
-    checkoutId: ID!
+    checkoutId: ID
+
+    """
+    Checkout token.
+    """
+    token: UUID
   ): CheckoutCustomerAttach
 
   """
@@ -8302,9 +8420,14 @@ type Mutation {
   """
   checkoutCustomerDetach(
     """
-    Checkout ID.
+    Checkout ID.DEPRECATED: Will be removed in Saleor 4.0. Use token instead.
     """
-    checkoutId: ID!
+    checkoutId: ID
+
+    """
+    Checkout token.
+    """
+    token: UUID
   ): CheckoutCustomerDetach
 
   """
@@ -8312,7 +8435,7 @@ type Mutation {
   """
   checkoutEmailUpdate(
     """
-    Checkout ID.
+    Checkout ID.DEPRECATED: Will be removed in Saleor 4.0. Use token instead.
     """
     checkoutId: ID
 
@@ -8320,6 +8443,11 @@ type Mutation {
     email.
     """
     email: String!
+
+    """
+    Checkout token.
+    """
+    token: UUID
   ): CheckoutEmailUpdate
 
   """
@@ -8327,29 +8455,39 @@ type Mutation {
   """
   checkoutLineDelete(
     """
-    The ID of the checkout.
+    The ID of the checkout.DEPRECATED: Will be removed in Saleor 4.0. Use token instead.
     """
-    checkoutId: ID!
+    checkoutId: ID
 
     """
     ID of the checkout line to delete.
     """
     lineId: ID
+
+    """
+    Checkout token.
+    """
+    token: UUID
   ): CheckoutLineDelete
 
   """
-  Adds a checkout line to the existing checkout.
+  Adds a checkout line to the existing checkout.If line was already in checkout, its quantity will be increased.
   """
   checkoutLinesAdd(
     """
-    The ID of the checkout.
+    The ID of the checkout.DEPRECATED: Will be removed in Saleor 4.0. Use token instead.
     """
-    checkoutId: ID!
+    checkoutId: ID
 
     """
     A list of checkout lines, each containing information about an item in the checkout.
     """
     lines: [CheckoutLineInput]!
+
+    """
+    Checkout token.
+    """
+    token: UUID
   ): CheckoutLinesAdd
 
   """
@@ -8357,14 +8495,19 @@ type Mutation {
   """
   checkoutLinesUpdate(
     """
-    The ID of the checkout.
+    The ID of the checkout.DEPRECATED: Will be removed in Saleor 4.0. Use token instead.
     """
-    checkoutId: ID!
+    checkoutId: ID
 
     """
     A list of checkout lines, each containing information about an item in the checkout.
     """
     lines: [CheckoutLineInput]!
+
+    """
+    Checkout token.
+    """
+    token: UUID
   ): CheckoutLinesUpdate
 
   """
@@ -8372,14 +8515,19 @@ type Mutation {
   """
   checkoutRemovePromoCode(
     """
-    Checkout ID.
+    Checkout ID.DEPRECATED: Will be removed in Saleor 4.0. Use token instead.
     """
-    checkoutId: ID!
+    checkoutId: ID
 
     """
     Gift card code or voucher code.
     """
     promoCode: String!
+
+    """
+    Checkout token.
+    """
+    token: UUID
   ): CheckoutRemovePromoCode
 
   """
@@ -8387,14 +8535,19 @@ type Mutation {
   """
   checkoutPaymentCreate(
     """
-    Checkout ID.
+    Checkout ID.DEPRECATED: Will be removed in Saleor 4.0. Use token instead.
     """
-    checkoutId: ID!
+    checkoutId: ID
 
     """
     Data required to create a new payment.
     """
     input: PaymentInput!
+
+    """
+    Checkout token.
+    """
+    token: UUID
   ): CheckoutPaymentCreate
 
   """
@@ -8402,14 +8555,19 @@ type Mutation {
   """
   checkoutShippingAddressUpdate(
     """
-    ID of the checkout.
+    ID of the checkout.DEPRECATED: Will be removed in Saleor 4.0. Use token instead.
     """
-    checkoutId: ID!
+    checkoutId: ID
 
     """
     The mailing address to where the checkout will be shipped.
     """
     shippingAddress: AddressInput!
+
+    """
+    Checkout token.
+    """
+    token: UUID
   ): CheckoutShippingAddressUpdate
 
   """
@@ -8417,7 +8575,7 @@ type Mutation {
   """
   checkoutShippingMethodUpdate(
     """
-    Checkout ID.
+    Checkout ID.DEPRECATED: Will be removed in Saleor 4.0. Use token instead.
     """
     checkoutId: ID
 
@@ -8425,6 +8583,11 @@ type Mutation {
     Shipping method.
     """
     shippingMethodId: ID!
+
+    """
+    Checkout token.
+    """
+    token: UUID
   ): CheckoutShippingMethodUpdate
 
   """
@@ -8432,14 +8595,19 @@ type Mutation {
   """
   checkoutLanguageCodeUpdate(
     """
-    ID of the checkout.
+    ID of the checkout.DEPRECATED: Will be removed in Saleor 4.0. Use token instead.
     """
-    checkoutId: ID!
+    checkoutId: ID
 
     """
     New language code.
     """
     languageCode: LanguageCodeEnum!
+
+    """
+    Checkout token.
+    """
+    token: UUID
   ): CheckoutLanguageCodeUpdate
 
   """
@@ -9541,6 +9709,11 @@ type Order implements Node & ObjectWithMetadata {
   List of all discounts assigned to the order.
   """
   discounts: [OrderDiscount!]
+
+  """
+  List of errors that occurred during order validation.
+  """
+  errors: [OrderError!]!
 }
 
 enum OrderAction {
@@ -9776,7 +9949,7 @@ input OrderDraftFilterInput {
   customer: String
   created: DateRangeInput
   search: String
-  metadata: [MetadataInput]
+  metadata: [MetadataFilter]
   channels: [ID]
 }
 
@@ -9802,9 +9975,9 @@ type OrderError {
   warehouse: ID
 
   """
-  Order line ID which causes the error.
+  List of order line IDs that cause the error.
   """
-  orderLine: ID
+  orderLines: [ID!]
 
   """
   List of product variants that are associated with the error
@@ -9875,6 +10048,11 @@ type OrderEvent implements Node {
   User who performed the action.
   """
   user: User
+
+  """
+  App that performed the action.
+  """
+  app: App
 
   """
   Content of the event.
@@ -10087,6 +10265,8 @@ enum OrderEventsEnum {
   ORDER_DISCOUNT_DELETED
   ORDER_LINE_DISCOUNT_UPDATED
   ORDER_LINE_DISCOUNT_REMOVED
+  ORDER_LINE_PRODUCT_DELETED
+  ORDER_LINE_VARIANT_DELETED
   UPDATED_ADDRESS
   EMAIL_SENT
   CONFIRMED
@@ -10117,7 +10297,7 @@ input OrderFilterInput {
   customer: String
   created: DateRangeInput
   search: String
-  metadata: [MetadataInput]
+  metadata: [MetadataFilter]
   channels: [ID]
 }
 
@@ -10919,8 +11099,9 @@ enum PageErrorCode {
 
 input PageFilterInput {
   search: String
-  metadata: [MetadataInput]
+  metadata: [MetadataFilter]
   pageTypes: [ID]
+  ids: [ID]
 }
 
 """
@@ -11064,7 +11245,7 @@ type PageTranslatableContent implements Node {
   """
   ('A static page that can be manually added by a shop operator ', 'through the dashboard.')
   """
-  page: Page
+  page: Page @deprecated(reason: "Will be removed in Saleor 4.0. Get model fields from the root level.")
 }
 
 """
@@ -11084,7 +11265,7 @@ type PageTranslation implements Node {
   id: ID!
   seoTitle: String
   seoDescription: String
-  title: String!
+  title: String
   content: JSONString
 
   """
@@ -11580,6 +11761,11 @@ type PaymentSource {
   gateway: String!
 
   """
+  ID of stored payment method.
+  """
+  paymentMethodId: String
+
+  """
   Stored credit card details if available.
   """
   creditCardInfo: CreditCard
@@ -11628,6 +11814,7 @@ enum PermissionEnum {
   MANAGE_ORDERS
   MANAGE_PAGES
   MANAGE_PAGE_TYPES_AND_ATTRIBUTES
+  HANDLE_PAYMENTS
   MANAGE_PRODUCTS
   MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES
   MANAGE_SHIPPING
@@ -12049,7 +12236,7 @@ type Product implements Node & ObjectWithMetadata {
     ID of a product media.
     """
     id: ID
-  ): ProductMedia!
+  ): ProductMedia
 
   """
   Get a single product image by ID.
@@ -12487,16 +12674,11 @@ input ProductFilterInput {
   stockAvailability: StockAvailability
   stocks: ProductStockFilterInput
   search: String
-  metadata: [MetadataInput]
+  metadata: [MetadataFilter]
   price: PriceRangeInput
   minimalPrice: PriceRangeInput
   productTypes: [ID]
   ids: [ID]
-
-  """
-  Specifies the channel by which the data should be sorted.
-  """
-  channel: String
 }
 
 """
@@ -12718,11 +12900,6 @@ input ProductOrder {
   direction: OrderDirection!
 
   """
-  Specifies the channel in which to sort the data.
-  """
-  channel: String
-
-  """
   Sort product by the selected attribute's values.
   Note: this doesn't take translations into account yet.
   """
@@ -12867,7 +13044,7 @@ type ProductTranslatableContent implements Node {
   """
   Represents an individual item for sale in the storefront.
   """
-  product: Product
+  product: Product @deprecated(reason: "Will be removed in Saleor 4.0. Get model fields from the root level.")
 }
 
 """
@@ -12887,7 +13064,7 @@ type ProductTranslation implements Node {
   id: ID!
   seoTitle: String
   seoDescription: String
-  name: String!
+  name: String
   description: JSONString
 
   """
@@ -13075,7 +13252,7 @@ input ProductTypeFilterInput {
   search: String
   configurable: ProductTypeConfigurable
   productType: ProductTypeEnum
-  metadata: [MetadataInput]
+  metadata: [MetadataFilter]
   ids: [ID]
 }
 
@@ -13238,11 +13415,6 @@ type ProductVariant implements Node & ObjectWithMetadata {
   ): [SelectedAttribute!]!
 
   """
-  Cost price of the variant.
-  """
-  costPrice: Money
-
-  """
   Gross margin percentage value.
   """
   margin: Int
@@ -13335,7 +13507,7 @@ input ProductVariantBulkCreateInput {
   """
   List of attributes specific to this variant.
   """
-  attributes: [BulkAttributeValueInput]!
+  attributes: [BulkAttributeValueInput!]!
 
   """
   Stock keeping unit.
@@ -13467,7 +13639,7 @@ input ProductVariantCreateInput {
   """
   List of attributes specific to this variant.
   """
-  attributes: [AttributeValueInput]!
+  attributes: [AttributeValueInput!]!
 
   """
   Stock keeping unit.
@@ -13508,14 +13680,14 @@ type ProductVariantDelete {
 input ProductVariantFilterInput {
   search: String
   sku: [String]
-  metadata: [MetadataInput]
+  metadata: [MetadataFilter]
 }
 
 input ProductVariantInput {
   """
   List of attributes specific to this variant.
   """
-  attributes: [AttributeValueInput]
+  attributes: [AttributeValueInput!]
 
   """
   Stock keeping unit.
@@ -13625,6 +13797,7 @@ type ProductVariantTranslatableContent implements Node {
   Represents a version of a product such as different size or color.
   """
   productVariant: ProductVariant
+    @deprecated(reason: "Will be removed in Saleor 4.0. Get model fields from the root level.")
 }
 
 """
@@ -14910,16 +15083,6 @@ type Query {
   ): CheckoutCountableConnection
 
   """
-  Look up a checkout line by ID.
-  """
-  checkoutLine(
-    """
-    ID of the checkout line.
-    """
-    id: ID
-  ): CheckoutLine
-
-  """
   List of checkout lines.
   """
   checkoutLines(
@@ -14972,6 +15135,11 @@ type Query {
     Sorting options for attributes.
     """
     sortBy: AttributeSortingInput
+
+    """
+    Slug of a channel for which the data should be returned.
+    """
+    channel: String
 
     """
     Return the elements in the list that come before the specified cursor.
@@ -15244,7 +15412,7 @@ type ReducedRate {
   """
   A type of goods.
   """
-  rateType: TaxRateType!
+  rateType: String!
 }
 
 """
@@ -15635,11 +15803,6 @@ input SaleSortingInput {
   direction: OrderDirection!
 
   """
-  Specifies the channel in which to sort the data.
-  """
-  channel: String
-
-  """
   Sort sales by the selected field.
   """
   field: SaleSortField!
@@ -15665,7 +15828,7 @@ type SaleTranslatableContent implements Node {
   """
   Sales allow creating discounts for categories, collections or products and are visible to all the customers.
   """
-  sale: Sale
+  sale: Sale @deprecated(reason: "Will be removed in Saleor 4.0. Get model fields from the root level.")
 }
 
 """
@@ -16011,6 +16174,7 @@ type ShippingMethodTranslatableContent implements Node {
   Shipping method are the methods you'll use to get customer's orders  to them. They are directly exposed to the customers.
   """
   shippingMethod: ShippingMethod
+    @deprecated(reason: "Will be removed in Saleor 4.0. Get model fields from the root level.")
 }
 
 type ShippingMethodTranslation implements Node {
@@ -17114,37 +17278,6 @@ input StockInput {
 }
 
 """
-An enumeration.
-"""
-enum TaxRateType {
-  ACCOMMODATION
-  ADMISSION_TO_CULTURAL_EVENTS
-  ADMISSION_TO_ENTERTAINMENT_EVENTS
-  ADMISSION_TO_SPORTING_EVENTS
-  ADVERTISING
-  AGRICULTURAL_SUPPLIES
-  BABY_FOODSTUFFS
-  BIKES
-  BOOKS
-  CHILDRENS_CLOTHING
-  DOMESTIC_FUEL
-  DOMESTIC_SERVICES
-  E_BOOKS
-  FOODSTUFFS
-  HOTELS
-  MEDICAL
-  NEWSPAPERS
-  PASSENGER_TRANSPORT
-  PHARMACEUTICALS
-  PROPERTY_RENOVATIONS
-  RESTAURANTS
-  SOCIAL_HOUSING
-  STANDARD
-  WATER
-  WINE
-}
-
-"""
 Representation of tax types fetched from tax gateway.
 """
 type TaxType {
@@ -17888,6 +18021,7 @@ type Voucher implements Node {
   endDate: DateTime
   applyOncePerOrder: Boolean!
   applyOncePerCustomer: Boolean!
+  onlyForStaff: Boolean!
 
   """
   Determines a type of discount for voucher - value or percentage
@@ -18214,6 +18348,11 @@ input VoucherInput {
   applyOncePerCustomer: Boolean
 
   """
+  Voucher can be used only by staff user.
+  """
+  onlyForStaff: Boolean
+
+  """
   Limit number of times this voucher can be used in total.
   """
   usageLimit: Int
@@ -18276,11 +18415,6 @@ input VoucherSortingInput {
   direction: OrderDirection!
 
   """
-  Specifies the channel in which to sort the data.
-  """
-  channel: String
-
-  """
   Sort vouchers by the selected field.
   """
   field: VoucherSortField!
@@ -18306,7 +18440,7 @@ type VoucherTranslatableContent implements Node {
   """
   Vouchers allow giving discounts to particular customers on categories, collections or specific products. They can be used during checkout by providing valid voucher codes.
   """
-  voucher: Voucher
+  voucher: Voucher @deprecated(reason: "Will be removed in Saleor 4.0. Get model fields from the root level.")
 }
 
 """
@@ -18358,7 +18492,6 @@ type Warehouse implements Node & ObjectWithMetadata {
   id: ID!
   name: String!
   slug: String!
-  companyName: String!
   shippingZones(before: String, after: String, first: Int, last: Int): ShippingZoneCountableConnection!
   address: Address!
   email: String!
@@ -18372,48 +18505,11 @@ type Warehouse implements Node & ObjectWithMetadata {
   List of public metadata items. Can be accessed without permissions.
   """
   metadata: [MetadataItem]!
-}
-
-input WarehouseAddressInput {
-  """
-  Address.
-  """
-  streetAddress1: String!
 
   """
-  Address.
+  Warehouse company name.
   """
-  streetAddress2: String
-
-  """
-  City.
-  """
-  city: String!
-
-  """
-  District.
-  """
-  cityArea: String
-
-  """
-  Postal code.
-  """
-  postalCode: String
-
-  """
-  Country.
-  """
-  country: CountryCode!
-
-  """
-  State or province.
-  """
-  countryArea: String
-
-  """
-  Phone number.
-  """
-  phone: String
+  companyName: String! @deprecated(reason: "Use address.CompanyName. This field will be removed in Saleor 4.0.")
 }
 
 type WarehouseCountableConnection {
@@ -18458,11 +18554,6 @@ input WarehouseCreateInput {
   slug: String
 
   """
-  Company name.
-  """
-  companyName: String
-
-  """
   The email address of the warehouse.
   """
   email: String
@@ -18475,7 +18566,7 @@ input WarehouseCreateInput {
   """
   Address of the warehouse.
   """
-  address: WarehouseAddressInput!
+  address: AddressInput!
 
   """
   Shipping zones supported by the warehouse.
@@ -18583,11 +18674,6 @@ input WarehouseUpdateInput {
   slug: String
 
   """
-  Company name.
-  """
-  companyName: String
-
-  """
   The email address of the warehouse.
   """
   email: String
@@ -18600,7 +18686,7 @@ input WarehouseUpdateInput {
   """
   Address of the warehouse.
   """
-  address: WarehouseAddressInput
+  address: AddressInput
 }
 
 """
@@ -18847,6 +18933,13 @@ enum WebhookEventTypeEnum {
   A page is deleted.
   """
   PAGE_DELETED
+  PAYMENT_AUTHORIZE
+  PAYMENT_CAPTURE
+  PAYMENT_CONFIRM
+  PAYMENT_LIST_GATEWAYS
+  PAYMENT_PROCESS
+  PAYMENT_REFUND
+  PAYMENT_VOID
 }
 
 """
@@ -18877,6 +18970,13 @@ enum WebhookSampleEventTypeEnum {
   PAGE_CREATED
   PAGE_UPDATED
   PAGE_DELETED
+  PAYMENT_AUTHORIZE
+  PAYMENT_CAPTURE
+  PAYMENT_CONFIRM
+  PAYMENT_LIST_GATEWAYS
+  PAYMENT_PROCESS
+  PAYMENT_REFUND
+  PAYMENT_VOID
 }
 
 """
@@ -18955,10 +19055,10 @@ Anything
 scalar _Any
 
 union _Entity =
-    Address
+    App
+  | Address
   | User
   | Group
-  | App
   | ProductVariant
   | Product
   | ProductType

@@ -1,50 +1,62 @@
-import Button, { ButtonProps } from '@components/ui/Button'
+/** @jsxImportSource theme-ui */
 
-import { Check } from '@components/icons'
-import React from 'react'
+import React, { ButtonHTMLAttributes } from "react"
 
-interface SwatchProps {
+import { TextStyleNames } from "@theme/tokens"
+import usePrice from "@commerce/product/use-price"
+
+interface SwatchProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   active?: boolean
   children?: any
   className?: string
-  variant?: 'size' | 'color' | string
+  variant?: "size" | "color" | string
   color?: string
   label?: string | null
+  price?: number
+  baseAmount?: number
+  currencyCode?: string
 }
 
-const Swatch: React.FC<Omit<ButtonProps, 'variant'> & SwatchProps> = React.memo(
-  ({
-    active,
-    className,
-    color = '',
-    label = null,
-    variant = 'size',
-    ...props
-  }) => {
-    variant = variant?.toLowerCase()
+const Swatch: React.FC<SwatchProps> = React.memo(function Swatch({
+  active,
+  className,
+  label,
+  color = "",
+  variant = "size",
+  price,
+  baseAmount,
+  currencyCode,
+  ...props
+}) {
+  variant = variant?.toLowerCase()
 
-    if (label) {
-      label = label?.toLowerCase()
-    }
-
- 
-
-    return (
-      <Button
-        aria-label="Variant Swatch"
-        {...(label && color && { title: label })}
-        style={color ? { backgroundColor: color } : {}}
-        {...props}
-      >
-        {color && active && (
-          <span>
-            <Check />
-          </span>
-        )}
-        {!color ? label : null}
-      </Button>
-    )
+  if (label) {
+    label = label?.toLowerCase()
   }
-)
+
+  const variantPrice = usePrice({
+    amount: price || 0,
+    baseAmount: baseAmount,
+    currencyCode: currencyCode!
+  })
+
+  return (
+    <button
+      aria-label="Variant Swatch"
+      {...(label && color && { title: label })}
+      style={color ? { backgroundColor: color } : {}}
+      sx={{
+        bg: color ? color : "transparent",
+        p: 16,
+        m: 0,
+        border: "none",
+        variant: `text.${TextStyleNames.label_upper}`
+      }}
+      {...props}
+    >
+      {!color ? `${label} (${variantPrice.price})` : null}
+    </button>
+  )
+})
 
 export default Swatch

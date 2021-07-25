@@ -1,31 +1,36 @@
 /** @jsxImportSource theme-ui */
 
-import { FC } from 'react'
-import { StandardXPadding } from '@theme/tokens'
-import { ThemeUIStyleObject } from 'theme-ui'
+import { FC, JSXElementConstructor } from "react"
+
+import { StandardXPadding } from "@theme/tokens"
+import { ThemeUIStyleObject } from "theme-ui"
 
 interface ContainerProps {
-
   children?: any
-  el?: HTMLElement
+  el?: string | JSXElementConstructor<any>
   clean?: boolean
-  sx? : ThemeUIStyleObject
+  sx?: ThemeUIStyleObject
 }
 
 const Container: FC<ContainerProps> = ({
   children,
-  el = 'div',
+  el = "div",
   clean,
   ...props
 }) => {
- 
-
   let Component: React.ComponentType<React.HTMLAttributes<HTMLDivElement>> =
     el as any
 
-  return <Component sx={{
-    px : clean ? 0 : StandardXPadding
-  }} {...props}>{children}</Component>
+  return (
+    <Component
+      sx={{
+        px: clean ? 0 : StandardXPadding
+      }}
+      {...props}
+    >
+      {children}
+    </Component>
+  )
 }
 
 export default Container

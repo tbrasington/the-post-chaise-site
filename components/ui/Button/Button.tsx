@@ -58,7 +58,8 @@ const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
       ref={mergeRefs([ref, buttonRef])}
       disabled={disabled}
       sx={{
-        variant: `buttons.${variant}`
+        variant: `buttons.${variant}`,
+        width: width
       }}
       {...rest}
     >

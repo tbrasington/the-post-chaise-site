@@ -29,8 +29,10 @@ export type ProductOptionValues = {
 
 export type ProductVariant = {
   id: string | number
+  price: number
   options: ProductOption[]
   availableForSale?: boolean
+  name: string
 }
 
 export type Product = {

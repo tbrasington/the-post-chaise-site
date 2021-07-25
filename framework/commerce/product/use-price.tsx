@@ -1,18 +1,18 @@
-import { useMemo } from 'react'
-import { useCommerce } from '..'
+import { useCommerce } from ".."
+import { useMemo } from "react"
 
 export function formatPrice({
   amount,
   currencyCode,
-  locale,
+  locale
 }: {
   amount: number
   currencyCode: string
   locale: string
 }) {
   const formatCurrency = new Intl.NumberFormat(locale, {
-    style: 'currency',
-    currency: currencyCode,
+    style: "currency",
+    currency: currencyCode
   })
 
   return formatCurrency.format(amount)
@@ -22,7 +22,7 @@ export function formatVariantPrice({
   amount,
   baseAmount,
   currencyCode,
-  locale,
+  locale
 }: {
   baseAmount: number
   amount: number
@@ -30,7 +30,7 @@ export function formatVariantPrice({
   locale: string
 }) {
   const hasDiscount = baseAmount > amount
-  const formatDiscount = new Intl.NumberFormat(locale, { style: 'percent' })
+  const formatDiscount = new Intl.NumberFormat(locale, { style: "percent" })
   const discount = hasDiscount
     ? formatDiscount.format((baseAmount - amount) / baseAmount)
     : null
@@ -53,12 +53,12 @@ export default function usePrice(
   const { amount, baseAmount, currencyCode } = data ?? {}
   const { locale } = useCommerce()
   const value = useMemo(() => {
-    if (typeof amount !== 'number' || !currencyCode) return ''
+    if (typeof amount !== "number" || !currencyCode) return ""
 
     return baseAmount
       ? formatVariantPrice({ amount, baseAmount, currencyCode, locale })
       : formatPrice({ amount, currencyCode, locale })
-  }, [amount, baseAmount, currencyCode])
+  }, [amount, baseAmount, currencyCode, locale])
 
-  return typeof value === 'string' ? { price: value } : value
+  return typeof value === "string" ? { price: value } : value
 }

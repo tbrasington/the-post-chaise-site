@@ -7991,6 +7991,8 @@ type ProductOption implements Node {
   The corresponding value to the product option name.
   """
   values: [String!]!
+
+
 }
 
 """

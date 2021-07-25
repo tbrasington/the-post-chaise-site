@@ -23,18 +23,16 @@ const ProductSliderControl: React.FC<ProductSliderControl> = React.memo(
         <Button
           onClick={onPrev}
           aria-label="Previous Product Image"
-          sx={{
-            variant: `buttons.${ButtonVariants.controls}`
-          }}
+          variant="controls"
+          width={40}
         >
           <ArrowLeft />
         </Button>
         <Button
           onClick={onNext}
           aria-label="Next Product Image"
-          sx={{
-            variant: `buttons.${ButtonVariants.controls}`
-          }}
+          variant="controls"
+          width={40}
         >
           <ArrowRight />
         </Button>

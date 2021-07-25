@@ -1,61 +1,62 @@
+import { GetProductBySlugQuery, Product as ShopifyProduct } from "../../schema"
 import type {
   OperationContext,
-  OperationOptions,
-} from '@commerce/api/operations'
-import { GetProductOperation } from '../../types/product'
-import { normalizeProduct, getProductQuery } from '../../utils'
-import type { ShopifyConfig, Provider } from '..'
-import { GetProductBySlugQuery, Product as ShopifyProduct } from '../../schema'
+  OperationOptions
+} from "@commerce/api/operations"
+import type { Provider, ShopifyConfig } from ".."
+import { getProductQuery, normalizeProduct } from "../../utils"
+
+import { GetProductOperation } from "../../types/product"
 
 export default function getProductOperation({
-  commerce,
+  commerce
 }: OperationContext<Provider>) {
   async function getProduct<T extends GetProductOperation>(opts: {
-    variables: T['variables']
+    variables: T["variables"]
     config?: Partial<ShopifyConfig>
     preview?: boolean
-  }): Promise<T['data']>
+  }): Promise<T["data"]>
 
   async function getProduct<T extends GetProductOperation>(
     opts: {
-      variables: T['variables']
+      variables: T["variables"]
       config?: Partial<ShopifyConfig>
       preview?: boolean
     } & OperationOptions
-  ): Promise<T['data']>
+  ): Promise<T["data"]>
 
   async function getProduct<T extends GetProductOperation>({
     query = getProductQuery,
     variables,
-    config: cfg,
+    config: cfg
   }: {
     query?: string
-    variables: T['variables']
+    variables: T["variables"]
     config?: Partial<ShopifyConfig>
     preview?: boolean
-  }): Promise<T['data']> {
+  }): Promise<T["data"]> {
     const { fetch, locale } = commerce.getConfig(cfg)
 
     const {
-      data: { productByHandle },
+      data: { productByHandle }
     } = await fetch<GetProductBySlugQuery>(
       query,
       {
-        variables,
+        variables
       },
       {
         ...(locale && {
           headers: {
-            'Accept-Language': locale,
-          },
-        }),
+            "Accept-Language": locale
+          }
+        })
       }
     )
 
     return {
       ...(productByHandle && {
-        product: normalizeProduct(productByHandle as ShopifyProduct),
-      }),
+        product: normalizeProduct(productByHandle as ShopifyProduct)
+      })
     }
   }
 

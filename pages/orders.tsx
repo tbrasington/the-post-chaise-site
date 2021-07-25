@@ -1,13 +1,14 @@
-import type { GetStaticPropsContext } from 'next'
-import commerce from '@lib/api/commerce'
-import { Bag } from '@components/icons'
-import { Layout } from '@components/common'
-import { Container, Text } from '@components/ui'
+import { Container, Text } from "@components/ui"
+
+import { Bag } from "@components/icons"
+import type { GetStaticPropsContext } from "next"
+import { Layout } from "@components/common"
+import commerce from "@lib/api/commerce"
 
 export async function getStaticProps({
   preview,
   locale,
-  locales,
+  locales
 }: GetStaticPropsContext) {
   const config = { locale, locales }
   const pagesPromise = commerce.getAllPages({ config, preview })
@@ -16,14 +17,14 @@ export async function getStaticProps({
   const { categories } = await siteInfoPromise
 
   return {
-    props: { pages, categories },
+    props: { pages, categories }
   }
 }
 
 export default function Orders() {
   return (
     <Container>
-      <Text variant="pageHeading">My Orders</Text>
+      <Text variant="page_title">My Orders</Text>
       <div className="flex-1 p-24 flex flex-col justify-center items-center ">
         <span className="border border-dashed border-secondary rounded-full flex items-center justify-center w-16 h-16 p-12 bg-primary text-primary">
           <Bag className="absolute" />

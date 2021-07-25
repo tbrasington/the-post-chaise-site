@@ -1,14 +1,14 @@
-import { Button, Collapse, Rating, Text, useUI } from "@components/ui"
-import { FC, useEffect, useState } from "react"
+import { Button, Text, useUI } from "@components/ui"
+import React, { FC, useEffect, useState } from "react"
 import {
   SelectedOptions,
   getProductVariant,
   selectDefaultOptionFromProduct
 } from "../helpers"
 
+import { Flex } from "theme-ui"
 import type { Product } from "@commerce/types/product"
 import { ProductOptions } from "@components/product"
-import s from "./ProductSidebar.module.css"
 import { useAddItem } from "@framework/cart"
 
 interface ProductSidebarProps {
@@ -16,7 +16,7 @@ interface ProductSidebarProps {
   className?: string
 }
 
-const ProductSidebar: FC<ProductSidebarProps> = ({ product, className }) => {
+const ProductSidebar: FC<ProductSidebarProps> = ({ product }) => {
   const addItem = useAddItem()
   const { openSidebar } = useUI()
   const [loading, setLoading] = useState(false)
@@ -27,6 +27,7 @@ const ProductSidebar: FC<ProductSidebarProps> = ({ product, className }) => {
   }, [product])
 
   const variant = getProductVariant(product, selectedOptions)
+
   const addToCart = async () => {
     setLoading(true)
     try {
@@ -42,34 +43,47 @@ const ProductSidebar: FC<ProductSidebarProps> = ({ product, className }) => {
   }
 
   return (
-    <div className={className}>
-      <ProductOptions
-        options={product.options}
-        selectedOptions={selectedOptions}
-        setSelectedOptions={setSelectedOptions}
-      />
-      <Text
-        className="pb-4 break-words w-full max-w-xl"
-        html={product.descriptionHtml || product.description}
-      />
+    <>
+      <Flex>
+        <ProductOptions
+          product={product}
+          options={product.options}
+          selectedOptions={selectedOptions}
+          setSelectedOptions={setSelectedOptions}
+        />
+      </Flex>
 
-      <div>
-        {process.env.COMMERCE_CART_ENABLED && (
-          <Button
-            aria-label="Add to Cart"
-            type="button"
-            className={s.button}
-            onClick={addToCart}
-            loading={loading}
-            disabled={variant?.availableForSale === false}
-          >
-            {variant?.availableForSale === false
-              ? "Not Available"
-              : "Add To Cart"}
-          </Button>
-        )}
-      </div>
-    </div>
+      <Flex
+        sx={{
+          mt: 64,
+          flexDirection: ["column", null, "row"]
+        }}
+      >
+        <Flex sx={{ flex: [1, 1, 0.4], mr: [0, 0, 48] }}>
+          {process.env.COMMERCE_CART_ENABLED && (
+            <Button
+              aria-label="Add to bag"
+              type="button"
+              onClick={addToCart}
+              loading={loading}
+              width="100%"
+              disabled={variant?.availableForSale === false}
+            >
+              {variant?.availableForSale === false
+                ? "Not Available"
+                : "Add To bag"}
+            </Button>
+          )}
+        </Flex>
+
+        <Flex sx={{ flex: 1 }}>
+          <Text
+            variant="paragraph"
+            html={product.descriptionHtml || product.description}
+          />
+        </Flex>
+      </Flex>
+    </>
   )
 }
 

@@ -1,12 +1,12 @@
-import { Container } from '@components/ui'
-import { FC } from 'react'
-import { I18nWidget } from '@components/common'
-import Link from 'next/link'
-import type { Page } from '@commerce/types/page'
-import cn from 'classnames'
-import getSlug from '@lib/get-slug'
-import s from './Footer.module.css'
-import { useRouter } from 'next/router'
+/** @jsxImportSource theme-ui */
+import { ColorTokens, TextStyleNames } from "@theme/tokens"
+
+import { Container } from "@components/ui"
+import { FC } from "react"
+import Link from "next/link"
+import type { Page } from "@commerce/types/page"
+import getSlug from "@lib/get-slug"
+import { useRouter } from "next/router"
 
 interface Props {
   className?: string
@@ -16,27 +16,52 @@ interface Props {
 
 const links = [
   {
-    name: 'Home',
-    url: '/',
-  },
+    name: "Instagram",
+    url: "https://instagram.com/thepostchaise"
+  }
 ]
 
 const Footer: FC<Props> = ({ className, pages }) => {
   const { sitePages } = usePages(pages)
 
   return (
-    <footer>
+    <footer
+      sx={{
+        py: 64,
+        borderTopStyle: "solid",
+        borderTopWidth: "1px",
+        borderTopColor: ColorTokens.muted
+      }}
+    >
       <Container>
-        <Link href="/">
-          <a>
+        <Link href="/" passHref>
+          <a
+            sx={{
+              color: ColorTokens.text,
+              mr: 64,
+              textDecoration: "none",
+              variant: `text.${TextStyleNames.label_upper}`
+            }}
+          >
             <span>&copy; The Post Chaise</span>
           </a>
         </Link>
 
-        {[...links, ...sitePages].map((page) => (
-          <span key={page.url} >
-            <Link href={page.url!}>
-              <a className="text-accent-9 hover:text-accent-6 transition ease-in-out duration-150">
+        {[...links, ...sitePages].map(page => (
+          <span
+            key={page.url}
+            sx={{
+              mr: 32
+            }}
+          >
+            <Link href={page.url!} passHref>
+              <a
+                sx={{
+                  color: `${ColorTokens.primary}`,
+                  textDecoration: "none",
+                  variant: `text.${TextStyleNames.label_upper}`
+                }}
+              >
                 {page.name}
               </a>
             </Link>
@@ -52,7 +77,7 @@ function usePages(pages?: Page[]) {
   const sitePages: Page[] = []
 
   if (pages) {
-    pages.forEach((page) => {
+    pages.forEach(page => {
       const slug = page.url && getSlug(page.url)
       if (!slug) return
       if (locale && !slug.startsWith(`${locale}/`)) return
@@ -61,7 +86,7 @@ function usePages(pages?: Page[]) {
   }
 
   return {
-    sitePages: sitePages.sort(bySortOrder),
+    sitePages: sitePages.sort(bySortOrder)
   }
 }
 

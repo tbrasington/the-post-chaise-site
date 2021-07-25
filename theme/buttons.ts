@@ -1,12 +1,8 @@
-import {
-  ColorTokens,
-  FontSizes,
-  FontWeights,
-  TextStyleNames,
-  TextStyles
-} from "./tokens"
+import { ColorTokens, TextStyleNames } from "./tokens"
 
-export const ButtonBase = {
+import { ThemeUICSSObject } from "theme-ui"
+
+export const ButtonBase: ThemeUICSSObject = {
   px: 16,
   m: 0,
   height: 40,
@@ -14,7 +10,10 @@ export const ButtonBase = {
   borderRadius: 40,
   transition: "all 0.2s ease",
   cursor: "pointer",
-  variant: `text.${TextStyleNames.action}`
+  variant: `text.${TextStyleNames.action}`,
+  display: "inline-grid",
+  alignItems: "center",
+  justifyContent: "center"
 }
 
 export type ButtonTypes = "primary" | "secondary" | "link" | "controls"
@@ -25,8 +24,8 @@ export const ButtonVariants = {
     borderColor: ColorTokens.primary,
     color: ColorTokens.background,
     ":hover": {
-      borderColor: ColorTokens.highlight,
-      bg: ColorTokens.highlight
+      borderColor: ColorTokens.accent,
+      bg: ColorTokens.accent
     },
     ":disabled": {
       cursor: "not-allowed",
@@ -81,8 +80,8 @@ export const ButtonVariants = {
     borderColor: ColorTokens.text,
     color: ColorTokens.background,
     ":hover": {
-      borderColor: ColorTokens.highlight,
-      bg: ColorTokens.highlight
+      borderColor: ColorTokens.accent,
+      bg: ColorTokens.accent
     },
     ":disabled": {
       cursor: "not-allowed",
