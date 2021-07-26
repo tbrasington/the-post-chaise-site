@@ -2,27 +2,32 @@
 import { ColorTokens, TextStyleNames } from "@theme/tokens"
 import { Container, Text } from "@components/ui"
 import { Flex, Grid } from "theme-ui"
-import { ProductCard, ProductSlider } from "@components/product"
+import { ProductCard, ProductImage, ProductSlider } from "@components/product"
+import React, { FC } from "react"
 
-import { FC } from "react"
-import Image from "next/image"
 import { NextSeo } from "next-seo"
 import type { Product } from "@commerce/types/product"
 import ProductSidebar from "../ProductSidebar"
+import { SanityProduct } from "@sanity/types/product"
 import usePrice from "@framework/product/use-price"
 
 interface ProductViewProps {
   product: Product
+  sanityProduct: SanityProduct
   relatedProducts: Product[]
 }
 
-const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
+const ProductView: FC<ProductViewProps> = ({
+  product,
+  sanityProduct,
+  relatedProducts
+}) => {
   const { price } = usePrice({
-    amount: product.price.value,
-    baseAmount: product.price.retailPrice,
-    currencyCode: product.price.currencyCode!
+    amount: sanityProduct.minVariantPrice,
+    baseAmount: sanityProduct.minVariantPrice,
+    currencyCode: "GBP"
   })
-
+  console.log({ sanityProduct })
   return (
     <>
       <Container>
@@ -34,7 +39,7 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
             color: ColorTokens.text
           }}
         >
-          <span>{product.name}</span>
+          <span>{sanityProduct.title}</span>
         </h3>
 
         <div
@@ -57,37 +62,17 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
           minHeight: "1000px"
         }}
       >
-        <ProductSlider>
-          {product.images.map((image, i) => (
-            <Flex
-              key={image.url}
-              sx={{
-                position: "relative",
-                width: "100%",
-                height: "100%",
-                alignItems: "center",
-                alignContent: "center",
-                justifyContent: "center",
-                "& > div": {
-                  height: "100%"
-                }
-              }}
-            >
-              <Image
-                className="slider-image"
-                src={image.url!}
-                alt={image.alt || "Product Image"}
-                layout="intrinsic"
-                objectFit="contain"
-                objectPosition="center"
-                priority={i === 0}
-                quality="100"
-                width={image.width}
-                height={image.height}
+        {sanityProduct.gallery && (
+          <ProductSlider>
+            {sanityProduct.gallery.map((sanityImage, i) => (
+              <ProductImage
+                sanityImage={sanityImage}
+                priority={i}
+                key={sanityImage._key}
               />
-            </Flex>
-          ))}
-        </ProductSlider>
+            ))}
+          </ProductSlider>
+        )}
       </Flex>
 
       <Container>
@@ -127,7 +112,7 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
       </Container>
 
       <NextSeo
-        title={product.name}
+        title={sanityProduct.title}
         description={product.description}
         openGraph={{
           type: "website",

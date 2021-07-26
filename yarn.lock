@@ -10732,6 +10732,13 @@ nested-error-stacks@^2.0.0, nested-error-stacks@^2.1.0:
   resolved "https://registry.yarnpkg.com/nested-error-stacks/-/nested-error-stacks-2.1.0.tgz#0fbdcf3e13fe4994781280524f8b96b0cdff9c61"
   integrity sha512-AO81vsIO1k1sM4Zrd6Hu7regmJN1NSiAja10gc4bX3F0wd+9rQmcuHQaHVQCYIEC8iFXnE+mavh23GOt7wBgug==
 
+next-sanity-image@^3.1.5:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/next-sanity-image/-/next-sanity-image-3.1.5.tgz#1274d782c0f2f89753a17e772f817c241be8c50c"
+  integrity sha512-0WjBW5ahHA3jSq5VO7Rsda62/DkoX9GREkkT/cwIdYIsaWI+c55xth10lDvllP8Z3kfqLp7B5Fb0vITMS/CE7w==
+  dependencies:
+    "@sanity/image-url" "^0.140.22"
+
 next-sanity@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/next-sanity/-/next-sanity-0.3.0.tgz#0896c07651e58a4720ba182ccf4df01de3242f67"

@@ -3,10 +3,12 @@ import type {
   GetStaticPropsContext,
   InferGetStaticPropsType
 } from "next"
+import { getProduct, getProducts } from "@sanity/api/product"
 
 import { Layout } from "@components/common"
 import { ProductView } from "@components/product"
 import commerce from "@lib/api/commerce"
+import { getClient } from "@sanity/sanity.server"
 import { useRouter } from "next/router"
 
 export async function getStaticProps({
@@ -34,6 +36,10 @@ export async function getStaticProps({
   const { product } = await productPromise
   const { products: relatedProducts } = await allProductsPromise
 
+  const sanityProduct = await getClient(preview || false).fetch(getProduct, {
+    slug: params!.slug
+  })
+
   if (!product) {
     throw new Error(`Product with slug '${params!.slug}' not found`)
   }
@@ -43,31 +49,33 @@ export async function getStaticProps({
       pages,
       product,
       relatedProducts,
-      categories
+      categories,
+      sanityProduct
     },
     revalidate: 200
   }
 }
 
 export async function getStaticPaths({ locales }: GetStaticPathsContext) {
-  const { products } = await commerce.getAllProductPaths()
-
+  // old shopify/next/commerce const { products } = await commerce.getAllProductPaths()
+  const data = await getClient(false).fetch(getProducts)
   return {
     paths: locales
       ? locales.reduce<string[]>((arr, locale) => {
           // Add a product path for every locale
-          products.forEach((product: any) => {
-            arr.push(`/${locale}/product${product.path}`)
+          data.forEach((product: any) => {
+            arr.push(`/${locale}/product/${product.handle}`)
           })
           return arr
         }, [])
-      : products.map((product: any) => `/product${product.path}`),
+      : data.map((product: any) => `/product/${product.handle}`),
     fallback: "blocking"
   }
 }
 
 export default function Slug({
   product,
+  sanityProduct,
   relatedProducts
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const router = useRouter()
@@ -75,7 +83,11 @@ export default function Slug({
   return router.isFallback ? (
     <h1>Loading...</h1>
   ) : (
-    <ProductView product={product} relatedProducts={relatedProducts} />
+    <ProductView
+      product={product}
+      sanityProduct={sanityProduct}
+      relatedProducts={relatedProducts}
+    />
   )
 }
 

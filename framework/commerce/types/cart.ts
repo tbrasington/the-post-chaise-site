@@ -1,4 +1,4 @@
-import type { Discount, Measurement, Image } from './common'
+import type { Discount, Image, Measurement } from "./common"
 
 export type SelectedOption = {
   // The option's id.
@@ -109,31 +109,31 @@ export type CartHooks<T extends CartTypes = CartTypes> = {
 }
 
 export type GetCartHook<T extends CartTypes = CartTypes> = {
-  data: T['cart'] | null
+  data: T["cart"] | null
   input: {}
   fetcherInput: { cartId?: string }
   swrState: { isEmpty: boolean }
 }
 
 export type AddItemHook<T extends CartTypes = CartTypes> = {
-  data: T['cart']
-  input?: T['itemBody']
-  fetcherInput: T['itemBody']
-  body: { item: T['itemBody'] }
-  actionInput: T['itemBody']
+  data: T["cart"]
+  input?: T["itemBody"]
+  fetcherInput: T["itemBody"]
+  body: { item: T["itemBody"] }
+  actionInput: T["itemBody"]
 }
 
 export type UpdateItemHook<T extends CartTypes = CartTypes> = {
-  data: T['cart'] | null
-  input: { item?: T['item']; wait?: number }
-  fetcherInput: { itemId: string; item: T['itemBody'] }
-  body: { itemId: string; item: T['itemBody'] }
-  actionInput: T['itemBody'] & { id: string }
+  data: T["cart"] | null
+  input: { item?: T["item"]; wait?: number }
+  fetcherInput: { itemId: string; item: T["itemBody"] }
+  body: { itemId: string; item: T["itemBody"] }
+  actionInput: T["itemBody"] & { id: string }
 }
 
 export type RemoveItemHook<T extends CartTypes = CartTypes> = {
-  data: T['cart'] | null
-  input: { item?: T['item'] }
+  data: T["cart"] | null
+  input: { item?: T["item"] }
   fetcherInput: { itemId: string }
   body: { itemId: string }
   actionInput: { id: string }
@@ -167,7 +167,7 @@ export type AddItemHandler<T extends CartTypes = CartTypes> = AddItemHook<T> & {
 
 export type UpdateItemHandler<T extends CartTypes = CartTypes> =
   UpdateItemHook<T> & {
-    data: T['cart']
+    data: T["cart"]
     body: { cartId: string }
   }
 

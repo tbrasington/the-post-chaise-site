@@ -32,6 +32,9 @@ module.exports = withSentryConfig(
         locales: ["en-GB"],
         defaultLocale: "en-GB"
       },
+      images: {
+        domains: ["cdn.sanity.io"]
+      },
       rewrites() {
         return [
           (isBC || isShopify || isSwell || isVendure) && {
