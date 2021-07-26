@@ -7,21 +7,16 @@ import {
 } from "../helpers"
 
 import { Flex } from "theme-ui"
-import type { Product } from "@commerce/types/product"
 import { ProductOptions } from "@components/product"
 import { SanityProduct } from "@sanity/types/product"
 import { useAddItem } from "@framework/cart"
 
 interface ProductSidebarProps {
-  product: Product
   sanityProduct: SanityProduct
   className?: string
 }
 
-const ProductSidebar: FC<ProductSidebarProps> = ({
-  product,
-  sanityProduct
-}) => {
+const ProductSidebar: FC<ProductSidebarProps> = ({ sanityProduct }) => {
   const addItem = useAddItem()
   const { openSidebar } = useUI()
   const [loading, setLoading] = useState(false)
@@ -36,11 +31,11 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
   const addToCart = async () => {
     setLoading(true)
     try {
-      console.log({ variant })
-
       await addItem({
-        productId: String(product.id),
-        variantId: String(variant ? variant.id : product.variants[0].id)
+        productId: String(sanityProduct.shopifyId),
+        variantId: String(
+          variant ? variant.id : sanityProduct.variants[0].shopifyVariantID
+        )
       })
       openSidebar()
       setLoading(false)
@@ -90,10 +85,7 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
         </Flex>
 
         <Flex sx={{ flex: 1 }}>
-          <Text
-            variant="paragraph"
-            html={product.descriptionHtml || product.description}
-          />
+          <Text variant="paragraph" html={"add the text in"} />
         </Flex>
       </Flex>
     </>

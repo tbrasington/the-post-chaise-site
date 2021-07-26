@@ -3,22 +3,22 @@ import { ColorTokens, TextStyleNames } from "@theme/tokens"
 import { Container, Text } from "@components/ui"
 import { Flex, Grid } from "theme-ui"
 import { ProductCard, ProductImage, ProductSlider } from "@components/product"
-import React, { FC } from "react"
 
+import { FC } from "react"
 import { NextSeo } from "next-seo"
 import type { Product } from "@commerce/types/product"
 import ProductSidebar from "../ProductSidebar"
 import { SanityProduct } from "@sanity/types/product"
+import { getClient } from "@sanity/sanity.server"
+import { useNextSanityImage } from "next-sanity-image"
 import usePrice from "@framework/product/use-price"
 
 interface ProductViewProps {
-  product: Product
   sanityProduct: SanityProduct
   relatedProducts: Product[]
 }
 
 const ProductView: FC<ProductViewProps> = ({
-  product,
   sanityProduct,
   relatedProducts
 }) => {
@@ -28,6 +28,19 @@ const ProductView: FC<ProductViewProps> = ({
     currencyCode: "GBP"
   })
   console.log({ sanityProduct })
+
+  // seo image
+  const image =
+    sanityProduct && sanityProduct.gallery
+      ? sanityProduct.gallery[0].Image
+      : "logo/disc.png"
+
+  const SEOImage = useNextSanityImage(getClient(false), image, {
+    imageBuilder: imageUrlBuilder => {
+      return imageUrlBuilder.width(800).height(600).crop("focalpoint")
+    }
+  })
+
   return (
     <>
       <Container>
@@ -76,7 +89,7 @@ const ProductView: FC<ProductViewProps> = ({
       </Flex>
 
       <Container>
-        <ProductSidebar product={product} sanityProduct={sanityProduct} />
+        <ProductSidebar sanityProduct={sanityProduct} />
       </Container>
       <Container sx={{ mt: 96, py: 64, bg: ColorTokens.muted }} el="section">
         <h2
@@ -91,7 +104,7 @@ const ProductView: FC<ProductViewProps> = ({
         </h2>
         <Grid columns={[1, 2, 3]} sx={{ mt: 32 }} gap={32}>
           {relatedProducts
-            .filter(p => p.id !== product.id)
+            .filter(p => p.id !== sanityProduct.shopifyId)
             .map(p => (
               <div
                 key={p.path}
@@ -113,17 +126,17 @@ const ProductView: FC<ProductViewProps> = ({
 
       <NextSeo
         title={sanityProduct.title}
-        description={product.description}
+        description={"get desc"}
         openGraph={{
           type: "website",
-          title: product.name,
-          description: product.description,
+          title: sanityProduct.title,
+          description: "get desc",
           images: [
             {
-              url: product.images[0]?.url!,
+              url: SEOImage?.src!,
               width: 800,
               height: 600,
-              alt: product.name
+              alt: sanityProduct.title
             }
           ]
         }}

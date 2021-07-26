@@ -15,7 +15,7 @@ export interface SanityProduct {
   shopifyId: string
   sourceData: SourceData
   title: string
-  variants?: VariantsEntity[] | null
+  variants: VariantsEntity[]
   materials?: string
   gallery?: SanityAsset[]
 }
