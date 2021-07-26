@@ -3,16 +3,17 @@
 import { Box, Flex } from "theme-ui"
 import { ColorTokens, TextStyleNames } from "@theme/tokens"
 import type { ProductOption, ProductVariant } from "@commerce/types/product"
+import { SanityProduct, SanityProductOption } from "@sanity/types/product"
 import { SelectedOptions, getProductVariant } from "../helpers"
 
 import type { Product } from "@commerce/types/product"
 import React from "react"
-import { Swatch } from "@components/product"
+import Swatch from "../Swatch"
 import usePrice from "@commerce/product/use-price"
 
 interface ProductOptionsProps {
-  product: Product
-  options: ProductOption[]
+  product: SanityProduct
+  options: SanityProductOption[]
   selectedOptions: SelectedOptions
   setSelectedOptions: React.Dispatch<React.SetStateAction<SelectedOptions>>
 }
@@ -28,13 +29,13 @@ const ProductOptions: React.FC<ProductOptionsProps> = React.memo(
       <Box>
         {options.map(opt => {
           return (
-            <Box className="pb-4" key={opt.displayName}>
+            <Box className="pb-4" key={opt.name}>
               <h2
                 sx={{
                   variant: `text.${TextStyleNames.label_upper}`
                 }}
               >
-                {opt.displayName}
+                {opt.name}
               </h2>
               <Flex
                 sx={{
@@ -44,34 +45,41 @@ const ProductOptions: React.FC<ProductOptionsProps> = React.memo(
                   }
                 }}
               >
-                {opt.values.map((v, i: number) => {
-                  const active = selectedOptions[opt.displayName.toLowerCase()]
-                  const variant = product.variants.find(variant => {
-                    return variant.name.toLowerCase() === v.label.toLowerCase()
-                  })
+                {opt.values &&
+                  opt.values.map((v, i: number) => {
+                    const active = selectedOptions[opt.name.toLowerCase()]
+                    const variant =
+                      product.variants &&
+                      product.variants.find(variant => {
+                        return (
+                          variant.title.toLowerCase() === v.value.toLowerCase()
+                        )
+                      })
 
-                  return (
-                    <Swatch
-                      price={variant && variant.price}
-                      baseAmount={product.price.retailPrice}
-                      currencyCode={product.price.currencyCode}
-                      key={`${opt.id}-${i}`}
-                      active={v.label.toLowerCase() === active}
-                      variant={opt.displayName}
-                      color={v.hexColors ? v.hexColors[0] : ""}
-                      label={`${v.label}`}
-                      onClick={() => {
-                        setSelectedOptions(selectedOptions => {
-                          return {
-                            ...selectedOptions,
-                            [opt.displayName.toLowerCase()]:
-                              v.label.toLowerCase()
+                    return (
+                      variant && (
+                        <Swatch
+                          price={
+                            variant && Number(variant.sourceData.priceV2.amount)
                           }
-                        })
-                      }}
-                    />
-                  )
-                })}
+                          baseAmount={Number(variant.sourceData.priceV2.amount)}
+                          currencyCode={variant.sourceData.priceV2.currencyCode}
+                          key={`${opt.shopifyOptionId}-${i}`}
+                          active={v.value.toLowerCase() === active}
+                          variant={opt.name}
+                          label={`${v.value}`}
+                          onClick={() => {
+                            setSelectedOptions(selectedOptions => {
+                              return {
+                                ...selectedOptions,
+                                [opt.name.toLowerCase()]: v.value.toLowerCase()
+                              }
+                            })
+                          }}
+                        />
+                      )
+                    )
+                  })}
               </Flex>
             </Box>
           )

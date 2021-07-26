@@ -76,7 +76,7 @@ const ProductView: FC<ProductViewProps> = ({
       </Flex>
 
       <Container>
-        <ProductSidebar product={product} />
+        <ProductSidebar product={product} sanityProduct={sanityProduct} />
       </Container>
       <Container sx={{ mt: 96, py: 64, bg: ColorTokens.muted }} el="section">
         <h2

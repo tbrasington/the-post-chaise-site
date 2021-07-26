@@ -11,7 +11,7 @@ export interface SanityProduct {
   handle: string
   maxVariantPrice: number
   minVariantPrice: number
-  options?: OptionsEntity[] | null
+  options?: SanityProductOption[] | null
   shopifyId: string
   sourceData: SourceData
   title: string
@@ -24,7 +24,7 @@ export interface CollectionsEntity {
   _ref: string
   _type: string
 }
-export interface OptionsEntity {
+export interface SanityProductOption {
   _key: string
   _type: string
   name: string
@@ -49,7 +49,7 @@ export interface SourceData {
   id: string
   images: Images
   media: Media
-  options?: OptionsEntity1[] | null
+  options?: SanityProductOption1[] | null
   presentmentPriceRanges: PresentmentPriceRanges
   priceRange: NodeOrCompareAtPriceRangeOrPriceRange
   productType: string
@@ -130,7 +130,7 @@ export interface NodeOrImage {
   w300: string
   w800: string
 }
-export interface OptionsEntity1 {
+export interface SanityProductOption1 {
   _key: string
   name: string
   values?: string[] | null
@@ -161,7 +161,7 @@ export interface Node3 {
   presentmentPrices: PresentmentPrices
   priceV2: MaxVariantPriceOrMinVariantPriceOrPriceOrPriceV2OrCompareAtPriceV2
   requiresShipping: boolean
-  selectedOptions?: SelectedOptionsEntity[] | null
+  selectedOptions?: SelectedSanityProductOption[] | null
   sku: string
   title: string
   weight: number
@@ -178,7 +178,7 @@ export interface Node4 {
   compareAtPrice?: null
   price: MaxVariantPriceOrMinVariantPriceOrPriceOrPriceV2OrCompareAtPriceV2
 }
-export interface SelectedOptionsEntity {
+export interface SelectedSanityProductOption {
   name: string
   value: string
 }
@@ -201,13 +201,13 @@ export interface SourceData1 {
   presentmentPrices: PresentmentPrices
   priceV2: MaxVariantPriceOrMinVariantPriceOrPriceOrPriceV2OrCompareAtPriceV2
   requiresShipping: boolean
-  selectedOptions?: SelectedOptionsEntity1[] | null
+  selectedOptions?: SelectedSanityProductOption1[] | null
   sku: string
   title: string
   weight: number
   weightUnit: string
 }
-export interface SelectedOptionsEntity1 {
+export interface SelectedSanityProductOption1 {
   _key: string
   _type: string
   name: string

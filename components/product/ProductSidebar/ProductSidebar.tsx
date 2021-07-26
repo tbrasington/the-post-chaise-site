@@ -9,28 +9,35 @@ import {
 import { Flex } from "theme-ui"
 import type { Product } from "@commerce/types/product"
 import { ProductOptions } from "@components/product"
+import { SanityProduct } from "@sanity/types/product"
 import { useAddItem } from "@framework/cart"
 
 interface ProductSidebarProps {
   product: Product
+  sanityProduct: SanityProduct
   className?: string
 }
 
-const ProductSidebar: FC<ProductSidebarProps> = ({ product }) => {
+const ProductSidebar: FC<ProductSidebarProps> = ({
+  product,
+  sanityProduct
+}) => {
   const addItem = useAddItem()
   const { openSidebar } = useUI()
   const [loading, setLoading] = useState(false)
   const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>({})
 
   useEffect(() => {
-    selectDefaultOptionFromProduct(product, setSelectedOptions)
-  }, [product])
+    selectDefaultOptionFromProduct(sanityProduct, setSelectedOptions)
+  }, [sanityProduct])
 
-  const variant = getProductVariant(product, selectedOptions)
+  const variant = getProductVariant(sanityProduct, selectedOptions)
 
   const addToCart = async () => {
     setLoading(true)
     try {
+      console.log({ variant })
+
       await addItem({
         productId: String(product.id),
         variantId: String(variant ? variant.id : product.variants[0].id)
@@ -44,18 +51,20 @@ const ProductSidebar: FC<ProductSidebarProps> = ({ product }) => {
 
   return (
     <>
-      <Flex
-        sx={{
-          mt: 56
-        }}
-      >
-        <ProductOptions
-          product={product}
-          options={product.options}
-          selectedOptions={selectedOptions}
-          setSelectedOptions={setSelectedOptions}
-        />
-      </Flex>
+      {sanityProduct.options && (
+        <Flex
+          sx={{
+            mt: 56
+          }}
+        >
+          <ProductOptions
+            product={sanityProduct}
+            options={sanityProduct.options}
+            selectedOptions={selectedOptions}
+            setSelectedOptions={setSelectedOptions}
+          />
+        </Flex>
+      )}
 
       <Flex
         sx={{
@@ -71,9 +80,9 @@ const ProductSidebar: FC<ProductSidebarProps> = ({ product }) => {
               onClick={addToCart}
               loading={loading}
               width="100%"
-              disabled={variant?.availableForSale === false}
+              disabled={variant?.sourceData.availableForSale === false}
             >
-              {variant?.availableForSale === false
+              {variant?.sourceData.availableForSale === false
                 ? "Not Available"
                 : "Add To bag"}
             </Button>
