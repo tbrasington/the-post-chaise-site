@@ -27,7 +27,6 @@ const ProductView: FC<ProductViewProps> = ({
     baseAmount: sanityProduct.minVariantPrice,
     currencyCode: "GBP"
   })
-  console.log({ sanityProduct })
 
   // seo image
   const image =
@@ -40,6 +39,8 @@ const ProductView: FC<ProductViewProps> = ({
       return imageUrlBuilder.width(800).height(600).crop("focalpoint")
     }
   })
+
+  console.log({ sanityProduct })
 
   return (
     <>

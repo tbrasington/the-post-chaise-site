@@ -11,7 +11,7 @@ type Props = {
 
 const ProductImage: React.FC<Props> = ({ sanityImage, priority }) => {
   const image = useNextSanityImage(getClient(false), sanityImage.Image)
-
+  console.log({ sanityImage })
   return (
     image && (
       <Flex

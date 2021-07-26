@@ -3,15 +3,17 @@ import { groq } from "next-sanity"
 export const getProducts = groq`*[_type == "shopifyProduct" && archived == false && sourceData.availableForSale == true]{
   gallery[] {
     ...,
-    "asset" : Image.asset->
+     "palette": Image.asset->metadata.palette
   },
   ...
 }`
 
 export const getProduct = groq`*[_type == "shopifyProduct" &&  handle == $slug && archived == false && sourceData.availableForSale == true]{
+  ...,
+   paperMaterials[]->,
   gallery[] {
-    ...,
-    "asset" : Image.asset->
-  },
-  ...
+     ...,
+     "palette": Image.asset->metadata.palette,
+    
+  }
   }[0]`

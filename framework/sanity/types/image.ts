@@ -104,6 +104,7 @@ export interface SanityAsset {
   _key: string
   _type: string
   alt_text: string
+  palette: Palette
 }
 export interface Image {
   _type: string
