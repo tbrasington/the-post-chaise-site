@@ -1,7 +1,7 @@
-import React, { FC, useCallback, useMemo } from 'react'
+import React, { FC, useCallback, useMemo } from "react"
 
-import { ThemeProvider } from 'theme-ui'
-import theme from '@theme/index'
+import { ThemeProvider } from "theme-ui"
+import theme from "@theme/index"
 
 export interface State {
   displayMenu: boolean
@@ -14,212 +14,211 @@ export interface State {
 }
 
 const initialState = {
-  displayMenu : false,
+  displayMenu: false,
   displaySidebar: false,
   displayDropdown: false,
   displayModal: false,
-  modalView: 'LOGIN_VIEW',
-  sidebarView: 'CART_VIEW',
-  userAvatar: '',
+  modalView: "LOGIN_VIEW",
+  sidebarView: "CART_VIEW",
+  userAvatar: ""
 }
 
 type Action =
-| {
-      type: 'OPEN_MENU'
+  | {
+      type: "OPEN_MENU"
     }
   | {
-      type: 'CLOSE_MENU'
+      type: "CLOSE_MENU"
     }
   | {
-      type: 'OPEN_SIDEBAR'
+      type: "OPEN_SIDEBAR"
     }
   | {
-      type: 'CLOSE_SIDEBAR'
+      type: "CLOSE_SIDEBAR"
     }
   | {
-      type: 'OPEN_DROPDOWN'
+      type: "OPEN_DROPDOWN"
     }
   | {
-      type: 'CLOSE_DROPDOWN'
+      type: "CLOSE_DROPDOWN"
     }
   | {
-      type: 'OPEN_MODAL'
+      type: "OPEN_MODAL"
     }
   | {
-      type: 'CLOSE_MODAL'
+      type: "CLOSE_MODAL"
     }
   | {
-      type: 'SET_MODAL_VIEW'
+      type: "SET_MODAL_VIEW"
       view: MODAL_VIEWS
     }
   | {
-      type: 'SET_SIDEBAR_VIEW'
+      type: "SET_SIDEBAR_VIEW"
       view: SIDEBAR_VIEWS
     }
   | {
-      type: 'SET_USER_AVATAR'
+      type: "SET_USER_AVATAR"
       value: string
     }
 
 type MODAL_VIEWS =
-  | 'SIGNUP_VIEW'
-  | 'LOGIN_VIEW'
-  | 'FORGOT_VIEW'
-  | 'NEW_SHIPPING_ADDRESS'
-  | 'NEW_PAYMENT_METHOD'
+  | "SIGNUP_VIEW"
+  | "LOGIN_VIEW"
+  | "FORGOT_VIEW"
+  | "NEW_SHIPPING_ADDRESS"
+  | "NEW_PAYMENT_METHOD"
 
-type SIDEBAR_VIEWS = 'CART_VIEW' | 'CHECKOUT_VIEW' | 'PAYMENT_METHOD_VIEW'
+type SIDEBAR_VIEWS = "CART_VIEW" | "CHECKOUT_VIEW" | "PAYMENT_METHOD_VIEW"
 
 export const UIContext = React.createContext<State | any>(initialState)
 
-UIContext.displayName = 'UIContext'
+UIContext.displayName = "UIContext"
 
 function uiReducer(state: State, action: Action) {
   switch (action.type) {
-    case 'OPEN_MENU': {
+    case "OPEN_MENU": {
       return {
         ...state,
-        displayMenu: true,
+        displayMenu: true
       }
     }
-    case 'CLOSE_MENU': {
+    case "CLOSE_MENU": {
       return {
         ...state,
-        displayMenu: false,
+        displayMenu: false
       }
     }
-    case 'OPEN_SIDEBAR': {
+    case "OPEN_SIDEBAR": {
       return {
         ...state,
-        displaySidebar: true,
+        displaySidebar: true
       }
     }
-    case 'CLOSE_SIDEBAR': {
+    case "CLOSE_SIDEBAR": {
       return {
         ...state,
-        displaySidebar: false,
+        displaySidebar: false
       }
     }
-    case 'OPEN_DROPDOWN': {
+    case "OPEN_DROPDOWN": {
       return {
         ...state,
-        displayDropdown: true,
+        displayDropdown: true
       }
     }
-    case 'CLOSE_DROPDOWN': {
+    case "CLOSE_DROPDOWN": {
       return {
         ...state,
-        displayDropdown: false,
+        displayDropdown: false
       }
     }
-    case 'OPEN_MODAL': {
+    case "OPEN_MODAL": {
       return {
         ...state,
         displayModal: true,
-        displaySidebar: false,
+        displaySidebar: false
       }
     }
-    case 'CLOSE_MODAL': {
+    case "CLOSE_MODAL": {
       return {
         ...state,
-        displayModal: false,
+        displayModal: false
       }
     }
-    case 'SET_MODAL_VIEW': {
+    case "SET_MODAL_VIEW": {
       return {
         ...state,
-        modalView: action.view,
+        modalView: action.view
       }
     }
-    case 'SET_SIDEBAR_VIEW': {
+    case "SET_SIDEBAR_VIEW": {
       return {
         ...state,
-        sidebarView: action.view,
+        sidebarView: action.view
       }
     }
-    case 'SET_USER_AVATAR': {
+    case "SET_USER_AVATAR": {
       return {
         ...state,
-        userAvatar: action.value,
+        userAvatar: action.value
       }
     }
   }
 }
 
-export const UIProvider: FC = (props) => {
+export const UIProvider: FC = props => {
   const [state, dispatch] = React.useReducer(uiReducer, initialState)
 
-  const openMenu= useCallback(
-    () => dispatch({ type: 'OPEN_MENU' }),
+  const openMenu = useCallback(
+    () => dispatch({ type: "OPEN_MENU" }),
     [dispatch]
   )
   const closeMenu = useCallback(
-    () => dispatch({ type: 'CLOSE_MENU' }),
+    () => dispatch({ type: "CLOSE_MENU" }),
     [dispatch]
   )
   const toggleMenu = useCallback(
     () =>
       state.displayMenu
-        ? dispatch({ type: 'CLOSE_MENU' })
-        : dispatch({ type: 'OPEN_MENU' }),
+        ? dispatch({ type: "CLOSE_MENU" })
+        : dispatch({ type: "OPEN_MENU" }),
     [dispatch, state.displayMenu]
   )
   const closeMenuIfPresent = useCallback(
-    () => state.displayMenu && dispatch({ type: 'CLOSE_MENU' }),
+    () => state.displayMenu && dispatch({ type: "CLOSE_MENU" }),
     [dispatch, state.displayMenu]
   )
 
-
   const openSidebar = useCallback(
-    () => dispatch({ type: 'OPEN_SIDEBAR' }),
+    () => dispatch({ type: "OPEN_SIDEBAR" }),
     [dispatch]
   )
   const closeSidebar = useCallback(
-    () => dispatch({ type: 'CLOSE_SIDEBAR' }),
+    () => dispatch({ type: "CLOSE_SIDEBAR" }),
     [dispatch]
   )
   const toggleSidebar = useCallback(
     () =>
       state.displaySidebar
-        ? dispatch({ type: 'CLOSE_SIDEBAR' })
-        : dispatch({ type: 'OPEN_SIDEBAR' }),
+        ? dispatch({ type: "CLOSE_SIDEBAR" })
+        : dispatch({ type: "OPEN_SIDEBAR" }),
     [dispatch, state.displaySidebar]
   )
   const closeSidebarIfPresent = useCallback(
-    () => state.displaySidebar && dispatch({ type: 'CLOSE_SIDEBAR' }),
+    () => state.displaySidebar && dispatch({ type: "CLOSE_SIDEBAR" }),
     [dispatch, state.displaySidebar]
   )
 
   const openDropdown = useCallback(
-    () => dispatch({ type: 'OPEN_DROPDOWN' }),
+    () => dispatch({ type: "OPEN_DROPDOWN" }),
     [dispatch]
   )
   const closeDropdown = useCallback(
-    () => dispatch({ type: 'CLOSE_DROPDOWN' }),
+    () => dispatch({ type: "CLOSE_DROPDOWN" }),
     [dispatch]
   )
 
   const openModal = useCallback(
-    () => dispatch({ type: 'OPEN_MODAL' }),
+    () => dispatch({ type: "OPEN_MODAL" }),
     [dispatch]
   )
   const closeModal = useCallback(
-    () => dispatch({ type: 'CLOSE_MODAL' }),
+    () => dispatch({ type: "CLOSE_MODAL" }),
     [dispatch]
   )
 
   const setUserAvatar = useCallback(
-    (value: string) => dispatch({ type: 'SET_USER_AVATAR', value }),
+    (value: string) => dispatch({ type: "SET_USER_AVATAR", value }),
     [dispatch]
   )
 
   const setModalView = useCallback(
-    (view: MODAL_VIEWS) => dispatch({ type: 'SET_MODAL_VIEW', view }),
+    (view: MODAL_VIEWS) => dispatch({ type: "SET_MODAL_VIEW", view }),
     [dispatch]
   )
 
   const setSidebarView = useCallback(
-    (view: SIDEBAR_VIEWS) => dispatch({ type: 'SET_SIDEBAR_VIEW', view }),
+    (view: SIDEBAR_VIEWS) => dispatch({ type: "SET_SIDEBAR_VIEW", view }),
     [dispatch]
   )
 
@@ -240,9 +239,26 @@ export const UIProvider: FC = (props) => {
       closeModal,
       setModalView,
       setSidebarView,
-      setUserAvatar,
+      setUserAvatar
     }),
-    [state]
+    [
+      closeDropdown,
+      closeMenu,
+      closeMenuIfPresent,
+      closeModal,
+      closeSidebar,
+      closeSidebarIfPresent,
+      openDropdown,
+      openMenu,
+      openModal,
+      openSidebar,
+      setModalView,
+      setSidebarView,
+      setUserAvatar,
+      state,
+      toggleMenu,
+      toggleSidebar
+    ]
   )
 
   return <UIContext.Provider value={value} {...props} />

@@ -23,6 +23,7 @@ const Sidebar: FC<SidebarProps> = ({ children, onClose }) => {
     }
     return () => {
       if (ref && ref.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         enableBodyScroll(ref.current)
       }
       clearAllBodyScrollLocks()

@@ -1,5 +1,5 @@
-import cn from 'classnames'
-import s from './FeatureBar.module.css'
+import cn from "classnames"
+import s from "./FeatureBar.module.css"
 
 interface FeatureBarProps {
   className?: string
@@ -14,14 +14,14 @@ const FeatureBar: React.FC<FeatureBarProps> = ({
   description,
   className,
   action,
-  hide,
+  hide
 }) => {
   const rootClassName = cn(
     s.root,
     {
       transform: true,
-      'translate-y-0 opacity-100': !hide,
-      'translate-y-full opacity-0': hide,
+      "translate-y-0 opacity-100": !hide,
+      "translate-y-full opacity-0": hide
     },
     className
   )

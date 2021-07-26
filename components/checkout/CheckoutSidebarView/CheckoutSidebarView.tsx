@@ -6,8 +6,6 @@ import Link from "next/link"
 import PaymentWidget from "../PaymentWidget"
 import ShippingWidget from "../ShippingWidget"
 import SidebarLayout from "@components/common/SidebarLayout"
-import cn from "classnames"
-import s from "./CheckoutSidebarView.module.css"
 import useCart from "@framework/cart/use-cart"
 import usePrice from "@framework/product/use-price"
 import { useUI } from "@components/ui/context"
@@ -30,19 +28,16 @@ const CheckoutSidebarView: FC = () => {
   )
 
   return (
-    <SidebarLayout
-      className={s.root}
-      handleBack={() => setSidebarView("CART_VIEW")}
-    >
+    <SidebarLayout handleBack={() => setSidebarView("CART_VIEW")}>
       <div className="px-4 sm:px-6 flex-1">
-        <Link href="/cart">
+        <Link href="/cart" passHref>
           <Text variant="sub_heading">Checkout</Text>
         </Link>
 
         <PaymentWidget onClick={() => setSidebarView("PAYMENT_VIEW")} />
         <ShippingWidget onClick={() => setSidebarView("SHIPPING_VIEW")} />
 
-        <ul className={s.lineItemsList}>
+        <ul>
           {data!.lineItems.map((item: any) => (
             <CartItem
               key={item.id}

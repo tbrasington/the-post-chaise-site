@@ -1,13 +1,14 @@
-import cn from 'classnames'
-import s from './Input.module.css'
-import React, { InputHTMLAttributes } from 'react'
+import React, { InputHTMLAttributes } from "react"
+
+import cn from "classnames"
+import s from "./Input.module.css"
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string
   onChange?: (...args: any[]) => any
 }
 
-const Input: React.FC<InputProps> = (props) => {
+const Input: React.FC<InputProps> = props => {
   const { className, children, onChange, ...rest } = props
 
   const rootClassName = cn(s.root, {}, className)

@@ -1,6 +1,7 @@
-import { getSearchStaticProps } from '@lib/search-props'
-import type { GetStaticPathsResult, GetStaticPropsContext } from 'next'
-import Search from '@components/search'
+import type { GetStaticPathsResult, GetStaticPropsContext } from "next"
+
+import Search from "@components/search"
+import { getSearchStaticProps } from "@lib/search-props"
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   return getSearchStaticProps(context)
@@ -9,7 +10,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 export function getStaticPaths(): GetStaticPathsResult {
   return {
     paths: [],
-    fallback: 'blocking',
+    fallback: "blocking"
   }
 }
 

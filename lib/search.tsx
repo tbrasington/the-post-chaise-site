@@ -1,27 +1,28 @@
-import { useEffect, useState } from 'react'
-import getSlug from './get-slug'
+import { useEffect, useState } from "react"
+
+import getSlug from "./get-slug"
 
 export function useSearchMeta(asPath: string) {
-  const [pathname, setPathname] = useState<string>('/search')
+  const [pathname, setPathname] = useState<string>("/search")
   const [category, setCategory] = useState<string | undefined>()
   const [brand, setBrand] = useState<string | undefined>()
 
   useEffect(() => {
     // Only access asPath after hydration to avoid a server mismatch
-    const path = asPath.split('?')[0]
-    const parts = path.split('/')
+    const path = asPath.split("?")[0]
+    const parts = path.split("/")
 
     let c = parts[2]
     let b = parts[3]
 
-    if (c === 'designers') {
+    if (c === "designers") {
       c = parts[4]
     }
 
     setPathname(path)
     if (c !== category) setCategory(c)
     if (b !== brand) setBrand(b)
-  }, [asPath])
+  }, [asPath, brand, category])
 
   return { pathname, category, brand }
 }
@@ -38,15 +39,15 @@ export const filterQuery = (query: any) =>
 export const getCategoryPath = (path: string, brand?: string) => {
   const category = getSlug(path)
 
-  return `/search${brand ? `/designers/${brand}` : ''}${
-    category ? `/${category}` : ''
+  return `/search${brand ? `/designers/${brand}` : ""}${
+    category ? `/${category}` : ""
   }`
 }
 
 export const getDesignerPath = (path: string, category?: string) => {
-  const designer = getSlug(path).replace(/^brands/, 'designers')
+  const designer = getSlug(path).replace(/^brands/, "designers")
 
-  return `/search${designer ? `/${designer}` : ''}${
-    category ? `/${category}` : ''
+  return `/search${designer ? `/${designer}` : ""}${
+    category ? `/${category}` : ""
   }`
 }

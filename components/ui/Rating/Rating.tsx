@@ -25,4 +25,6 @@ const Quantity: React.FC<RatingProps> = React.memo(({ value = 5 }) => {
   )
 })
 
+Quantity.displayName = "Quanity"
+
 export default Quantity

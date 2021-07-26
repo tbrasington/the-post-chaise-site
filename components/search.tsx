@@ -1,4 +1,4 @@
-import { Container, Grid, Skeleton } from "@components/ui"
+import { Container, Skeleton } from "@components/ui"
 import {
   filterQuery,
   getCategoryPath,
@@ -24,7 +24,6 @@ const SORT = Object.entries({
   "price-asc": "Price: Low to high",
   "price-desc": "Price: High to low"
 })
-
 
 export default function Search({ categories, brands }: SearchPropsType) {
   const [activeFilter, setActiveFilter] = useState("")
@@ -278,11 +277,7 @@ export default function Search({ categories, brands }: SearchPropsType) {
                     })}
                   >
                     Showing {data.products.length} results{" "}
-                    {q && (
-                      <>
-                        for "<strong>{q}</strong>"
-                      </>
-                    )}
+                    {q && <>for {`"${(<strong>{q}</strong>)}`}</>}
                   </span>
                   <span
                     className={cn("animated", {
@@ -292,7 +287,8 @@ export default function Search({ categories, brands }: SearchPropsType) {
                   >
                     {q ? (
                       <>
-                        There are no products that match "<strong>{q}</strong>"
+                        There are no products that match{" "}
+                        {q && <>for {`"${(<strong>{q}</strong>)}`}</>}
                       </>
                     ) : (
                       <>
@@ -303,7 +299,7 @@ export default function Search({ categories, brands }: SearchPropsType) {
                 </>
               ) : q ? (
                 <>
-                  Searching for: "<strong>{q}</strong>"
+                  Searching for: {q && <>for {`"${(<strong>{q}</strong>)}`}</>}
                 </>
               ) : (
                 <>Searching...</>

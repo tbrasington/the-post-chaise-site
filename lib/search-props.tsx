@@ -1,11 +1,11 @@
-import type { GetStaticPropsContext, InferGetStaticPropsType } from 'next'
+import type { GetStaticPropsContext, InferGetStaticPropsType } from "next"
 
-import commerce from '@lib/api/commerce'
+import commerce from "@lib/api/commerce"
 
 export async function getSearchStaticProps({
   preview,
   locale,
-  locales,
+  locales
 }: GetStaticPropsContext) {
   const config = { locale, locales }
   const pagesPromise = commerce.getAllPages({ config, preview })
@@ -16,9 +16,9 @@ export async function getSearchStaticProps({
     props: {
       pages,
       categories,
-      brands,
+      brands
     },
-    revalidate: 200,
+    revalidate: 200
   }
 }
 

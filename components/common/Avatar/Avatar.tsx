@@ -1,5 +1,5 @@
-import { FC, useRef, useEffect } from 'react'
-import { useUserAvatar } from '@lib/hooks/useUserAvatar'
+import { FC, useRef, useEffect } from "react"
+import { useUserAvatar } from "@lib/hooks/useUserAvatar"
 
 interface Props {
   className?: string

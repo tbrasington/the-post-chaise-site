@@ -1,5 +1,6 @@
-import React, { useEffect, RefObject } from 'react'
-import { tabbable } from 'tabbable'
+import React, { RefObject, useEffect } from "react"
+
+import { tabbable } from "tabbable"
 
 interface Props {
   children: React.ReactNode | any
@@ -55,10 +56,11 @@ export default function FocusTrap({ children, focusFirst = false }: Props) {
     }
   }, [root, children])
 
-  return React.createElement('div', {
+  // eslint-disable-next-line react/no-children-prop
+  return React.createElement("div", {
     ref: root,
     children,
-    className: 'outline-none focus-trap',
-    tabIndex: -1,
+    className: "outline-none focus-trap",
+    tabIndex: -1
   })
 }

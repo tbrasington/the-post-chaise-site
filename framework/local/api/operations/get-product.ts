@@ -1,24 +1,24 @@
-import type { LocalConfig } from '../index'
-import { Product } from '@commerce/types/product'
-import { GetProductOperation } from '@commerce/types/product'
-import data from '../../data.json'
-import type { OperationContext } from '@commerce/api/operations'
+import { GetProductOperation } from "@commerce/types/product"
+import type { LocalConfig } from "../index"
+import type { OperationContext } from "@commerce/api/operations"
+import { Product } from "@commerce/types/product"
+import data from "../../data.json"
 
 export default function getProductOperation({
-  commerce,
+  commerce
 }: OperationContext<any>) {
   async function getProduct<T extends GetProductOperation>({
-    query = '',
+    query = "",
     variables,
-    config,
+    config
   }: {
     query?: string
-    variables?: T['variables']
+    variables?: T["variables"]
     config?: Partial<LocalConfig>
     preview?: boolean
   } = {}): Promise<Product | {} | any> {
     return {
-      product: data.products.find(({ slug }) => slug === variables!.slug),
+      product: data.products.find(({ slug }) => slug === variables!.slug)
     }
   }
 

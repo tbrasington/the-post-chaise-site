@@ -1,10 +1,10 @@
-import { FC } from 'react'
-import Link from 'next/link'
-import type { Product } from '@commerce/types/product'
-import { Grid } from '@components/ui'
-import { ProductCard } from '@components/product'
-import s from './HomeAllProductsGrid.module.css'
-import { getCategoryPath, getDesignerPath } from '@lib/search'
+import { FC } from "react"
+import Link from "next/link"
+import type { Product } from "@commerce/types/product"
+import { Grid } from "@components/ui"
+import { ProductCard } from "@components/product"
+import s from "./HomeAllProductsGrid.module.css"
+import { getCategoryPath, getDesignerPath } from "@lib/search"
 
 interface Props {
   categories?: any
@@ -15,7 +15,7 @@ interface Props {
 const HomeAllProductsGrid: FC<Props> = ({
   categories,
   brands,
-  products = [],
+  products = []
 }) => {
   return (
     <div className={s.root}>
@@ -23,7 +23,7 @@ const HomeAllProductsGrid: FC<Props> = ({
         <div className={s.aside}>
           <ul className="mb-10">
             <li className="py-1 text-base font-bold tracking-wide">
-              <Link href={getCategoryPath('')}>
+              <Link href={getCategoryPath("")}>
                 <a>All Categories</a>
               </Link>
             </li>
@@ -37,7 +37,7 @@ const HomeAllProductsGrid: FC<Props> = ({
           </ul>
           <ul className="">
             <li className="py-1 text-base font-bold tracking-wide">
-              <Link href={getDesignerPath('')}>
+              <Link href={getDesignerPath("")}>
                 <a>All Designers</a>
               </Link>
             </li>
@@ -53,14 +53,14 @@ const HomeAllProductsGrid: FC<Props> = ({
       </div>
       <div className="flex-1">
         <Grid layout="normal">
-          {products.map((product) => (
+          {products.map(product => (
             <ProductCard
               key={product.path}
               product={product}
               variant="simple"
               imgProps={{
                 width: 480,
-                height: 480,
+                height: 480
               }}
             />
           ))}

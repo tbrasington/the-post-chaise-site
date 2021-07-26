@@ -1,12 +1,12 @@
 /** @jsxImportSource theme-ui */
-import { Button, Container, Logo, useUI } from '@components/ui'
+import { Button, Container, Logo, useUI } from "@components/ui"
 
-import  { FC } from 'react'
-import { Flex } from 'theme-ui'
-import Link from 'next/link'
-import NavbarRoot from './NavbarRoot'
-import { TextStyleNames } from '@theme/tokens'
-import { UserNav } from '@components/common'
+import { FC } from "react"
+import { Flex } from "theme-ui"
+import Link from "next/link"
+import NavbarRoot from "./NavbarRoot"
+import { TextStyleNames } from "@theme/tokens"
+import { UserNav } from "@components/common"
 
 interface Link {
   href: string
@@ -23,27 +23,32 @@ const Navbar: FC<NavbarProps> = ({ links }) => {
       <Container>
         <Flex
           sx={{
-            justifyContent: 'space-evenly',
-            alignItems: 'center'
+            justifyContent: "space-evenly",
+            alignItems: "center"
           }}
         >
           <Flex
             sx={{
-              flex: 1,
+              flex: 1
             }}
           >
             <Link href="/">
-              <a aria-label="Logo" sx={{
-                display: 'flex',
-                alignItems: 'center',
-                alignContent: 'center', 
-                variant : `text.${TextStyleNames.label_upper}`
-              }}>
-                <Logo sx={{ 
-                    width : [64, 64, 128],
-                    height:[64, 64, 128],
-                }}/>
-                <span sx={{ml : 32}}>The Post Chaise</span>
+              <a
+                aria-label="Logo"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  alignContent: "center",
+                  variant: `text.${TextStyleNames.label_upper}`
+                }}
+              >
+                <Logo
+                  sx={{
+                    width: [64, 64, 128],
+                    height: [64, 64, 128]
+                  }}
+                />
+                <span sx={{ ml: 32 }}>The Post Chaise</span>
               </a>
             </Link>
           </Flex>
@@ -61,7 +66,7 @@ const Navbar: FC<NavbarProps> = ({ links }) => {
             <Link href="/search">
               <a>All</a>
             </Link>
-            {links?.map((l) => (
+            {links?.map(l => (
               <Link href={l.href} key={l.href}>
                 <a>{l.label}</a>
               </Link>

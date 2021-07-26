@@ -1,7 +1,8 @@
-import React, { CSSProperties } from 'react'
-import cn from 'classnames'
-import px from '@lib/to-pixels'
-import s from './Skeleton.module.css'
+import React, { CSSProperties } from "react"
+
+import cn from "classnames"
+import px from "@lib/to-pixels"
+import s from "./Skeleton.module.css"
 
 interface SkeletonProps {
   show?: boolean
@@ -20,7 +21,7 @@ const Skeleton: React.FC<SkeletonProps> = ({
   children,
   className,
   show = true,
-  boxHeight = height,
+  boxHeight = height
 }) => {
   // Automatically calculate the size if there are children
   // and no fixed sizes are specified
@@ -36,7 +37,7 @@ const Skeleton: React.FC<SkeletonProps> = ({
       className={cn(s.skeleton, className, {
         [s.show]: show,
         [s.wrapper]: shouldAutoSize,
-        [s.loaded]: !shouldAutoSize && !!children,
+        [s.loaded]: !shouldAutoSize && !!children
       })}
       style={
         shouldAutoSize
@@ -45,7 +46,7 @@ const Skeleton: React.FC<SkeletonProps> = ({
               minWidth: px(width),
               minHeight: px(height),
               marginBottom: `calc(${px(boxHeight)} - ${px(height)})`,
-              ...style,
+              ...style
             }
       }
     >

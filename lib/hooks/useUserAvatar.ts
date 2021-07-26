@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
-import { useUI } from '@components/ui/context'
-import { getRandomPairOfColors } from '@lib/colors'
+import { getRandomPairOfColors } from "@lib/colors"
+import { useEffect } from "react"
+import { useUI } from "@components/ui/context"
 
-export const useUserAvatar = (name = 'userAvatar') => {
+export const useUserAvatar = (name = "userAvatar") => {
   const { userAvatar, setUserAvatar } = useUI()
 
   useEffect(() => {
@@ -17,10 +17,10 @@ export const useUserAvatar = (name = 'userAvatar') => {
       localStorage.setItem(name, value)
       setUserAvatar(value)
     }
-  }, [])
+  }, [name, setUserAvatar, userAvatar])
 
   return {
     userAvatar,
-    setUserAvatar,
+    setUserAvatar
   }
 }

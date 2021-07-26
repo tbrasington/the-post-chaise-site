@@ -1,6 +1,6 @@
-import { FC } from 'react'
-import s from './PaymentWidget.module.css'
-import { ChevronRight, CreditCard } from '@components/icons'
+import { FC } from "react"
+import s from "./PaymentWidget.module.css"
+import { ChevronRight, CreditCard } from "@components/icons"
 
 interface ComponentProps {
   onClick?: () => any

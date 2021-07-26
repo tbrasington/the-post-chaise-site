@@ -1,8 +1,9 @@
-import React, { FC } from 'react'
-import { Container } from '@components/ui'
-import { ArrowRight } from '@components/icons'
-import s from './Hero.module.css'
-import Link from 'next/link'
+import React, { FC } from "react"
+
+import { ArrowRight } from "@components/icons"
+import { Container } from "@components/ui"
+import Link from "next/link"
+import s from "./Hero.module.css"
 interface HeroProps {
   className?: string
   headline: string

@@ -1,16 +1,9 @@
 /** @jsxImportSource theme-ui */
 import { Box, Flex } from "theme-ui"
+import { ChangeEvent, useEffect, useState } from "react"
 import { ColorTokens, TextStyleNames } from "@theme/tokens"
-import { Cross, Minus, Plus, Trash } from "@components/icons"
-import React, {
-  ChangeEvent,
-  FocusEventHandler,
-  useEffect,
-  useState
-} from "react"
 
 import Image from "next/image"
-import { LabelRegular } from "@theme/textStyles"
 import type { LineItem } from "@commerce/types/cart"
 import Link from "next/link"
 import Quantity from "@components/ui/Quantity"
@@ -80,7 +73,7 @@ const CartItem = ({
     if (item.quantity !== Number(quantity)) {
       setQuantity(item.quantity)
     }
-  }, [item.quantity])
+  }, [item.quantity, quantity])
 
   return (
     <li
