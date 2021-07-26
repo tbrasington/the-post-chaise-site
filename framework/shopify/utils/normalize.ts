@@ -1,61 +1,61 @@
-import type { Page } from '../types/page'
-import type { Product } from '../types/product'
-import type { Cart, LineItem } from '../types/cart'
-import type { Category } from '../types/site'
-
+import type { Cart, LineItem } from "../types/cart"
 import {
-  Product as ShopifyProduct,
   Checkout,
   CheckoutLineItemEdge,
-  SelectedOption,
-  ImageConnection,
-  ProductVariantConnection,
-  MoneyV2,
-  ProductOption,
-  Page as ShopifyPage,
-  PageEdge,
   Collection,
-} from '../schema'
-import { colorMap } from '@lib/colors'
+  ImageConnection,
+  MoneyV2,
+  PageEdge,
+  ProductOption,
+  ProductVariantConnection,
+  SelectedOption,
+  Page as ShopifyPage,
+  Product as ShopifyProduct
+} from "../schema"
+
+import type { Category } from "../types/site"
+import type { Page } from "../types/page"
+import type { Product } from "../types/product"
+import { colorMap } from "@lib/colors"
 
 const money = ({ amount, currencyCode }: MoneyV2) => {
   return {
     value: +amount,
-    currencyCode,
+    currencyCode
   }
 }
 
 const normalizeProductOption = ({
   id,
   name: displayName,
-  values,
+  values
 }: ProductOption) => {
   return {
-    __typename: 'MultipleChoiceOption',
+    __typename: "MultipleChoiceOption",
     id,
     displayName: displayName.toLowerCase(),
-    values: values.map((value) => {
+    values: values.map(value => {
       let output: any = {
-        label: value,
+        label: value
       }
       if (displayName.match(/colou?r/gi)) {
-        const mapedColor = colorMap[value.toLowerCase().replace(/ /g, '')]
+        const mapedColor = colorMap[value.toLowerCase().replace(/ /g, "")]
         if (mapedColor) {
           output = {
             ...output,
-            hexColors: [mapedColor],
+            hexColors: [mapedColor]
           }
         }
       }
       return output
-    }),
+    })
   }
 }
 
 const normalizeProductImages = ({ edges }: ImageConnection) =>
   edges?.map(({ node: { originalSrc: url, ...rest } }) => ({
     url,
-    ...rest,
+    ...rest
   }))
 
 const normalizeProductVariants = ({ edges }: ProductVariantConnection) => {
@@ -69,8 +69,8 @@ const normalizeProductVariants = ({ edges }: ProductVariantConnection) => {
         priceV2,
         compareAtPriceV2,
         requiresShipping,
-        availableForSale,
-      },
+        availableForSale
+      }
     }) => {
       return {
         id,
@@ -84,11 +84,11 @@ const normalizeProductVariants = ({ edges }: ProductVariantConnection) => {
           const options = normalizeProductOption({
             id,
             name,
-            values: [value],
+            values: [value]
           })
 
           return options
-        }),
+        })
       }
     }
   )
@@ -113,18 +113,18 @@ export function normalizeProduct({
     name,
     vendor,
     path: `/${handle}`,
-    slug: handle?.replace(/^\/+|\/+$/g, ''),
+    slug: handle?.replace(/^\/+|\/+$/g, ""),
     price: money(priceRange?.minVariantPrice),
     images: normalizeProductImages(images),
     variants: variants ? normalizeProductVariants(variants) : [],
     options: options
       ? options
-          .filter((o) => o.name !== 'Title') // By default Shopify adds a 'Title' name when there's only one option. We don't need it. https://community.shopify.com/c/Shopify-APIs-SDKs/Adding-new-product-variant-is-automatically-adding-quot-Default/td-p/358095
-          .map((o) => normalizeProductOption(o))
+          .filter(o => o.name !== "Title") // By default Shopify adds a 'Title' name when there's only one option. We don't need it. https://community.shopify.com/c/Shopify-APIs-SDKs/Adding-new-product-variant-is-automatically-adding-quot-Default/td-p/358095
+          .map(o => normalizeProductOption(o))
       : [],
     ...(description && { description }),
     ...(descriptionHtml && { descriptionHtml }),
-    ...rest,
+    ...rest
   }
 }
 
@@ -132,23 +132,23 @@ export function normalizeCart(checkout: Checkout): Cart {
   return {
     id: checkout.id,
     url: checkout.webUrl,
-    customerId: '',
-    email: '',
+    customerId: "",
+    email: "",
     createdAt: checkout.createdAt,
     currency: {
-      code: checkout.totalPriceV2?.currencyCode,
+      code: checkout.totalPriceV2?.currencyCode
     },
     taxesIncluded: checkout.taxesIncluded,
     lineItems: checkout.lineItems?.edges.map(normalizeLineItem),
     lineItemsSubtotalPrice: +checkout.subtotalPriceV2?.amount,
     subtotalPrice: +checkout.subtotalPriceV2?.amount,
     totalPrice: checkout.totalPriceV2?.amount,
-    discounts: [],
+    discounts: []
   }
 }
 
 function normalizeLineItem({
-  node: { id, title, variant, quantity },
+  node: { id, title, variant, quantity }
 }: CheckoutLineItemEdge): LineItem {
   return {
     id,
@@ -158,40 +158,40 @@ function normalizeLineItem({
     quantity,
     variant: {
       id: String(variant?.id),
-      sku: variant?.sku ?? '',
+      sku: variant?.sku ?? "",
       name: variant?.title!,
       image: {
-        url: variant?.image?.originalSrc || '/product-img-placeholder.svg',
+        url: variant?.image?.originalSrc || "/product-img-placeholder.svg"
       },
       requiresShipping: variant?.requiresShipping ?? false,
       price: variant?.priceV2?.amount,
-      listPrice: variant?.compareAtPriceV2?.amount,
+      listPrice: variant?.compareAtPriceV2?.amount
     },
     path: String(variant?.product?.handle),
     discounts: [],
-    options: variant?.title == 'Default Title' ? [] : variant?.selectedOptions,
+    options: variant?.title == "Default Title" ? [] : variant?.selectedOptions
   }
 }
 
 export const normalizePage = (
   { title: name, handle, ...page }: ShopifyPage,
-  locale: string = 'en-US'
+  locale: string = "en-US"
 ): Page => ({
   ...page,
   url: `/${locale}/${handle}`,
-  name,
+  name
 })
 
 export const normalizePages = (edges: PageEdge[], locale?: string): Page[] =>
-  edges?.map((edge) => normalizePage(edge.node, locale))
+  edges?.map(edge => normalizePage(edge.node, locale))
 
 export const normalizeCategory = ({
   title: name,
   handle,
-  id,
+  id
 }: Collection): Category => ({
   id,
   name,
   slug: handle,
-  path: `/${handle}`,
+  path: `/${handle}`
 })
