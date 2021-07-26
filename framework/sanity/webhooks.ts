@@ -1,8 +1,6 @@
+import * as Sentry from "@sentry/nextjs"
+
 import { createNextWebhooks } from "@sane-shopify/server"
-// or
-// import { createAWSWebhooks } from '@sane-shopify/server'
-// or
-// import { createWebhooks } from '@sane-shopify/server'
 import dotEnv from "dotenv"
 
 dotEnv.config()
@@ -21,7 +19,7 @@ if (!accessToken) throw new Error("You must provide a shopify access token")
 
 // optional, see below
 const handleError = (err: Error) => {
-  // Sentry.captureException(err)
+  Sentry.captureException(err)
   // add sentry
 }
 

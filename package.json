@@ -27,6 +27,7 @@
     "@sane-shopify/sanity-plugin": "^0.22.2",
     "@sane-shopify/server": "^0.22.2",
     "@sanity/client": "^2.13.0",
+    "@sentry/nextjs": "^6.10.0",
     "@theme-ui/color": "^0.10.0",
     "@vercel/fetch": "^6.1.0",
     "autoprefixer": "^10.2.6",
