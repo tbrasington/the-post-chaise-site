@@ -13,7 +13,8 @@
     "generate:vendure": "graphql-codegen --config framework/vendure/codegen.json",
     "generate:definitions": "node framework/bigcommerce/scripts/generate-definitions.js",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "lintfix": "eslint ./components --ext .ts,.tsx --fix"
   },
   "sideEffects": false,
   "license": "MIT",

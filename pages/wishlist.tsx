@@ -1,21 +1,22 @@
-import type { GetStaticPropsContext } from 'next'
-import commerce from '@lib/api/commerce'
-import { Heart } from '@components/icons'
-import { Layout } from '@components/common'
-import { Text, Container } from '@components/ui'
-import { useCustomer } from '@framework/customer'
-import { WishlistCard } from '@components/wishlist'
-import useWishlist from '@framework/wishlist/use-wishlist'
+import { Container, Text } from "@components/ui"
+
+import type { GetStaticPropsContext } from "next"
+import { Heart } from "@components/icons"
+import { Layout } from "@components/common"
+import { WishlistCard } from "@components/wishlist"
+import commerce from "@lib/api/commerce"
+import { useCustomer } from "@framework/customer"
+import useWishlist from "@framework/wishlist/use-wishlist"
 
 export async function getStaticProps({
   preview,
   locale,
-  locales,
+  locales
 }: GetStaticPropsContext) {
   // Disabling page if Feature is not available
   if (!process.env.COMMERCE_WISHLIST_ENABLED) {
     return {
-      notFound: true,
+      notFound: true
     }
   }
 
@@ -28,8 +29,8 @@ export async function getStaticProps({
   return {
     props: {
       pages,
-      categories,
-    },
+      categories
+    }
   }
 }
 
@@ -41,7 +42,7 @@ export default function Wishlist() {
   return (
     <Container>
       <div className="mt-3 mb-20">
-        <Text variant="pageHeading">My Wishlist</Text>
+        <Text variant="page_title">My Wishlist</Text>
         <div className="group flex flex-col">
           {isLoading || isEmpty ? (
             <div className="flex-1 px-12 py-24 flex flex-col justify-center items-center ">
@@ -58,7 +59,7 @@ export default function Wishlist() {
           ) : (
             data &&
             // @ts-ignore Shopify - Fix this types
-            data.items?.map((item) => (
+            data.items?.map(item => (
               <WishlistCard key={item.id} product={item.product! as any} />
             ))
           )}

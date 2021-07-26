@@ -1,9 +1,10 @@
-import cn from 'classnames'
-import React, { FC, ReactNode, useState } from 'react'
-import s from './Collapse.module.css'
-import { ChevronRight } from '@components/icons'
-import { useSpring, a } from '@react-spring/web'
-import useMeasure from 'react-use-measure'
+import React, { FC, ReactNode, useState } from "react"
+import { a, useSpring } from "@react-spring/web"
+
+import { ChevronRight } from "@components/icons"
+import cn from "classnames"
+import s from "./Collapse.module.css"
+import useMeasure from "react-use-measure"
 
 export interface CollapseProps {
   title: string
@@ -17,10 +18,10 @@ const Collapse: FC<CollapseProps> = React.memo(({ title, children }) => {
   const animProps = useSpring({
     height: isActive ? viewHeight : 0,
     config: { tension: 250, friction: 32, clamp: true, duration: 150 },
-    opacity: isActive ? 1 : 0,
+    opacity: isActive ? 1 : 0
   })
 
-  const toggle = () => setActive((x) => !x)
+  const toggle = () => setActive(x => !x)
 
   return (
     <div
@@ -34,7 +35,7 @@ const Collapse: FC<CollapseProps> = React.memo(({ title, children }) => {
         <ChevronRight className={cn(s.icon, { [s.open]: isActive })} />
         <span className={s.label}>{title}</span>
       </div>
-      <a.div style={{ overflow: 'hidden', ...animProps }}>
+      <a.div style={{ overflow: "hidden", ...animProps }}>
         <div ref={ref} className={s.content}>
           {children}
         </div>

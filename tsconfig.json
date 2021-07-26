@@ -24,8 +24,8 @@
       "@theme/*": ["theme/*"],
       "@commerce": ["framework/commerce"],
       "@commerce/*": ["framework/commerce/*"],
-      "@framework": ["framework/shopify"],
-      "@framework/*": ["framework/shopify/*"],
+      "@framework": ["framework/local"],
+      "@framework/*": ["framework/local/*"],
       "@sanity/*": ["framework/sanity/*"]
     }
   },

@@ -1,12 +1,12 @@
-import type { GetStaticPropsContext } from 'next'
-import commerce from '@lib/api/commerce'
-import { Layout } from '@components/common'
-import { Text } from '@components/ui'
+import type { GetStaticPropsContext } from "next"
+import { Layout } from "@components/common"
+import { Text } from "@components/ui"
+import commerce from "@lib/api/commerce"
 
 export async function getStaticProps({
   preview,
   locale,
-  locales,
+  locales
 }: GetStaticPropsContext) {
   const config = { locale, locales }
   const { pages } = await commerce.getAllPages({ config, preview })
@@ -15,18 +15,18 @@ export async function getStaticProps({
     props: {
       pages,
       categories,
-      brands,
+      brands
     },
-    revalidate: 200,
+    revalidate: 200
   }
 }
 
 export default function NotFound() {
   return (
     <div className="max-w-2xl mx-8 sm:mx-auto py-20 flex flex-col items-center justify-center fit">
-      <Text variant="heading">Not Found</Text>
+      <Text variant="page_title">Not Found</Text>
       <Text className="">
-        The requested page doesn't exist or you don't have access to it.
+        {`The requested page doesn't exist or you don't have access to it.`}
       </Text>
     </div>
   )

@@ -1,15 +1,16 @@
-import cn from 'classnames'
-import Link from 'next/link'
-import { FC } from 'react'
-import CartItem from '@components/cart/CartItem'
-import { Button, Text } from '@components/ui'
-import { useUI } from '@components/ui/context'
-import useCart from '@framework/cart/use-cart'
-import usePrice from '@framework/product/use-price'
-import ShippingWidget from '../ShippingWidget'
-import PaymentWidget from '../PaymentWidget'
-import SidebarLayout from '@components/common/SidebarLayout'
-import s from './CheckoutSidebarView.module.css'
+import { Button, Text } from "@components/ui"
+
+import CartItem from "@components/cart/CartItem"
+import { FC } from "react"
+import Link from "next/link"
+import PaymentWidget from "../PaymentWidget"
+import ShippingWidget from "../ShippingWidget"
+import SidebarLayout from "@components/common/SidebarLayout"
+import cn from "classnames"
+import s from "./CheckoutSidebarView.module.css"
+import useCart from "@framework/cart/use-cart"
+import usePrice from "@framework/product/use-price"
+import { useUI } from "@components/ui/context"
 
 const CheckoutSidebarView: FC = () => {
   const { setSidebarView } = useUI()
@@ -18,28 +19,28 @@ const CheckoutSidebarView: FC = () => {
   const { price: subTotal } = usePrice(
     data && {
       amount: Number(data.subtotalPrice),
-      currencyCode: data.currency.code,
+      currencyCode: data.currency.code
     }
   )
   const { price: total } = usePrice(
     data && {
       amount: Number(data.totalPrice),
-      currencyCode: data.currency.code,
+      currencyCode: data.currency.code
     }
   )
 
   return (
     <SidebarLayout
       className={s.root}
-      handleBack={() => setSidebarView('CART_VIEW')}
+      handleBack={() => setSidebarView("CART_VIEW")}
     >
       <div className="px-4 sm:px-6 flex-1">
         <Link href="/cart">
-          <Text variant="sectionHeading">Checkout</Text>
+          <Text variant="sub_heading">Checkout</Text>
         </Link>
 
-        <PaymentWidget onClick={() => setSidebarView('PAYMENT_VIEW')} />
-        <ShippingWidget onClick={() => setSidebarView('SHIPPING_VIEW')} />
+        <PaymentWidget onClick={() => setSidebarView("PAYMENT_VIEW")} />
+        <ShippingWidget onClick={() => setSidebarView("SHIPPING_VIEW")} />
 
         <ul className={s.lineItemsList}>
           {data!.lineItems.map((item: any) => (
@@ -77,7 +78,7 @@ const CheckoutSidebarView: FC = () => {
           {/* <Button Component="a" width="100%">
                 Confirm Purchase
               </Button> */}
-          <Button Component="a" width="100%" variant="ghost" disabled>
+          <Button Component="a" width="100%" disabled>
             Continue
           </Button>
         </div>

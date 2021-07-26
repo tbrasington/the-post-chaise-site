@@ -1,7 +1,8 @@
-import React, { FC } from 'react'
-import rangeMap from '@lib/range-map'
-import { Star } from '@components/icons'
-import cn from 'classnames'
+import React, { FC } from "react"
+
+import { Star } from "@components/icons"
+import cn from "classnames"
+import rangeMap from "@lib/range-map"
 
 export interface RatingProps {
   value: number
@@ -10,11 +11,11 @@ export interface RatingProps {
 const Quantity: React.FC<RatingProps> = React.memo(({ value = 5 }) => {
   return (
     <div className="flex flex-row py-6 text-accent-9">
-      {rangeMap(5, (i) => (
+      {rangeMap(5, i => (
         <span
           key={`star_${i}`}
-          className={cn('inline-block ml-1 ', {
-            'text-accent-5': i >= Math.floor(value),
+          className={cn("inline-block ml-1 ", {
+            "text-accent-5": i >= Math.floor(value)
           })}
         >
           <Star />

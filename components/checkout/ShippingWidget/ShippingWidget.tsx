@@ -1,7 +1,8 @@
-import { FC } from 'react'
-import s from './ShippingWidget.module.css'
-import { ChevronRight, MapPin } from '@components/icons'
-import cn from 'classnames'
+import { ChevronRight, MapPin } from "@components/icons"
+
+import { FC } from "react"
+import cn from "classnames"
+import s from "./ShippingWidget.module.css"
 
 interface ComponentProps {
   onClick?: () => any

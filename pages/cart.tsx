@@ -1,16 +1,17 @@
-import type { GetStaticPropsContext } from 'next'
-import useCart from '@framework/cart/use-cart'
-import usePrice from '@framework/product/use-price'
-import commerce from '@lib/api/commerce'
-import { Layout } from '@components/common'
-import { Button, Text } from '@components/ui'
-import { Bag, Cross, Check, MapPin, CreditCard } from '@components/icons'
-import { CartItem } from '@components/cart'
+import { Bag, Check, CreditCard, Cross, MapPin } from "@components/icons"
+import { Button, Text } from "@components/ui"
+
+import { CartItem } from "@components/cart"
+import type { GetStaticPropsContext } from "next"
+import { Layout } from "@components/common"
+import commerce from "@lib/api/commerce"
+import useCart from "@framework/cart/use-cart"
+import usePrice from "@framework/product/use-price"
 
 export async function getStaticProps({
   preview,
   locale,
-  locales,
+  locales
 }: GetStaticPropsContext) {
   const config = { locale, locales }
   const pagesPromise = commerce.getAllPages({ config, preview })
@@ -18,7 +19,7 @@ export async function getStaticProps({
   const { pages } = await pagesPromise
   const { categories } = await siteInfoPromise
   return {
-    props: { pages, categories },
+    props: { pages, categories }
   }
 }
 
@@ -30,13 +31,13 @@ export default function Cart() {
   const { price: subTotal } = usePrice(
     data && {
       amount: Number(data.subtotalPrice),
-      currencyCode: data.currency.code,
+      currencyCode: data.currency.code
     }
   )
   const { price: total } = usePrice(
     data && {
       amount: Number(data.totalPrice),
-      currencyCode: data.currency.code,
+      currencyCode: data.currency.code
     }
   )
 
@@ -76,8 +77,8 @@ export default function Cart() {
           </div>
         ) : (
           <div className="px-4 sm:px-6 flex-1">
-            <Text variant="pageHeading">My Cart</Text>
-            <Text variant="sectionHeading">Review your Order</Text>
+            <Text variant="page_title">My Cart</Text>
+            <Text variant="sub_heading">Review your Order</Text>
             <ul className="py-6 space-y-6 sm:py-0 sm:space-y-0 sm:divide-y sm:divide-accent-2 border-b border-accent-2">
               {data!.lineItems.map((item: any) => (
                 <CartItem
@@ -93,7 +94,7 @@ export default function Cart() {
                 just for you
               </Text>
               <div className="flex py-6 space-x-6">
-                {[1, 2, 3, 4, 5, 6].map((x) => (
+                {[1, 2, 3, 4, 5, 6].map(x => (
                   <div
                     key={x}
                     className="border border-accent-3 w-full h-24 bg-accent-2 bg-opacity-50 transform cursor-pointer hover:scale-110 duration-75"

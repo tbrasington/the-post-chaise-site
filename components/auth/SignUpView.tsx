@@ -1,20 +1,21 @@
-import { FC, useEffect, useState, useCallback } from 'react'
-import { validate } from 'email-validator'
-import { Info } from '@components/icons'
-import { useUI } from '@components/ui/context'
-import { Logo, Button, Input } from '@components/ui'
-import useSignup from '@framework/auth/use-signup'
+import { Button, Input, Logo } from "@components/ui"
+import { FC, useCallback, useEffect, useState } from "react"
+
+import { Info } from "@components/icons"
+import useSignup from "@framework/auth/use-signup"
+import { useUI } from "@components/ui/context"
+import { validate } from "email-validator"
 
 interface Props {}
 
 const SignUpView: FC<Props> = () => {
   // Form State
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState("")
   const [dirty, setDirty] = useState(false)
   const [disabled, setDisabled] = useState(false)
 
@@ -31,12 +32,12 @@ const SignUpView: FC<Props> = () => {
 
     try {
       setLoading(true)
-      setMessage('')
+      setMessage("")
       await signup({
         email,
         firstName,
         lastName,
-        password,
+        password
       })
       setLoading(false)
       closeModal()
@@ -79,19 +80,14 @@ const SignUpView: FC<Props> = () => {
         <span className="text-accent-8">
           <span className="inline-block align-middle ">
             <Info width="15" height="15" />
-          </span>{' '}
+          </span>{" "}
           <span className="leading-6 text-sm">
             <strong>Info</strong>: Passwords must be longer than 7 chars and
-            include numbers.{' '}
+            include numbers.{" "}
           </span>
         </span>
         <div className="pt-2 w-full flex flex-col">
-          <Button
-            variant="slim"
-            type="submit"
-            loading={loading}
-            disabled={disabled}
-          >
+          <Button type="submit" loading={loading} disabled={disabled}>
             Sign Up
           </Button>
         </div>
@@ -101,7 +97,7 @@ const SignUpView: FC<Props> = () => {
           {` `}
           <a
             className="text-accent-9 font-bold hover:underline cursor-pointer"
-            onClick={() => setModalView('LOGIN_VIEW')}
+            onClick={() => setModalView("LOGIN_VIEW")}
           >
             Log In
           </a>

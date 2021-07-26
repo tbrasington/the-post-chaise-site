@@ -1,15 +1,16 @@
-import { FC, useEffect, useState, useCallback } from 'react'
-import { validate } from 'email-validator'
-import { useUI } from '@components/ui/context'
-import { Logo, Button, Input } from '@components/ui'
+import { Button, Input, Logo } from "@components/ui"
+import { FC, useCallback, useEffect, useState } from "react"
+
+import { useUI } from "@components/ui/context"
+import { validate } from "email-validator"
 
 interface Props {}
 
 const ForgotPassword: FC<Props> = () => {
   // Form State
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState("")
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState("")
   const [dirty, setDirty] = useState(false)
   const [disabled, setDisabled] = useState(false)
 
@@ -50,12 +51,7 @@ const ForgotPassword: FC<Props> = () => {
 
         <Input placeholder="Email" onChange={setEmail} type="email" />
         <div className="pt-2 w-full flex flex-col">
-          <Button
-            variant="slim"
-            type="submit"
-            loading={loading}
-            disabled={disabled}
-          >
+          <Button type="submit" loading={loading} disabled={disabled}>
             Recover Password
           </Button>
         </div>
@@ -65,7 +61,7 @@ const ForgotPassword: FC<Props> = () => {
           {` `}
           <a
             className="text-accent-9 font-bold hover:underline cursor-pointer"
-            onClick={() => setModalView('LOGIN_VIEW')}
+            onClick={() => setModalView("LOGIN_VIEW")}
           >
             Log In
           </a>
