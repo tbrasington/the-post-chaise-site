@@ -1,14 +1,18 @@
+import { Box, Flex } from "theme-ui"
+/** @jsxImportSource theme-ui */
 import { Button, Text, useUI } from "@components/ui"
-import React, { FC, useEffect, useState } from "react"
+import { ColorTokens, TextStyleNames } from "@theme/tokens"
+import { FC, useEffect, useState } from "react"
 import {
   SelectedOptions,
   getProductVariant,
   selectDefaultOptionFromProduct
 } from "../helpers"
 
-import { Flex } from "theme-ui"
+import { PortableText } from "@sanity/sanity"
 import { ProductOptions } from "@components/product"
 import { SanityProduct } from "@sanity/types/product"
+import { theme } from "@theme/index"
 import { useAddItem } from "@framework/cart"
 
 interface ProductSidebarProps {
@@ -44,6 +48,8 @@ const ProductSidebar: FC<ProductSidebarProps> = ({ sanityProduct }) => {
     }
   }
 
+  console.log({ sanityProduct })
+
   return (
     <>
       {sanityProduct.options && (
@@ -67,7 +73,7 @@ const ProductSidebar: FC<ProductSidebarProps> = ({ sanityProduct }) => {
           flexDirection: ["column", null, "row"]
         }}
       >
-        <Flex sx={{ flex: [1, 1, 0.4], mr: [0, 0, 48] }}>
+        <Flex sx={{ flex: [1, 1, 0.4], mr: [0, 0, 128], mb: [48, 48, 0] }}>
           {process.env.COMMERCE_CART_ENABLED && (
             <Button
               aria-label="Add to bag"
@@ -84,8 +90,39 @@ const ProductSidebar: FC<ProductSidebarProps> = ({ sanityProduct }) => {
           )}
         </Flex>
 
-        <Flex sx={{ flex: 1 }}>
-          <Text variant="paragraph" html={"add the text in"} />
+        <Flex sx={{ flex: 1, "& > div + div": { mt: 96 } }}>
+          {sanityProduct &&
+            sanityProduct.paperMaterials &&
+            sanityProduct.paperMaterials.map(material => (
+              <Flex
+                key={material._id}
+                sx={{ color: ColorTokens.text, flexDirection: "column" }}
+              >
+                <Text variant="label_upper">{`Paper details`}</Text>
+                <Box
+                  sx={{
+                    ...theme.styles,
+                    variant: `text.${TextStyleNames.paragraph}`,
+                    "& h1, h2, h3, h4 ,h5, h6": {
+                      mt: 8,
+                      color: ColorTokens.text
+                    },
+                    "& p, li, ul, ol, span": {
+                      maxWidth: "64ch",
+                      color: ColorTokens.text,
+                      variant: `text.${TextStyleNames.paragraph}`
+                    }
+                  }}
+                >
+                  <PortableText
+                    blocks={material.body}
+                    sx={{
+                      "> * + * ": { mt: 4 }
+                    }}
+                  />
+                </Box>
+              </Flex>
+            ))}
         </Flex>
       </Flex>
     </>

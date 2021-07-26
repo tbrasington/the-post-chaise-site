@@ -1,6 +1,12 @@
 import { SanityAsset } from "./image"
 
+export interface SanityBlock {
+  _type: "block"
+  [key: string]: any
+}
+
 export interface SanityProduct {
+  paperMaterials: { _id: string; title: string; body: SanityBlock[] }[]
   _createdAt: string
   _id: string
   _rev: string
@@ -16,7 +22,6 @@ export interface SanityProduct {
   sourceData: SourceData
   title: string
   variants: VariantsEntity[]
-  materials?: string
   gallery?: SanityAsset[]
 }
 export interface CollectionsEntity {

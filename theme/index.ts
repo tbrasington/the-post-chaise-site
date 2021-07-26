@@ -4,6 +4,7 @@ import {
   FontSizes,
   FontWeights,
   Shadows,
+  TextStyleNames,
   TextStyles,
   spaces,
   typeScale
@@ -69,6 +70,11 @@ export const theme: Theme = {
       fontFamily: TextStyles.heading,
       fontSize: FontSizes.stepNine,
       color: ColorTokens.primary
+    },
+    p: {
+      m: 0,
+      p: 0,
+      variant: `text.${TextStyleNames.paragraph}`
     },
     a: {
       fontFamily: TextStyles.label,
