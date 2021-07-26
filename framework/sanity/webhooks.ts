@@ -8,7 +8,7 @@ dotEnv.config()
 const projectId = process.env.SANITY_PROJECT_ID
 const dataset = process.env.SANITY_DATASET
 const authToken = process.env.SANITY_AUTH_TOKEN
-const shopName = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN
+const shopName = process.env.SHOPIFY_SHOP_NAME
 const accessToken = process.env.SANITY_SHOPIFY_STOREFRONT_TOKEN
 
 if (!projectId) throw new Error("You must provide a sanity project ID")
