@@ -1,3 +1,4 @@
 import { webhooks } from "@sanity/webhooks"
+import { withSentry } from "@sentry/nextjs"
 
-export default webhooks.onCollectionDelete
+export default withSentry(webhooks.onCollectionDelete)
