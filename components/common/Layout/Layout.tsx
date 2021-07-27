@@ -7,7 +7,6 @@ import type { Category } from "@commerce/types/site"
 import CheckoutSidebarView from "@components/checkout/CheckoutSidebarView"
 import { CommerceProvider } from "@framework"
 import Loader from "@components/ui/Loader"
-import LoginView from "@components/auth/LoginView"
 import type { Page } from "@commerce/types/page"
 import PaymentMethodView from "@components/checkout/PaymentMethodView"
 import ShippingView from "@components/checkout/ShippingView"
@@ -21,15 +20,6 @@ const dynamicProps = {
     return <Loader />
   }
 }
-const SignUpView = dynamic(
-  () => import("@components/auth/SignUpView"),
-  dynamicProps
-)
-
-const ForgotPassword = dynamic(
-  () => import("@components/auth/ForgotPassword"),
-  dynamicProps
-)
 
 const FeatureBar = dynamic(
   () => import("@components/common/FeatureBar"),
@@ -41,26 +31,6 @@ interface Props {
     pages?: Page[]
     categories: Category[]
   }
-}
-
-const ModalView: FC<{ modalView: string; closeModal(): any }> = ({
-  modalView,
-  closeModal
-}) => {
-  return (
-    <Modal onClose={closeModal}>
-      {modalView === "LOGIN_VIEW" && <LoginView />}
-      {modalView === "SIGNUP_VIEW" && <SignUpView />}
-      {modalView === "FORGOT_VIEW" && <ForgotPassword />}
-    </Modal>
-  )
-}
-
-const ModalUI: FC = () => {
-  const { displayModal, closeModal, modalView } = useUI()
-  return displayModal ? (
-    <ModalView modalView={modalView} closeModal={closeModal} />
-  ) : null
 }
 
 const SidebarView: FC<{ sidebarView: string; closeSidebar(): any }> = ({
@@ -84,24 +54,22 @@ const SidebarUI: FC = () => {
   ) : null
 }
 
-const Layout: FC<Props> = ({
-  children,
-  pageProps: { categories = [], ...pageProps }
-}) => {
+const Layout: FC<Props> = ({ children }) => {
   const { acceptedCookies, onAcceptCookies } = useAcceptCookies()
-  const { locale = "en-US" } = useRouter()
-  const navBarlinks = categories.slice(0, 2).map(c => ({
-    label: c.name,
-    href: `/search/${c.slug}`
-  }))
+  const { locale = "en-GB" } = useRouter()
+  const navBarlinks = [
+    {
+      label: "replace with sanity",
+      href: `/`
+    }
+  ]
 
   return (
     <CommerceProvider locale={locale}>
       <div>
         <Navbar links={navBarlinks} />
         <main>{children}</main>
-        <Footer pages={pageProps.pages} />
-        <ModalUI />
+        <Footer />
         <SidebarUI />
         {/* <FeatureBar
           title="This site uses cookies to improve your experience. By clicking, you agree to our Privacy Policy."

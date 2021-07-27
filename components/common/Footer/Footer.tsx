@@ -9,7 +9,6 @@ import getSlug from "@lib/get-slug"
 import { useRouter } from "next/router"
 
 interface Props {
-  className?: string
   children?: any
   pages?: Page[]
 }
@@ -21,7 +20,7 @@ const links = [
   }
 ]
 
-const Footer: FC<Props> = ({ className, pages }) => {
+const Footer: FC<Props> = ({ pages }) => {
   const { sitePages } = usePages(pages)
 
   return (

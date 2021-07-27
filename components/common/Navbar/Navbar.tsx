@@ -63,9 +63,6 @@ const Navbar: FC<NavbarProps> = ({ links }) => {
 
         {displayMenu ? (
           <nav>
-            <Link href="/search">
-              <a>All</a>
-            </Link>
             {links?.map(l => (
               <Link href={l.href} key={l.href}>
                 <a>{l.label}</a>
