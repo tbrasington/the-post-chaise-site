@@ -1,9 +1,9 @@
 /** @jsxImportSource theme-ui */
 import { ColorTokens, TextStyleNames } from "@theme/tokens"
-import { Container, Text } from "@components/ui"
 import { Flex, Grid } from "theme-ui"
 import { ProductCard, ProductImage, ProductSlider } from "@components/product"
 
+import { Container } from "@components/ui"
 import { FC } from "react"
 import { NextSeo } from "next-seo"
 import type { Product } from "@commerce/types/product"
