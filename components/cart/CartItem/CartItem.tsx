@@ -7,8 +7,6 @@ import Image from "next/image"
 import type { LineItem } from "@commerce/types/cart"
 import Link from "next/link"
 import Quantity from "@components/ui/Quantity"
-import cn from "classnames"
-import s from "./CartItem.module.css"
 import usePrice from "@framework/product/use-price"
 import useRemoveItem from "@framework/cart/use-remove-item"
 import { useUI } from "@components/ui/context"
@@ -76,12 +74,7 @@ const CartItem = ({
   }, [item.quantity, quantity])
 
   return (
-    <li
-      className={cn(s.root, {
-        "opacity-50 pointer-events-none": removing
-      })}
-      {...rest}
-    >
+    <li {...rest}>
       <Flex
         sx={{
           flexFlow: "row",

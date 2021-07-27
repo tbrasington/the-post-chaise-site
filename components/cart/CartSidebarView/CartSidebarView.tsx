@@ -8,8 +8,6 @@ import { FC } from "react"
 import { Flex } from "theme-ui"
 import Link from "next/link"
 import SidebarLayout from "@components/common/SidebarLayout"
-import cn from "classnames"
-import s from "./CartSidebarView.module.css"
 import useCart from "@framework/cart/use-cart"
 import usePrice from "@framework/product/use-price"
 import { useUI } from "@components/ui/context"
@@ -36,13 +34,11 @@ const CartSidebarView: FC = () => {
   const error = null
   const success = null
 
+  //  className={cn({
+  //       [s.empty]: error || success || isLoading || isEmpty
+  //     })}
   return (
-    <SidebarLayout
-      className={cn({
-        [s.empty]: error || success || isLoading || isEmpty
-      })}
-      handleClose={handleClose}
-    >
+    <SidebarLayout handleClose={handleClose}>
       {isLoading || isEmpty ? (
         <Flex
           sx={{
