@@ -53,7 +53,15 @@ export default function Cart() {
           justifyContent: "center"
         }}
       >
-        <Flex sx={{ flexDirection: "column" }}>
+        <Flex
+          sx={{
+            flex: 1,
+            pr: [0, 0, 72],
+            pb: [72, 72, 0],
+            maxWidth: ["100%", "100%", "700px"],
+            flexDirection: "column"
+          }}
+        >
           {isLoading || isEmpty ? (
             <Flex
               sx={{
@@ -106,7 +114,7 @@ export default function Cart() {
               }}
             >
               <Text variant="page_title">My Cart</Text>
-              <Text variant="sub_heading">Review your Order</Text>
+              <Text variant="paragraph">Review your Order</Text>
               <ul
                 sx={{
                   m: 0,
@@ -135,10 +143,9 @@ export default function Cart() {
             display: "flex",
             flexShrink: 0,
             flexDirection: "column",
-            ml: "auto",
+
             bg: ColorTokens.background,
             py: 32,
-            px: 32,
             borderTopStyle: "solid",
             borderTopWidth: "1px",
             borderTopColor: ColorTokens.primary,
@@ -196,18 +203,16 @@ export default function Cart() {
             <span>{total}</span>
           </div>
 
-          <div className="flex flex-row justify-end">
-            <div className="w-full lg:w-72">
-              {isEmpty ? (
-                <Button href="/" Component="a" width="100%">
-                  Continue Shopping
-                </Button>
-              ) : (
-                <Button href="/checkout" Component="a" width="100%">
-                  Proceed to Checkout
-                </Button>
-              )}
-            </div>
+          <div sx={{ mt: 32 }}>
+            {isEmpty ? (
+              <Button href="/" Component="a" width="100%">
+                Continue Shopping
+              </Button>
+            ) : (
+              <Button href="/checkout" Component="a" width="100%">
+                Proceed to Checkout
+              </Button>
+            )}
           </div>
         </div>
       </Flex>

@@ -114,7 +114,6 @@ const CartItem = ({
           {options && options.length > 0 && (
             <Flex
               sx={{
-                alignItems: "center",
                 flexDirection: "column",
                 mt: 16
               }}
