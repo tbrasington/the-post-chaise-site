@@ -1,7 +1,10 @@
 import blockContent from './blockContent'
 // First, we must import the schema creator
 import createSchema from 'part:@sanity/base/schema-creator'
+import gallery from './gallery'
+import guide from './guide'
 import mediaAsset from './mediaAsset'
+import page from './page'
 import paper_materials from './paper_materials'
 import { saneShopify } from '@sane-shopify/sanity-plugin'
 // Then import schema types from any plugins that might expose them
@@ -40,7 +43,9 @@ export default createSchema({
     blockContent,
     paper_materials,
     mediaAsset,
-
+    gallery,
+    page,
+    guide,
     ...saneShopifyTypes,
   ]),
 })
