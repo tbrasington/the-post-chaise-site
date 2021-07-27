@@ -38,7 +38,9 @@ const ProductSidebar: FC<ProductSidebarProps> = ({ sanityProduct }) => {
       await addItem({
         productId: String(sanityProduct.shopifyId),
         variantId: String(
-          variant ? variant.id : sanityProduct.variants[0].shopifyVariantID
+          variant
+            ? variant.shopifyVariantID
+            : sanityProduct.variants[0].shopifyVariantID
         )
       })
       openSidebar()
@@ -47,8 +49,6 @@ const ProductSidebar: FC<ProductSidebarProps> = ({ sanityProduct }) => {
       setLoading(false)
     }
   }
-
-  console.log({ sanityProduct })
 
   return (
     <>

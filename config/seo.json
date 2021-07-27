@@ -1,26 +1,26 @@
 {
-  "title": "ACME Storefront | Powered by Next.js Commerce",
-  "titleTemplate": "%s - ACME Storefront",
-  "description": "Next.js Commerce - https://www.nextjs.org/commerce",
+  "title": "The Post Chaise | Prints and Guides",
+  "titleTemplate": "%s - The Post Chaise",
+  "description": "The Post Chaise - https://thepostchaise.com",
   "openGraph": {
-    "title": "ACME Storefront | Powered by Next.js Commerce",
-    "description": "Next.js Commerce - https://www.nextjs.org/commerce",
+    "title": "The Post Chaise | Prints and Guides",
+    "description": "A guide to going nowhere",
     "type": "website",
-    "locale": "en_IE",
-    "url": "https://nextjs.org/commerce",
-    "site_name": "Next.js Commerce",
+    "locale": "en_GB",
+    "url": "https://thepostchaise.com",
+    "site_name": "The Post Chaise",
     "images": [
       {
         "url": "/card.png",
         "width": 800,
         "height": 600,
-        "alt": "Next.js Commerce"
+        "alt": "The Post Chaise"
       }
     ]
   },
   "twitter": {
-    "handle": "@nextjs",
-    "site": "@nextjs",
+    "handle": "@thepostchaise",
+    "site": "@thepostchaise",
     "cardType": "summary_large_image"
   }
 }

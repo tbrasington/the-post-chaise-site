@@ -2,30 +2,30 @@
  * This file is expected to be used in next.config.js only
  */
 
-const path = require('path')
-const fs = require('fs')
-const merge = require('deepmerge')
-const prettier = require('prettier')
+const path = require("path")
+const fs = require("fs")
+const merge = require("deepmerge")
+const prettier = require("prettier")
 
 const PROVIDERS = [
-  'bigcommerce',
-  'saleor',
-  'shopify',
-  'swell',
-  'vendure',
-  'local',
+  "bigcommerce",
+  "saleor",
+  "shopify",
+  "swell",
+  "vendure",
+  "local"
 ]
 
 function getProviderName() {
   return (
     process.env.COMMERCE_PROVIDER ||
     (process.env.BIGCOMMERCE_STOREFRONT_API_URL
-      ? 'bigcommerce'
+      ? "bigcommerce"
       : process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN
-      ? 'shopify'
+      ? "shopify"
       : process.env.NEXT_PUBLIC_SWELL_STORE_ID
-      ? 'swell'
-      : 'local')
+      ? "swell"
+      : "local")
   )
 }
 
@@ -41,12 +41,12 @@ function withCommerceConfig(nextConfig = {}) {
   if (!PROVIDERS.includes(name)) {
     throw new Error(
       `The commerce provider "${name}" can't be found, please use one of "${PROVIDERS.join(
-        ', '
+        ", "
       )}"`
     )
   }
 
-  const commerceNextConfig = require(path.join('../', name, 'next.config'))
+  const commerceNextConfig = require(path.join("../", name, "next.config"))
   const config = merge(nextConfig, commerceNextConfig)
 
   config.env = config.env || {}
@@ -57,17 +57,17 @@ function withCommerceConfig(nextConfig = {}) {
 
   // Update paths in `tsconfig.json` to point to the selected provider
   if (config.commerce.updateTSConfig !== false) {
-    const tsconfigPath = path.join(process.cwd(), 'tsconfig.json')
+    const tsconfigPath = path.join(process.cwd(), "tsconfig.json")
     const tsconfig = require(tsconfigPath)
 
-    tsconfig.compilerOptions.paths['@framework'] = [`framework/${name}`]
-    tsconfig.compilerOptions.paths['@framework/*'] = [`framework/${name}/*`]
+    tsconfig.compilerOptions.paths["@framework"] = [`framework/${name}`]
+    tsconfig.compilerOptions.paths["@framework/*"] = [`framework/${name}/*`]
 
     // When running for production it may be useful to exclude the other providers
     // from TS checking
     if (process.env.VERCEL) {
       const exclude = tsconfig.exclude.filter(
-        (item) => !item.startsWith('framework/')
+        item => !item.startsWith("framework/")
       )
 
       tsconfig.exclude = PROVIDERS.reduce((exclude, current) => {
@@ -78,7 +78,7 @@ function withCommerceConfig(nextConfig = {}) {
 
     fs.writeFileSync(
       tsconfigPath,
-      prettier.format(JSON.stringify(tsconfig), { parser: 'json' })
+      prettier.format(JSON.stringify(tsconfig), { parser: "json" })
     )
   }
 

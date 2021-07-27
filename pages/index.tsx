@@ -7,6 +7,7 @@ import { Container } from "@components/ui"
 import { Grid } from "theme-ui"
 import { Layout } from "@components/common"
 import { ProductCard } from "@components/product"
+import { SanityProduct } from "@sanity/types/product"
 import commerce from "@lib/api/commerce"
 import { getClient } from "@sanity/sanity.server"
 import { getProducts } from "@sanity/api/product"
@@ -64,8 +65,8 @@ export default function Home({
             mt: 32
           }}
         >
-          {products.map((product: any, i: number) => (
-            <ProductCard key={product.id} product={product} priority={i} />
+          {products.map((product: SanityProduct, i: number) => (
+            <ProductCard key={product._id} product={product} priority={i} />
           ))}
         </Grid>
       </Container>

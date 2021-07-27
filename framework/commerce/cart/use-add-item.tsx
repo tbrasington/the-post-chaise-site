@@ -1,12 +1,13 @@
-import { useHook, useMutationHook } from '../utils/use-hook'
-import { mutationFetcher } from '../utils/default-fetcher'
-import type { HookFetcherFn, MutationHook } from '../utils/types'
-import type { AddItemHook } from '../types/cart'
-import type { Provider } from '..'
+import type { HookFetcherFn, MutationHook } from "../utils/types"
+import { useHook, useMutationHook } from "../utils/use-hook"
+
+import type { AddItemHook } from "../types/cart"
+import type { Provider } from ".."
+import { mutationFetcher } from "../utils/default-fetcher"
 
 export type UseAddItem<
   H extends MutationHook<AddItemHook<any>> = MutationHook<AddItemHook>
-> = ReturnType<H['useHook']>
+> = ReturnType<H["useHook"]>
 
 export const fetcher: HookFetcherFn<AddItemHook> = mutationFetcher
 

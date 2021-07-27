@@ -39,8 +39,6 @@ const ProductView: FC<ProductViewProps> = ({
     }
   })
 
-  console.log({ sanityProduct })
-
   return (
     <>
       <Container>

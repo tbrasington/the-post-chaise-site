@@ -140,12 +140,9 @@ const CartItem = ({
               ))}
             </Flex>
           )}
-          {variant === "display" && (
-            <div className="text-sm tracking-wider">{quantity}x</div>
-          )}
+          {variant === "display" && <div>{quantity}x</div>}
         </Flex>
         <Flex
-          className="flex flex-col justify-between space-y-2 text-sm"
           sx={{
             justifyContent: "space-between",
             pl: 32

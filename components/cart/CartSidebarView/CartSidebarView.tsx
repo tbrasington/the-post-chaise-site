@@ -1,5 +1,4 @@
 /** @jsxImportSource theme-ui */
-import { Bag, Check, Cross } from "@components/icons"
 import { Button, Text } from "@components/ui"
 import { ColorTokens, TextStyleNames } from "@theme/tokens"
 
@@ -47,30 +46,43 @@ const CartSidebarView: FC = () => {
             alignContent: "center",
             flex: 1,
             minHeight: "100%",
-            flexDirection: "column"
+            flexDirection: "column",
+            px: 32
           }}
         >
           <Text variant="page_title">Your cart is empty</Text>
         </Flex>
       ) : error ? (
-        <div className="flex-1 px-4 flex flex-col justify-center items-center">
-          <span className="border border-white rounded-full flex items-center justify-center w-16 h-16">
-            <Cross width={24} height={24} />
-          </span>
-          <h2 className="pt-6 text-xl font-light text-center">
+        <Flex
+          sx={{
+            alignItems: "center",
+            justifyContent: "center",
+            alignContent: "center",
+            flex: 1,
+            minHeight: "100%",
+            flexDirection: "column",
+            px: 32
+          }}
+        >
+          <Text variant="page_title">
             We couldn’t process the purchase. Please check your card information
             and try again.
-          </h2>
-        </div>
+          </Text>
+        </Flex>
       ) : success ? (
-        <div className="flex-1 px-4 flex flex-col justify-center items-center">
-          <span className="border border-white rounded-full flex items-center justify-center w-16 h-16">
-            <Check />
-          </span>
-          <h2 className="pt-6 text-xl font-light text-center">
-            Thank you for your order.
-          </h2>
-        </div>
+        <Flex
+          sx={{
+            alignItems: "center",
+            justifyContent: "center",
+            alignContent: "center",
+            flex: 1,
+            minHeight: "100%",
+            flexDirection: "column",
+            px: 32
+          }}
+        >
+          <Text variant="page_title">Thank you for your order</Text>
+        </Flex>
       ) : (
         <>
           <div
@@ -109,7 +121,6 @@ const CartSidebarView: FC = () => {
           </div>
 
           <div
-            className="flex-shrink-0 px-6 py-6 sm:px-6 sticky z-20 bottom-0 w-full right-0 left-0 bg-accent-0 border-t text-sm"
             sx={{
               display: "flex",
               flexShrink: 0,
@@ -162,7 +173,7 @@ const CartSidebarView: FC = () => {
                 }}
               >
                 <span>Shipping</span>
-                <span className="font-bold tracking-wide">FREE</span>
+                <span>FREE</span>
               </li>
             </ul>
             <div
