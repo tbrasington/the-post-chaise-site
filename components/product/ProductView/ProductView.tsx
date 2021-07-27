@@ -6,7 +6,6 @@ import { ProductCard, ProductImage, ProductSlider } from "@components/product"
 import { Container } from "@components/ui"
 import { FC } from "react"
 import { NextSeo } from "next-seo"
-import type { Product } from "@commerce/types/product"
 import ProductSidebar from "../ProductSidebar"
 import { SanityProduct } from "@sanity/types/product"
 import { getClient } from "@sanity/sanity.server"
@@ -15,7 +14,7 @@ import usePrice from "@framework/product/use-price"
 
 interface ProductViewProps {
   sanityProduct: SanityProduct
-  relatedProducts: Product[]
+  relatedProducts: SanityProduct[]
 }
 
 const ProductView: FC<ProductViewProps> = ({
@@ -73,7 +72,7 @@ const ProductView: FC<ProductViewProps> = ({
           bg: ColorTokens.muted,
           width: "100%",
           height: "60vh",
-          minHeight: "1000px"
+          minHeight: [null, null, "1000px"]
         }}
       >
         {sanityProduct.gallery && (
@@ -92,7 +91,14 @@ const ProductView: FC<ProductViewProps> = ({
       <Container>
         <ProductSidebar sanityProduct={sanityProduct} />
       </Container>
-      <Container sx={{ mt: 96, py: 64, bg: ColorTokens.muted }} el="section">
+      <Container
+        sx={{
+          mt: 96,
+          py: 64,
+          bg: ColorTokens.muted
+        }}
+        el="section"
+      >
         <h2
           sx={{
             variant: `text.${TextStyleNames.sub_heading}`,
@@ -101,27 +107,20 @@ const ProductView: FC<ProductViewProps> = ({
             color: ColorTokens.text
           }}
         >
-          Recommended prints prints
+          You may also like
         </h2>
-        <Grid columns={[1, 2, 3]} sx={{ mt: 32 }} gap={32}>
-          {relatedProducts
-            .filter(p => p.id !== sanityProduct.shopifyId)
-            .map(p => (
-              <div
-                key={p.path}
-                className="animated fadeIn bg-accent-0 border border-accent-2"
-              >
-                <ProductCard
-                  product={p}
-                  key={p.path}
-                  variant="simple"
-                  imgProps={{
-                    width: 300,
-                    height: 150
-                  }}
-                />
-              </div>
-            ))}
+        <Grid
+          columns={[1, 2]}
+          sx={{
+            mt: 32
+          }}
+          gap={32}
+        >
+          {relatedProducts.map(p => (
+            <div key={p.handle}>
+              <ProductCard product={p} key={p.handle} />
+            </div>
+          ))}
         </Grid>
       </Container>
 

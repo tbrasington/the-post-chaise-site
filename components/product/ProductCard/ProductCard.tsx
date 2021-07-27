@@ -1,40 +1,39 @@
 /** @jsxImportSource theme-ui */
 import { Box, Flex } from "theme-ui"
 import { ColorTokens, TextStyleNames } from "@theme/tokens"
-import Image, { ImageProps } from "next/image"
 
 import { FC } from "react"
+import { ImageProps } from "next/image"
 import Link from "next/link"
-import type { Product } from "@commerce/types/product"
+import { ProductImage } from "@components/product"
+import { SanityProduct } from "@sanity/types/product"
 import { alpha } from "@theme-ui/color"
 import usePrice from "@framework/product/use-price"
 
 interface Props {
   className?: string
-  product: Product
+  product: SanityProduct
   noNameTag?: boolean
   imgProps?: Omit<ImageProps, "src" | "layout" | "placeholder" | "blurDataURL">
-  variant?: "default" | "slim" | "simple"
+  priority?: number
 }
-
-const placeholderImg = "/product-img-placeholder.svg"
 
 const ProductCard: FC<Props> = ({
   product,
   imgProps,
   className,
   noNameTag = false,
-  variant = "default",
+  priority,
   ...props
 }) => {
   const { price } = usePrice({
-    amount: product.price.value,
-    baseAmount: product.price.retailPrice,
-    currencyCode: product.price.currencyCode!
+    amount: product.minVariantPrice,
+    baseAmount: product.minVariantPrice,
+    currencyCode: "GBP"
   })
 
   return (
-    <Link href={`/product/${product.slug}`} {...props}>
+    <Link href={`/product/${product.handle}`} {...props}>
       <a
         sx={{
           textDecoration: "none"
@@ -45,19 +44,27 @@ const ProductCard: FC<Props> = ({
             sx={{
               position: "relative",
               width: "100%",
-              bg: alpha(ColorTokens.darken, 0.1),
-              p: 32
+              height: "300px",
+              bg:
+                (product.gallery &&
+                  alpha(product.gallery[0].palette.muted.background, 0.3)) ||
+                alpha(ColorTokens.darken, 0.1),
+              transition: "background 0.2s ease",
+              cursor: "pointer",
+              p: 32,
+              ":hover": {
+                bg:
+                  (product.gallery &&
+                    alpha(product.gallery[0].palette.muted.background, 0.8)) ||
+                  alpha(ColorTokens.darken, 0.4)
+              }
             }}
           >
-            {product?.images && (
-              <Image
-                alt={product.name || "Product Image"}
-                src={product.images[0]?.url || placeholderImg}
-                objectFit="contain"
-                quality="85"
-                layout="responsive"
-                width={400}
-                height={300}
+            {product.gallery && (
+              <ProductImage
+                sanityImage={product.gallery[0]}
+                sizes="(max-height: 150px) 50vw, 150px"
+                priority={priority}
               />
             )}
           </Box>
@@ -77,7 +84,7 @@ const ProductCard: FC<Props> = ({
                   color: ColorTokens.text
                 }}
               >
-                <span>{product.name}</span>
+                <span>{product.title}</span>
               </h3>
               <div
                 sx={{
@@ -86,7 +93,7 @@ const ProductCard: FC<Props> = ({
                   color: ColorTokens.darken
                 }}
               >
-                {`${price} ${product.price?.currencyCode}`}
+                {`${price}`}
               </div>
             </Flex>
           )}

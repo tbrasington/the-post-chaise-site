@@ -6,11 +6,30 @@ import { useNextSanityImage } from "next-sanity-image"
 
 type Props = {
   sanityImage: SanityAsset
-  priority: number
+  priority?: number
+  width?: number
+  height?: number
+  sizes?: string
 }
 
-const ProductImage: React.FC<Props> = ({ sanityImage, priority }) => {
-  const image = useNextSanityImage(getClient(false), sanityImage.Image)
+const ProductImage: React.FC<Props> = ({
+  sanityImage,
+  priority,
+  width,
+  height,
+  sizes = "(max-width: 800px) 100vw, 800px"
+}) => {
+  const image = useNextSanityImage(getClient(false), sanityImage.Image, {
+    imageBuilder: imageUrlBuilder => {
+      return width && height
+        ? imageUrlBuilder
+            .auto("format")
+            .minWidth(width)
+            .maxHeight(height)
+            .crop("focalpoint")
+        : imageUrlBuilder
+    }
+  })
   return (
     image && (
       <Flex
@@ -34,7 +53,7 @@ const ProductImage: React.FC<Props> = ({ sanityImage, priority }) => {
           objectFit="contain"
           objectPosition="center"
           priority={priority === 0}
-          sizes="(max-width: 800px) 100vw, 800px"
+          sizes={sizes}
         />
       </Flex>
     )

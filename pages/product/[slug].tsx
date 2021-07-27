@@ -3,7 +3,11 @@ import type {
   GetStaticPropsContext,
   InferGetStaticPropsType
 } from "next"
-import { getProduct, getProducts } from "@sanity/api/product"
+import {
+  getProduct,
+  getProductRecomendations,
+  getProducts
+} from "@sanity/api/product"
 
 import { Layout } from "@components/common"
 import { ProductView } from "@components/product"
@@ -21,16 +25,15 @@ export async function getStaticProps({
   const pagesPromise = commerce.getAllPages({ config, preview })
   const siteInfoPromise = commerce.getSiteInfo({ config, preview })
 
-  const allProductsPromise = commerce.getAllProducts({
-    variables: { first: 4 },
-    config,
-    preview
-  })
   const { pages } = await pagesPromise
   const { categories } = await siteInfoPromise
 
-  const { products: relatedProducts } = await allProductsPromise
-
+  const relatedProducts = await getClient(preview || false).fetch(
+    getProductRecomendations,
+    {
+      slug: params!.slug
+    }
+  )
   const sanityProduct = await getClient(preview || false).fetch(getProduct, {
     slug: params!.slug
   })

@@ -8,6 +8,8 @@ import { Grid } from "theme-ui"
 import { Layout } from "@components/common"
 import { ProductCard } from "@components/product"
 import commerce from "@lib/api/commerce"
+import { getClient } from "@sanity/sanity.server"
+import { getProducts } from "@sanity/api/product"
 
 export async function getStaticProps({
   preview,
@@ -24,7 +26,8 @@ export async function getStaticProps({
   })
   const pagesPromise = commerce.getAllPages({ config, preview })
   const siteInfoPromise = commerce.getSiteInfo({ config, preview })
-  const { products } = await productsPromise
+  const products = await getClient(preview || false).fetch(getProducts)
+
   const { pages } = await pagesPromise
   const { categories, brands } = await siteInfoPromise
 
@@ -32,7 +35,6 @@ export async function getStaticProps({
     props: {
       products,
       categories,
-      brands,
       pages
     },
     revalidate: 60
@@ -44,7 +46,7 @@ export default function Home({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
-      <Container sx={{ py: 64, bg: ColorTokens.muted }}>
+      <Container sx={{ py: 64 }}>
         <h2
           sx={{
             variant: `text.${TextStyleNames.sub_heading}`,
@@ -55,9 +57,15 @@ export default function Home({
         >
           Latest prints
         </h2>
-        <Grid columns={[1, 2, 4]} gap={32}>
+        <Grid
+          columns={[1, 2, 4]}
+          gap={32}
+          sx={{
+            mt: 32
+          }}
+        >
           {products.map((product: any, i: number) => (
-            <ProductCard key={product.id} product={product} variant="simple" />
+            <ProductCard key={product.id} product={product} priority={i} />
           ))}
         </Grid>
       </Container>
