@@ -3,8 +3,6 @@ import { Button, Text } from "@components/ui"
 import CartItem from "@components/cart/CartItem"
 import { FC } from "react"
 import Link from "next/link"
-import PaymentWidget from "../PaymentWidget"
-import ShippingWidget from "../ShippingWidget"
 import SidebarLayout from "@components/common/SidebarLayout"
 import useCart from "@framework/cart/use-cart"
 import usePrice from "@framework/product/use-price"
@@ -33,9 +31,6 @@ const CheckoutSidebarView: FC = () => {
         <Link href="/cart" passHref>
           <Text variant="sub_heading">Checkout</Text>
         </Link>
-
-        <PaymentWidget onClick={() => setSidebarView("PAYMENT_VIEW")} />
-        <ShippingWidget onClick={() => setSidebarView("SHIPPING_VIEW")} />
 
         <ul>
           {data!.lineItems.map((item: any) => (

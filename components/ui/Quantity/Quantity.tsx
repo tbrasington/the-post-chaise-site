@@ -4,8 +4,6 @@ import { Flex, ThemeUIStyleObject } from "theme-ui"
 import React, { FC } from "react"
 
 import { ColorTokens } from "@theme/tokens"
-import cn from "classnames"
-import s from "./Quantity.module.css"
 
 export interface QuantityProps {
   value: number

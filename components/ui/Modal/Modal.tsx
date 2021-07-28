@@ -7,7 +7,7 @@ import {
 
 import { Cross } from "@components/icons"
 import FocusTrap from "@lib/focus-trap"
-import s from "./Modal.module.css"
+
 interface ModalProps {
   className?: string
   children?: any
@@ -42,13 +42,9 @@ const Modal: FC<ModalProps> = ({ children, onClose }) => {
   }, [handleKey])
 
   return (
-    <div className={s.root}>
-      <div className={s.modal} role="dialog" ref={ref}>
-        <button
-          onClick={() => onClose()}
-          aria-label="Close panel"
-          className={s.close}
-        >
+    <div>
+      <div role="dialog" ref={ref}>
+        <button onClick={() => onClose()} aria-label="Close panel">
           <Cross className="h-6 w-6" />
         </button>
         <FocusTrap focusFirst>{children}</FocusTrap>

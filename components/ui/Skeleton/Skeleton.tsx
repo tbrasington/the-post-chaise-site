@@ -1,8 +1,6 @@
 import React, { CSSProperties } from "react"
 
-import cn from "classnames"
 import px from "@lib/to-pixels"
-import s from "./Skeleton.module.css"
 
 interface SkeletonProps {
   show?: boolean
@@ -32,13 +30,14 @@ const Skeleton: React.FC<SkeletonProps> = ({
   height = height || 24
   boxHeight = boxHeight || height
 
+  //  className={cn(s.skeleton, className, {
+  //       [s.show]: show,
+  //       [s.wrapper]: shouldAutoSize,
+  //       [s.loaded]: !shouldAutoSize && !!children
+  //     })}
+  //
   return (
     <span
-      className={cn(s.skeleton, className, {
-        [s.show]: show,
-        [s.wrapper]: shouldAutoSize,
-        [s.loaded]: !shouldAutoSize && !!children
-      })}
       style={
         shouldAutoSize
           ? {}

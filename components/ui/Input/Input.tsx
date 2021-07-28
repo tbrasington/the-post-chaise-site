@@ -1,8 +1,5 @@
 import React, { InputHTMLAttributes } from "react"
 
-import cn from "classnames"
-import s from "./Input.module.css"
-
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string
   onChange?: (...args: any[]) => any
@@ -10,8 +7,6 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const Input: React.FC<InputProps> = props => {
   const { className, children, onChange, ...rest } = props
-
-  const rootClassName = cn(s.root, {}, className)
 
   const handleOnChange = (e: any) => {
     if (onChange) {
@@ -23,7 +18,6 @@ const Input: React.FC<InputProps> = props => {
   return (
     <label>
       <input
-        className={rootClassName}
         onChange={handleOnChange}
         autoComplete="off"
         autoCorrect="off"

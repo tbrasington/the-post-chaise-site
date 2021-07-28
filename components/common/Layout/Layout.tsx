@@ -8,8 +8,6 @@ import CheckoutSidebarView from "@components/checkout/CheckoutSidebarView"
 import { CommerceProvider } from "@framework"
 import Loader from "@components/ui/Loader"
 import type { Page } from "@commerce/types/page"
-import PaymentMethodView from "@components/checkout/PaymentMethodView"
-import ShippingView from "@components/checkout/ShippingView"
 import dynamic from "next/dynamic"
 import { useAcceptCookies } from "@lib/hooks/useAcceptCookies"
 import { useRouter } from "next/router"
@@ -21,10 +19,10 @@ const dynamicProps = {
   }
 }
 
-const FeatureBar = dynamic(
-  () => import("@components/common/FeatureBar"),
-  dynamicProps
-)
+// const FeatureBar = dynamic(
+//   () => import("@components/common/FeatureBar"),
+//   dynamicProps
+// )
 
 interface Props {
   pageProps: {
@@ -41,8 +39,6 @@ const SidebarView: FC<{ sidebarView: string; closeSidebar(): any }> = ({
     <Sidebar onClose={closeSidebar}>
       {sidebarView === "CART_VIEW" && <CartSidebarView />}
       {sidebarView === "CHECKOUT_VIEW" && <CheckoutSidebarView />}
-      {sidebarView === "PAYMENT_VIEW" && <PaymentMethodView />}
-      {sidebarView === "SHIPPING_VIEW" && <ShippingView />}
     </Sidebar>
   )
 }

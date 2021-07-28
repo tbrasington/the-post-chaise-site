@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from "react"
 
 import { Box } from "theme-ui"
-import cn from "classnames"
 import throttle from "lodash.throttle"
 
 const NavbarRoot: FC = ({ children }) => {
@@ -26,9 +25,9 @@ const NavbarRoot: FC = ({ children }) => {
 
   return (
     <Box
-      className={cn("nav", { "shadow-magical": hasScrolled })}
       sx={{
-        py: [32, 32, 128]
+        py: [32, 32, 128],
+        borderBottom: hasScrolled ? "solid 1px #ccc" : "none"
       }}
     >
       {children}
