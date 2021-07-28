@@ -1,5 +1,7 @@
-import { Box, Flex } from "theme-ui"
+import * as Sentry from "@sentry/nextjs"
+
 /** @jsxImportSource theme-ui */
+import { Box, Flex } from "theme-ui"
 import { Button, Text, useUI } from "@components/ui"
 import { ColorTokens, TextStyleNames } from "@theme/tokens"
 import { FC, useEffect, useState } from "react"
@@ -47,6 +49,7 @@ const ProductSidebar: FC<ProductSidebarProps> = ({ sanityProduct }) => {
       setLoading(false)
     } catch (err) {
       setLoading(false)
+      Sentry.captureException(err)
     }
   }
 
