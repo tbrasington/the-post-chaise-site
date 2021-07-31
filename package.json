@@ -14,7 +14,8 @@
     "generate:definitions": "node framework/bigcommerce/scripts/generate-definitions.js",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "lintfix": "eslint ./components --ext .ts,.tsx --fix"
+    "lintfix": "eslint ./components --ext .ts,.tsx --fix",
+    "studio": "cd studio && yarn start"
   },
   "sideEffects": false,
   "license": "MIT",

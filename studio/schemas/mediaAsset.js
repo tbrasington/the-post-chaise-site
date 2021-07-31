@@ -20,6 +20,11 @@ export default {
       name: 'caption',
       type: 'text',
       title: 'Caption'
+    },
+    {
+      name : "fullbleed",
+      type : "boolean",
+      title : "Fullbleed"
     }
   ],
 }

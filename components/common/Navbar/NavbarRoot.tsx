@@ -27,7 +27,7 @@ const NavbarRoot: FC = ({ children }) => {
     <Box
       sx={{
         py: [32, 32, 128],
-        borderBottom: hasScrolled ? "solid 1px #ccc" : "none"
+        borderBottom: hasScrolled ? "solid 1px #fff" : "none"
       }}
     >
       {children}

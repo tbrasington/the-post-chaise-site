@@ -1,9 +1,5 @@
 import { SanityAsset } from "./image"
-
-export interface SanityBlock {
-  _type: "block"
-  [key: string]: any
-}
+import { SanityBlock } from "./shared"
 
 export interface SanityProduct {
   paperMaterials: { _id: string; title: string; body: SanityBlock[] }[]

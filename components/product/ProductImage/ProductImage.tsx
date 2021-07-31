@@ -10,6 +10,7 @@ type Props = {
   width?: number
   height?: number
   sizes?: string
+  fit?: "contain" | "cover"
 }
 
 const ProductImage: React.FC<Props> = ({
@@ -17,7 +18,8 @@ const ProductImage: React.FC<Props> = ({
   priority,
   width,
   height,
-  sizes = "(max-width: 800px) 100vw, 800px"
+  sizes = "(max-width: 800px) 100vw, 800px",
+  fit = "contain"
 }) => {
   const image = useNextSanityImage(getClient(false), sanityImage.Image, {
     imageBuilder: imageUrlBuilder => {
@@ -30,6 +32,7 @@ const ProductImage: React.FC<Props> = ({
         : imageUrlBuilder
     }
   })
+
   return (
     image && (
       <Flex
@@ -50,7 +53,7 @@ const ProductImage: React.FC<Props> = ({
           {...image}
           alt={sanityImage.alt_text}
           layout="intrinsic"
-          objectFit="contain"
+          objectFit={fit}
           objectPosition="center"
           priority={priority === 0}
           sizes={sizes}

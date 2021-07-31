@@ -1,0 +1,5 @@
+export { default as Gallery } from "./Gallery"
+export { default as Media } from "./Media"
+export { default as Paragraph } from "./Paragraph"
+export { default as SliceRenderer } from "./SliceRenderer"
+export { default as SliceWidth } from "./SliceWidth"
