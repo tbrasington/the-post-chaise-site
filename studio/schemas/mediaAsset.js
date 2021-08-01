@@ -25,6 +25,12 @@ export default {
       name : "fullbleed",
       type : "boolean",
       title : "Fullbleed"
-    }
+    },
+        {
+          name: "shopifyProduct",
+          title: "Related product",
+          type: "reference",
+          to: { type: "shopifyProduct" }
+        }
   ],
 }

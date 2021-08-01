@@ -1,3 +1,5 @@
+import { SanityProduct } from "./product"
+
 export interface Dimensions {
   _type: string
   aspectRatio: number
@@ -107,6 +109,7 @@ export interface SanityAsset {
   caption?: string
   palette: Palette
   fullbleed?: boolean
+  shopifyProduct?: SanityProduct
 }
 export interface Image {
   _type: string

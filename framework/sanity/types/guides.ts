@@ -30,6 +30,7 @@ export interface PageContent {
   caption?: string
   palette?: Palette
   fullbleed?: boolean
+  shopifyProduct?: SanityProduct
 }
 
 export interface PageContentGallery {
@@ -37,5 +38,4 @@ export interface PageContentGallery {
   _type: string
   mediaAsset: SanityAsset
   palette: Palette
-  shopifyProduct: SanityProduct
 }

@@ -16,10 +16,11 @@ export const getGuides = groq`*[_type == "guide"] {
 
 export const getGuide = groq`*[_type == "guide" &&  slug.current == $slug]{
  ...,
-     "slug": slug.current,
+  "slug": slug.current,
   page_content[]{
-  	...,
-     "slug": slug.current,
+  	...,      
+    shopifyProduct->,
+    "slug": slug.current,
     gallery[] {
       ...,
      "palette": mediaAsset.Image.asset->metadata.palette,

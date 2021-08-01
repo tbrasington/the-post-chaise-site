@@ -10,12 +10,6 @@ export default {
         {
           type: 'mediaAsset',
           name: "mediaAsset",
-        },
-        {
-          name: "shopifyProduct",
-          title: "Related product",
-          type: "reference",
-          to: { type: "shopifyProduct" }
         }
       ],
       preview: {
