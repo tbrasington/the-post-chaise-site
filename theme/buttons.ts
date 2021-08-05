@@ -2,25 +2,35 @@ import { ColorTokens, TextStyleNames } from "./tokens"
 
 import { ThemeUICSSObject } from "theme-ui"
 
-export const ButtonBase: ThemeUICSSObject = {
+const ButtonSizeStandard: ThemeUICSSObject = {
   px: 16,
-  m: 0,
   height: 40,
-  borderStyle: "solid",
   borderRadius: 40,
+  variant: `text.${TextStyleNames.action}`
+}
+
+const ButtonSizeMini: ThemeUICSSObject = {
+  px: 12,
+  height: 32,
+  borderRadius: 32,
+  variant: `text.${TextStyleNames.label_upper}`
+}
+export const ButtonBase: ThemeUICSSObject = {
+  m: 0,
+  borderStyle: "solid",
   transition: "all 0.2s ease",
   cursor: "pointer",
-  variant: `text.${TextStyleNames.action}`,
   display: "inline-grid",
   alignItems: "center",
   justifyContent: "center",
   textDecoration: "none"
 }
 
-export type ButtonTypes = "primary" | "secondary" | "link" | "controls"
+export type ButtonTypes = "primary" | "secondary" | "mini" | "link" | "controls"
 export const ButtonVariants = {
   primary: {
     ...ButtonBase,
+    ...ButtonSizeStandard,
     bg: ColorTokens.primary,
     borderColor: ColorTokens.primary,
     color: ColorTokens.background,
@@ -36,6 +46,7 @@ export const ButtonVariants = {
   },
   secondary: {
     ...ButtonBase,
+    ...ButtonSizeStandard,
     bg: ColorTokens.secondary,
     color: ColorTokens.background,
     borderColor: ColorTokens.secondary,
@@ -43,6 +54,22 @@ export const ButtonVariants = {
       borderColor: ColorTokens.highlight,
       bg: ColorTokens.highlight,
       color: ColorTokens.background
+    },
+    ":disabled": {
+      cursor: "not-allowed",
+      bg: ColorTokens.muted,
+      borderColor: ColorTokens.muted
+    }
+  },
+  mini: {
+    ...ButtonBase,
+    ...ButtonSizeMini,
+    bg: ColorTokens.primary,
+    borderColor: ColorTokens.primary,
+    color: ColorTokens.background,
+    ":hover": {
+      borderColor: ColorTokens.accent,
+      bg: ColorTokens.accent
     },
     ":disabled": {
       cursor: "not-allowed",
@@ -77,6 +104,7 @@ export const ButtonVariants = {
   },
   controls: {
     ...ButtonBase,
+    ...ButtonSizeStandard,
     bg: ColorTokens.text,
     borderColor: ColorTokens.text,
     color: ColorTokens.background,

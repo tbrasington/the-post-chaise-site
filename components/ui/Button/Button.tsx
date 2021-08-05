@@ -9,6 +9,7 @@ import React, {
 
 import { ButtonTypes } from "@theme/buttons"
 import { LoadingDots } from "@components/ui"
+import { ThemeUIStyleObject } from "theme-ui"
 import mergeRefs from "react-merge-refs"
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -35,6 +36,10 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    * Disable the butotn
    */
   disabled?: boolean
+  /**
+   * override the color value of the bg
+   */
+  bgOverride?: string
 }
 
 const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
@@ -46,12 +51,18 @@ const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
     width,
     loading = false,
     disabled = false,
-
+    bgOverride,
     Component = "button",
     ...rest
   } = props
 
   const ref = useRef<typeof Component>(null)
+
+  let colorOverrides: ThemeUIStyleObject = {}
+
+  if (bgOverride && bgOverride?.length > 0) {
+    colorOverrides = { bg: bgOverride, borderColor: bgOverride }
+  }
   return (
     <Component
       aria-pressed={active}
@@ -59,20 +70,21 @@ const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
       disabled={disabled}
       sx={{
         variant: `buttons.${variant}`,
+        ...colorOverrides,
         width: width
       }}
       {...rest}
     >
-      {children}
-      {loading && (
+      {loading ? (
         <i
           sx={{
-            p: 4,
             display: "flex"
           }}
         >
           <LoadingDots />
         </i>
+      ) : (
+        children
       )}
     </Component>
   )

@@ -1,8 +1,9 @@
 /** @jsxImportSource theme-ui */
-import { Box, Flex } from "theme-ui"
+
 import { Container, Text } from "@components/ui"
 import { SliceRenderer, SliceWidth } from "@components/content/Slices"
 
+import { Box } from "theme-ui"
 import { FC } from "react"
 import { NextSeo } from "next-seo"
 import { PortableText } from "@sanity/sanity"
