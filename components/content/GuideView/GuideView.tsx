@@ -27,8 +27,6 @@ const GuideView: FC<GuideViewProps> = ({ content }) => {
   //   }
   // })
 
-  console.log({ content: content.page_content })
-
   return (
     <>
       <Container>
@@ -43,6 +41,7 @@ const GuideView: FC<GuideViewProps> = ({ content }) => {
           <Box
             sx={{
               m: "auto",
+              mb: 48,
               p: {
                 variant: `text.${TextStyleNames.statement}`
               }
@@ -53,21 +52,15 @@ const GuideView: FC<GuideViewProps> = ({ content }) => {
         </Box>
       </Container>
 
-      {content.page_content.map(slice => {
-        return (
-          <Container
-            clean={SliceWidth(slice)}
-            key={slice._key}
-            sx={{
-              "& > * + *": {
-                mt: 64
-              }
-            }}
-          >
-            <SliceRenderer block={slice} />
-          </Container>
-        )
-      })}
+      <Container clean spacing={96} sx={{ mb: 128 }}>
+        {content.page_content.map(slice => {
+          return (
+            <Container clean={SliceWidth(slice)} key={slice._key}>
+              <SliceRenderer block={slice} />
+            </Container>
+          )
+        })}
+      </Container>
 
       <NextSeo
         title={content.title}

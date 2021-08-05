@@ -10,12 +10,14 @@ interface ContainerProps {
   el?: string | JSXElementConstructor<any>
   clean?: boolean
   sx?: ThemeUIStyleObject
+  spacing?: number
 }
 
 const Container: FC<ContainerProps> = ({
   children,
   el = "div",
   clean,
+  spacing = 0,
   ...props
 }) => {
   let Component: React.ComponentType<React.HTMLAttributes<HTMLDivElement>> =
@@ -24,7 +26,10 @@ const Container: FC<ContainerProps> = ({
   return (
     <Component
       sx={{
-        px: clean ? 0 : StandardXPadding
+        px: clean ? 0 : StandardXPadding,
+        "& > * + *": {
+          mt: spacing
+        }
       }}
       {...props}
     >
