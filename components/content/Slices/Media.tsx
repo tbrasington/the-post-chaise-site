@@ -12,8 +12,6 @@ interface MediaProps {
 }
 
 const Media: FC<MediaProps> = ({ content }) => {
-  console.log({ media: content })
-
   if (content.Image && content.palette) {
     const remappedImage: SanityAsset = {
       Image: content.Image,

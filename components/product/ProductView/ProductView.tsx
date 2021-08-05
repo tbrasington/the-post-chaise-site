@@ -39,6 +39,9 @@ const ProductView: FC<ProductViewProps> = ({
     }
   })
 
+  const slideColors =
+    sanityProduct.gallery && sanityProduct.gallery.map(slide => slide.palette)
+
   return (
     <>
       <Container>
@@ -74,7 +77,7 @@ const ProductView: FC<ProductViewProps> = ({
         }}
       >
         {sanityProduct.gallery && (
-          <ProductSlider>
+          <ProductSlider slideColorData={slideColors}>
             {sanityProduct.gallery.map((sanityImage, i) => (
               <ProductImage
                 sanityImage={sanityImage}

@@ -1,15 +1,18 @@
 /** @jsxImportSource theme-ui */
 import { AnimatePresence, motion } from "framer-motion"
 import { Box, Flex } from "theme-ui"
+import { ColorTokens, StandardXPadding } from "@theme/tokens"
 import React, { Children, Fragment, useRef, useState } from "react"
 
+import { Palette } from "@sanity/types/image"
 import ProductSliderControl from "../ProductSliderControl"
-import { StandardXPadding } from "@theme/tokens"
+import { alpha } from "@theme-ui/color"
 import { wrap } from "@popmotion/popcorn"
 
 interface ProductSliderProps {
   children: React.ReactNode[]
   className?: string
+  slideColorData?: Palette[]
 }
 
 const variants = {
@@ -39,10 +42,20 @@ const swipePower = (offset: number, velocity: number) => {
   return Math.abs(offset) * velocity
 }
 
-const ProductSlider: React.FC<ProductSliderProps> = ({ children }) => {
-  const [[page, direction], setPage] = useState([0, 0])
-
+const ProductSlider: React.FC<ProductSliderProps> = ({
+  children,
+  slideColorData
+}) => {
   const slideTotal = Children.count(children)
+  // gallery slide movements
+  const [[page, direction], setPage] = useState([0, 0])
+  const imageIndex = wrap(0, slideTotal, page)
+
+  const [slideBg, setSlideBG] = useState(
+    slideColorData && slideColorData.length === slideTotal
+      ? slideColorData[imageIndex].muted.background
+      : ColorTokens.muted
+  )
 
   const GallerySlides = Children.toArray(children).map((child, key) => {
     return <Fragment key={`gallery-slide-${key}`}>{child}</Fragment>
@@ -55,9 +68,6 @@ const ProductSlider: React.FC<ProductSliderProps> = ({ children }) => {
     ? galleryRef.current.getBoundingClientRect().width
     : "100%"
 
-  // gallery slide movements
-  const imageIndex = wrap(0, slideTotal, page)
-
   const Slide: React.FC = () => {
     if (GallerySlides[imageIndex]) {
       return GallerySlides[imageIndex]
@@ -69,6 +79,9 @@ const ProductSlider: React.FC<ProductSliderProps> = ({ children }) => {
 
   function paginate(newDirection: number) {
     setPage([page + newDirection, newDirection])
+    slideColorData &&
+      slideColorData.length === slideTotal &&
+      setSlideBG(slideColorData[imageIndex].muted.background)
   }
 
   const onPrev = () => paginate(-1)
@@ -86,7 +99,9 @@ const ProductSlider: React.FC<ProductSliderProps> = ({ children }) => {
         position: "relative",
         px: StandardXPadding,
         py: [24, null, null, 64],
-        flexDirection: "column"
+        flexDirection: "column",
+        bg: alpha(slideBg, 0.3),
+        transition: "background-color 0.2s ease"
       }}
     >
       <Box
