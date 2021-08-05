@@ -1,8 +1,8 @@
 /** @jsxImportSource theme-ui */
+import { Box, Flex } from "theme-ui"
 import { Button, Container, Logo, useUI } from "@components/ui"
 
 import { FC } from "react"
-import { Flex } from "theme-ui"
 import Link from "next/link"
 import NavbarRoot from "./NavbarRoot"
 import { TextStyleNames } from "@theme/tokens"
@@ -55,9 +55,15 @@ const Navbar: FC<NavbarProps> = ({ links }) => {
 
           <Flex>
             <nav>
-              <Button onClick={() => toggleMenu()}>menu</Button>
+              <Button variant="mini" onClick={() => toggleMenu()}>
+                menu
+              </Button>
             </nav>
-            <UserNav />
+            <Box sx={{ position: "relative" }}>
+              <Box sx={{ position: "absolute", right: -12, top: -4 }}>
+                <UserNav />
+              </Box>
+            </Box>
           </Flex>
         </Flex>
 

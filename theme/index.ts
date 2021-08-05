@@ -22,7 +22,7 @@ export const theme: Theme = {
     text: ColorValues.black[0],
     background: ColorValues.white[0],
     primary: ColorValues.blue[2],
-    secondary: ColorValues.orange[0],
+    secondary: ColorValues.green[0],
     highlight: ColorValues.blue[2],
     accent: ColorValues.orange[0],
     muted: ColorValues.grey[2],
