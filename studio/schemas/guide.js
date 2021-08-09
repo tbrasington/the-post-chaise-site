@@ -17,10 +17,20 @@ export default {
         maxLength: 96,
       },
     },
+      {
+      name: "seo_description",
+      title: "SEO description / Summary",
+      type: "text",
+    },
     {
       name: "short_description",
       title: "Short description",
       type: "blockContent",
+    },   
+    {
+      name: "hero_image",
+      title: "Hero image",
+      type: "image",
     },
     {
       type: 'array',

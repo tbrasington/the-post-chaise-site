@@ -1,4 +1,4 @@
-import { Image, Palette, SanityAsset } from "./image"
+import { Asset, Image, Palette, SanityAsset } from "./image"
 
 import { SanityBlock } from "./shared"
 import { SanityProduct } from "./product"
@@ -11,6 +11,8 @@ export interface SanityGuide {
   _updatedAt: Date
   page_content: PageContent[]
   short_description: SanityBlock[]
+  seo_description?: string
+  hero_image?: Asset
   slug: Slug
   title: string
 }

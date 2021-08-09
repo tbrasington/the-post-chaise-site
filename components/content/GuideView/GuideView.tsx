@@ -9,6 +9,8 @@ import { NextSeo } from "next-seo"
 import { PortableText } from "@sanity/sanity"
 import { SanityGuide } from "@sanity/types/guides"
 import { TextStyleNames } from "@theme/tokens"
+import { getClient } from "@sanity/sanity.server"
+import { useNextSanityImage } from "next-sanity-image"
 
 interface GuideViewProps {
   content: SanityGuide
@@ -16,16 +18,14 @@ interface GuideViewProps {
 
 const GuideView: FC<GuideViewProps> = ({ content }) => {
   // // seo image
-  // const image =
-  //   sanityProduct && sanityProduct.gallery
-  //     ? sanityProduct.gallery[0].Image
-  //     : "logo/disc.png"
+  const image =
+    content && content.hero_image ? content.hero_image : "logo/disc.png"
 
-  // const SEOImage = useNextSanityImage(getClient(false), image, {
-  //   imageBuilder: imageUrlBuilder => {
-  //     return imageUrlBuilder.width(800).height(600).crop("focalpoint")
-  //   }
-  // })
+  const SEOImage = useNextSanityImage(getClient(false), image, {
+    imageBuilder: imageUrlBuilder => {
+      return imageUrlBuilder.width(800).height(600).crop("focalpoint")
+    }
+  })
 
   return (
     <>
@@ -64,18 +64,18 @@ const GuideView: FC<GuideViewProps> = ({ content }) => {
 
       <NextSeo
         title={content.title}
-        description={"get desc"}
+        description={content.seo_description}
         openGraph={{
           type: "website",
           title: content.title,
           description: content.title,
           images: [
-            // {
-            //   url: SEOImage?.src!,
-            //   width: 800,
-            //   height: 600,
-            //   alt: sanityProduct.title
-            // }
+            {
+              url: SEOImage?.src!,
+              width: 800,
+              height: 600,
+              alt: content.title
+            }
           ]
         }}
       />

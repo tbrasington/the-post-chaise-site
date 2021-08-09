@@ -27,7 +27,7 @@ const UserNav: FC = () => {
           p: 0
         }}
       >
-        {process.env.COMMERCE_CART_ENABLED && (
+        {process.env.COMMERCE_CART_ENABLED && itemsCount > 0 && (
           <li
             onClick={toggleSidebar}
             sx={{
