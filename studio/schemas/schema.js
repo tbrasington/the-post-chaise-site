@@ -13,6 +13,19 @@ import paper_materials from './paper_materials'
 import site_meta from './meta'
 
 const saneShopifyTypes = saneShopify({
+  collection: {
+    fields : [
+      {
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: {
+        source: "title",
+        maxLength: 96,
+      },
+    }
+    ]
+  },
   product: {
     fields: [
       {

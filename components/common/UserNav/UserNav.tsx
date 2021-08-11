@@ -32,7 +32,7 @@ const UserNav: FC = () => {
             onClick={toggleSidebar}
             sx={{
               cursor: "button",
-              bg: ColorTokens.secondary,
+              bg: ColorTokens.accent,
               width: itemsCount > 0 ? 24 : 12,
               height: itemsCount > 0 ? 24 : 12,
               borderRadius: 100,

@@ -26,8 +26,23 @@ export const ButtonBase: ThemeUICSSObject = {
   textDecoration: "none"
 }
 
-export type ButtonTypes = "primary" | "secondary" | "mini" | "link" | "controls"
-export const ButtonVariants = {
+export const ButtonNames = {
+  primary: "primary",
+  secondary: "secondary",
+  mini: "mini",
+  link: "link",
+  controls: "controls",
+  underline: "underline"
+}
+
+export type ButtonTypes =
+  | "primary"
+  | "secondary"
+  | "mini"
+  | "link"
+  | "controls"
+  | "underline"
+export const ButtonVariants: ThemeUICSSObject = {
   primary: {
     ...ButtonBase,
     ...ButtonSizeStandard,
@@ -100,6 +115,21 @@ export const ButtonVariants = {
     "& a": {
       color: "inherit",
       textDecoration: "none"
+    }
+  },
+  underline: {
+    cursor: "pointer",
+    height: "auto",
+    m: 0,
+    p: 0,
+    color: ColorTokens.primary,
+    textUnderlineOffset: 4,
+    variant: `text.${TextStyleNames.label_standard}`,
+    ":hover": {
+      color: ColorTokens.accent
+    },
+    ":active": {
+      color: ColorTokens.accent
     }
   },
   controls: {

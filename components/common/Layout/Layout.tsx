@@ -7,11 +7,12 @@ import type { Category } from "@commerce/types/site"
 import CheckoutSidebarView from "@components/checkout/CheckoutSidebarView"
 import { CommerceProvider } from "@framework"
 import Loader from "@components/ui/Loader"
-import type { Page } from "@commerce/types/page"
 import dynamic from "next/dynamic"
 import { useAcceptCookies } from "@lib/hooks/useAcceptCookies"
 import { useRouter } from "next/router"
 import { useUI } from "@components/ui/context"
+import { SanityPages } from "@sanity/types/meta"
+import NavigationMenu from "../NavigationMenu"
 
 const dynamicProps = {
   loading: function LoaderLoding() {
@@ -26,7 +27,7 @@ const dynamicProps = {
 
 interface Props {
   pageProps: {
-    pages?: Page[]
+    pages: SanityPages
     categories: Category[]
   }
 }
@@ -50,20 +51,20 @@ const SidebarUI: FC = () => {
   ) : null
 }
 
-const Layout: FC<Props> = ({ children }) => {
+const NavigationMenuUI: FC<{ links: SanityPages }> = ({ links }) => {
+  const { displayMenu } = useUI()
+  return displayMenu ? <NavigationMenu links={links} /> : null
+}
+
+const Layout: FC<Props> = ({ children, pageProps }) => {
   const { acceptedCookies, onAcceptCookies } = useAcceptCookies()
   const { locale = "en-GB" } = useRouter()
-  const navBarlinks = [
-    {
-      label: "replace with sanity",
-      href: `/`
-    }
-  ]
 
   return (
     <CommerceProvider locale={locale}>
       <div>
-        <Navbar links={navBarlinks} />
+        <Navbar />
+        <NavigationMenuUI links={pageProps.pages} />
         <main>{children}</main>
         <Footer />
         <SidebarUI />

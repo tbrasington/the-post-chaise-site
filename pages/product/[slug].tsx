@@ -14,6 +14,7 @@ import { ProductView } from "@components/product"
 import commerce from "@lib/api/commerce"
 import { getClient } from "@sanity/sanity.server"
 import { useRouter } from "next/router"
+import { getNavigation } from "@sanity/api/meta"
 
 export async function getStaticProps({
   params,
@@ -22,10 +23,10 @@ export async function getStaticProps({
   preview
 }: GetStaticPropsContext<{ slug: string }>) {
   const config = { locale, locales }
-  const pagesPromise = commerce.getAllPages({ config, preview })
   const siteInfoPromise = commerce.getSiteInfo({ config, preview })
 
-  const { pages } = await pagesPromise
+  const sanityPages = await getClient(preview || false).fetch(getNavigation)
+
   const { categories } = await siteInfoPromise
 
   const relatedProducts = await getClient(preview || false).fetch(
@@ -44,7 +45,7 @@ export async function getStaticProps({
 
   return {
     props: {
-      pages,
+      pages: sanityPages,
       relatedProducts,
       categories,
       sanityProduct

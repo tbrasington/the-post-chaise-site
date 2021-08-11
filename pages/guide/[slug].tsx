@@ -9,11 +9,14 @@ import { GuideView } from "@components/content"
 import { Layout } from "@components/common"
 import { getClient } from "@sanity/sanity.server"
 import { useRouter } from "next/router"
+import { getNavigation } from "@sanity/api/meta"
 
 export async function getStaticProps({
   params,
   preview
 }: GetStaticPropsContext<{ slug: string }>) {
+  const sanityPages = await getClient(preview || false).fetch(getNavigation)
+
   const guideContent = await getClient(preview || false).fetch(getGuide, {
     slug: params!.slug
   })
@@ -24,7 +27,8 @@ export async function getStaticProps({
 
   return {
     props: {
-      guideContent
+      guideContent,
+      pages: sanityPages
     },
     revalidate: 200
   }
