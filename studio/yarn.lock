@@ -1351,7 +1351,7 @@
 
 "@sanity/desk-tool@^2.13.1":
   version "2.13.1"
-  resolved "https://registry.npmjs.org/@sanity/desk-tool/-/desk-tool-2.13.1.tgz#b8955e7a888aabdd617d5c665bf8977b188a4c8a"
+  resolved "https://registry.yarnpkg.com/@sanity/desk-tool/-/desk-tool-2.13.1.tgz#b8955e7a888aabdd617d5c665bf8977b188a4c8a"
   integrity sha512-txNNiqi0rzfGwTampUkKgpdrxfGUsei5RBpYa/C195b164aRzFNt1wgtNjcX9tELgH5ldr9YA55Go+WS0kcfQQ==
   dependencies:
     "@popperjs/core" "^2.5.4"

@@ -19,7 +19,7 @@ export const getGuide = groq`*[_type == "guide" &&  slug.current == $slug]{
   "slug": slug.current,
   page_content[]{
   	...,      
-    shopifyProduct->,
+    shopifyProduct->, 
     "slug": slug.current,
     gallery[] {
       ...,
@@ -29,3 +29,8 @@ export const getGuide = groq`*[_type == "guide" &&  slug.current == $slug]{
 		"palette": Image.asset->metadata.palette,
 	}
 }[0]`
+
+export const getGuideList = groq`*[_type == "guide"]| order(_createdAt desc)  {
+ 	"title": title,
+  "slug": slug.current,
+}`

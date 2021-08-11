@@ -18,11 +18,6 @@ export default {
       },
     },
     {
-      name: "footer",
-      title: "Show in the footer",
-      type: "boolean",
-    },
-    {
       name: "body",
       title: "Body",
       type: "blockContent",
