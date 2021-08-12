@@ -24,7 +24,7 @@ export async function getStaticProps({
   const siteInfoPromise = commerce.getSiteInfo({ config, preview })
   const products = await getClient(preview || false).fetch(getProducts)
 
-  const { categories, brands } = await siteInfoPromise
+  const { categories } = await siteInfoPromise
 
   return {
     props: {

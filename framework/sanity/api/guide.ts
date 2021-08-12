@@ -31,6 +31,16 @@ export const getGuide = groq`*[_type == "guide" &&  slug.current == $slug]{
 }[0]`
 
 export const getGuideList = groq`*[_type == "guide"]| order(_createdAt desc)  {
+  _id,
  	"title": title,
   "slug": slug.current,
+}`
+
+export const getGuideIndexList = groq`*[_type == "guide"]| order(_createdAt desc)  {
+  _id,
+ 	"title": title,
+  "slug": slug.current,
+  seo_description, 
+  hero_image,
+   "palette": hero_image.asset->metadata.palette,
 }`

@@ -41,3 +41,12 @@ export interface PageContentGallery {
   mediaAsset: SanityAsset
   palette: Palette
 }
+
+export interface GuideIndexList {
+  _id: string
+  title: string
+  slug: string
+  seo_description: string
+  hero_image: Image
+  palette: Palette
+}
