@@ -11,6 +11,7 @@ interface ContainerProps {
   clean?: boolean
   sx?: ThemeUIStyleObject
   spacing?: number
+  marginBottom?: number
 }
 
 const Container: FC<ContainerProps> = ({
@@ -18,6 +19,7 @@ const Container: FC<ContainerProps> = ({
   el = "div",
   clean,
   spacing = 0,
+  marginBottom = 0,
   ...props
 }) => {
   let Component: React.ComponentType<React.HTMLAttributes<HTMLDivElement>> =
@@ -27,6 +29,7 @@ const Container: FC<ContainerProps> = ({
     <Component
       sx={{
         px: clean ? 0 : StandardXPadding,
+        mb: marginBottom,
         "& > * + *": {
           mt: spacing
         }

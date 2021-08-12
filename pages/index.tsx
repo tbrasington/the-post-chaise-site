@@ -11,6 +11,7 @@ import { SanityProduct } from "@sanity/types/product"
 import commerce from "@lib/api/commerce"
 import { getClient } from "@sanity/sanity.server"
 import { getProducts } from "@sanity/api/product"
+import { getNavigation } from "@sanity/api/meta"
 
 export async function getStaticProps({
   preview,
@@ -18,25 +19,18 @@ export async function getStaticProps({
   locales
 }: GetStaticPropsContext) {
   const config = { locale, locales }
-  const productsPromise = commerce.getAllProducts({
-    variables: { first: 6 },
-    config,
-    preview,
-    // Saleor provider only
-    ...({ featured: true } as any)
-  })
-  const pagesPromise = commerce.getAllPages({ config, preview })
+  const sanityPages = await getClient(preview || false).fetch(getNavigation)
+
   const siteInfoPromise = commerce.getSiteInfo({ config, preview })
   const products = await getClient(preview || false).fetch(getProducts)
 
-  const { pages } = await pagesPromise
   const { categories, brands } = await siteInfoPromise
 
   return {
     props: {
       products,
       categories,
-      pages
+      pages: sanityPages
     },
     revalidate: 60
   }

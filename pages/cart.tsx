@@ -11,6 +11,8 @@ import { Layout } from "@components/common"
 import commerce from "@lib/api/commerce"
 import useCart from "@framework/cart/use-cart"
 import usePrice from "@framework/product/use-price"
+import { getNavigation } from "@sanity/api/meta"
+import { getClient } from "@sanity/sanity.server"
 
 export async function getStaticProps({
   preview,
@@ -18,12 +20,11 @@ export async function getStaticProps({
   locales
 }: GetStaticPropsContext) {
   const config = { locale, locales }
-  const pagesPromise = commerce.getAllPages({ config, preview })
+  const sanityPages = await getClient(preview || false).fetch(getNavigation)
   const siteInfoPromise = commerce.getSiteInfo({ config, preview })
-  const { pages } = await pagesPromise
   const { categories } = await siteInfoPromise
   return {
-    props: { pages, categories }
+    props: { pages: sanityPages, categories }
   }
 }
 
@@ -46,7 +47,7 @@ export default function Cart() {
   )
 
   return (
-    <Container>
+    <Container marginBottom={256}>
       <Flex
         sx={{
           flexDirection: ["column", null, "row"],

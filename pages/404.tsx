@@ -1,7 +1,9 @@
 import type { GetStaticPropsContext } from "next"
 import { Layout } from "@components/common"
-import { Text } from "@components/ui"
+import { Container, Text } from "@components/ui"
 import commerce from "@lib/api/commerce"
+import { getNavigation } from "@sanity/api/meta"
+import { getClient } from "@sanity/sanity.server"
 
 export async function getStaticProps({
   preview,
@@ -9,11 +11,12 @@ export async function getStaticProps({
   locales
 }: GetStaticPropsContext) {
   const config = { locale, locales }
-  const { pages } = await commerce.getAllPages({ config, preview })
+  const sanityPages = await getClient(preview || false).fetch(getNavigation)
+
   const { categories, brands } = await commerce.getSiteInfo({ config, preview })
   return {
     props: {
-      pages,
+      pages: sanityPages,
       categories,
       brands
     },
@@ -23,12 +26,12 @@ export async function getStaticProps({
 
 export default function NotFound() {
   return (
-    <div className="max-w-2xl mx-8 sm:mx-auto py-20 flex flex-col items-center justify-center fit">
+    <Container spacing={12} marginBottom={128}>
       <Text variant="page_title">Not Found</Text>
-      <Text className="">
+      <Text variant="statement">
         {`The requested page doesn't exist or you don't have access to it.`}
       </Text>
-    </div>
+    </Container>
   )
 }
 

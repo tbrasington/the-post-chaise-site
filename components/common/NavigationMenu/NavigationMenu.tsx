@@ -3,7 +3,7 @@
 import React, { FC, useEffect, useRef } from "react"
 import type { LineItem } from "@commerce/types/cart"
 import useCart from "@framework/cart/use-cart"
-import { useUI, Logo } from "@components/ui"
+import { useUI, Logo, Button } from "@components/ui"
 import { Box, Flex } from "@theme-ui/components"
 import {
   clearAllBodyScrollLocks,
@@ -16,6 +16,8 @@ import { SanityPages } from "@sanity/types/meta"
 import Link from "next/link"
 import { ButtonNames } from "@theme/buttons"
 import { Grid } from "theme-ui"
+import { totalmem } from "os"
+import { count } from "console"
 
 const countItem = (count: number, item: LineItem) => count + item.quantity
 
@@ -24,8 +26,9 @@ type Props = {
 }
 const NavigationMenu: FC<Props> = ({ links }) => {
   const { data } = useCart()
-  const { toggleMenu } = useUI()
+  const { toggleMenu, closeMenu } = useUI()
   const ref = useRef() as React.MutableRefObject<HTMLDivElement>
+  const itemsCount = data?.lineItems.reduce(countItem, 0) ?? 0
 
   useEffect(() => {
     if (ref.current) {
@@ -71,45 +74,72 @@ const NavigationMenu: FC<Props> = ({ links }) => {
             height: "100%",
             backdropFilter: "blur(0.8px)"
           }}
-          onClick={toggleMenu}
+          onClick={closeMenu}
         />
         <Flex
           as="section"
           sx={{
             position: "absolute",
-            width: "60%",
-            height: "60%",
+            width: ["100%", null, "60%"],
+            minHeight: ["100%", null, "20%"],
+            py: 64,
+            maxWidth: "40rem",
             bg: ColorTokens.background,
             overflowY: "auto"
           }}
         >
+          <Box sx={{ position: "absolute", right: 24, top: 40 }}>
+            <Button variant="mini" onClick={() => closeMenu()}>
+              Close
+            </Button>
+          </Box>
+
           <Flex
             ref={ref}
             sx={{
-              alignItems: "center",
+              alignItems: "flex-start",
               justifyContent: "center",
               width: "100%",
-              flexDirection: "column"
+              flexDirection: "column",
+              px: 24
             }}
           >
-            <Logo
-              sx={{
-                width: [64, 64, 128],
-                height: [64, 64, 128]
-              }}
-            />
             <Box
               sx={{
-                textAlign: "center",
+                textAlign: "left",
                 color: ColorTokens.darken,
                 variant: `text.${TextStyleNames.sub_heading}`,
                 mt: 24,
-                mb: 48
+                mb: [72, null, 48]
               }}
             >
               Where do you want to go?
             </Box>
-            <Grid gap={72} columns={3}>
+            <Grid
+              gap={56}
+              columns={1}
+              sx={{
+                width: "100%"
+              }}
+            >
+              <Flex sx={{ flexDirection: "column", "& > a + a": { mt: 12 } }}>
+                <Link href={`/`} passHref>
+                  <a
+                    onClick={closeMenu}
+                    sx={{ variant: `buttons.${ButtonNames.underline}` }}
+                  >
+                    Home
+                  </a>
+                </Link>
+                <Link href={`/cart`} passHref>
+                  <a
+                    onClick={closeMenu}
+                    sx={{ variant: `buttons.${ButtonNames.underline}` }}
+                  >
+                    Bag ({itemsCount})
+                  </a>
+                </Link>
+              </Flex>
               <NavColumn label="Collections">
                 {links.collections.map(item => (
                   <Link
@@ -117,33 +147,43 @@ const NavigationMenu: FC<Props> = ({ links }) => {
                     key={item._key}
                     passHref
                   >
-                    <a sx={{ variant: `buttons.${ButtonNames.underline}` }}>
+                    <a
+                      onClick={closeMenu}
+                      sx={{ variant: `buttons.${ButtonNames.underline}` }}
+                    >
                       {item.title}
                     </a>
                   </Link>
                 ))}
                 <Link href={`/collections`} passHref>
-                  <a sx={{ variant: `buttons.${ButtonNames.underline}` }}>
+                  <a
+                    onClick={closeMenu}
+                    sx={{ variant: `buttons.${ButtonNames.underline}` }}
+                  >
                     View all
                   </a>
                 </Link>
               </NavColumn>
-
               <NavColumn label="Stories & Guides">
                 {links.guides.map(item => (
                   <Link href={`/guide/${item.slug}`} key={item._key} passHref>
-                    <a sx={{ variant: `buttons.${ButtonNames.underline}` }}>
+                    <a
+                      onClick={closeMenu}
+                      sx={{ variant: `buttons.${ButtonNames.underline}` }}
+                    >
                       {item.title}
                     </a>
                   </Link>
                 ))}
                 <Link href={`/guides`} passHref>
-                  <a sx={{ variant: `buttons.${ButtonNames.underline}` }}>
+                  <a
+                    onClick={closeMenu}
+                    sx={{ variant: `buttons.${ButtonNames.underline}` }}
+                  >
                     View all
                   </a>
                 </Link>
               </NavColumn>
-
               <NavColumn label="About">
                 {links.menu_pages.map(item => (
                   <Link
@@ -151,7 +191,10 @@ const NavigationMenu: FC<Props> = ({ links }) => {
                     key={item._key}
                     passHref
                   >
-                    <a sx={{ variant: `buttons.${ButtonNames.underline}` }}>
+                    <a
+                      onClick={closeMenu}
+                      sx={{ variant: `buttons.${ButtonNames.underline}` }}
+                    >
                       {item.title}
                     </a>
                   </Link>
