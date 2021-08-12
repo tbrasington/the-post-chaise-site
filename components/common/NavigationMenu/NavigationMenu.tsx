@@ -16,8 +16,6 @@ import { SanityPages } from "@sanity/types/meta"
 import Link from "next/link"
 import { ButtonNames } from "@theme/buttons"
 import { Grid } from "theme-ui"
-import { totalmem } from "os"
-import { count } from "console"
 
 const countItem = (count: number, item: LineItem) => count + item.quantity
 
@@ -26,7 +24,7 @@ type Props = {
 }
 const NavigationMenu: FC<Props> = ({ links }) => {
   const { data } = useCart()
-  const { toggleMenu, closeMenu } = useUI()
+  const { closeMenu } = useUI()
   const ref = useRef() as React.MutableRefObject<HTMLDivElement>
   const itemsCount = data?.lineItems.reduce(countItem, 0) ?? 0
 
@@ -95,6 +93,7 @@ const NavigationMenu: FC<Props> = ({ links }) => {
           </Box>
 
           <Flex
+            key="menu-overlay"
             ref={ref}
             sx={{
               alignItems: "flex-start",
@@ -144,7 +143,7 @@ const NavigationMenu: FC<Props> = ({ links }) => {
                 {links.collections.map(item => (
                   <Link
                     href={`/collections/${item.slug}`}
-                    key={item._key}
+                    key={`collections-${item._key}`}
                     passHref
                   >
                     <a
@@ -166,7 +165,11 @@ const NavigationMenu: FC<Props> = ({ links }) => {
               </NavColumn>
               <NavColumn label="Stories & Guides">
                 {links.guides.map(item => (
-                  <Link href={`/guide/${item.slug}`} key={item._key} passHref>
+                  <Link
+                    href={`/guide/${item.slug}`}
+                    key={`guides-${item._key}`}
+                    passHref
+                  >
                     <a
                       onClick={closeMenu}
                       sx={{ variant: `buttons.${ButtonNames.underline}` }}
@@ -188,7 +191,7 @@ const NavigationMenu: FC<Props> = ({ links }) => {
                 {links.menu_pages.map(item => (
                   <Link
                     href={`/information/${item.slug}`}
-                    key={item._key}
+                    key={`info-${item._key}`}
                     passHref
                   >
                     <a

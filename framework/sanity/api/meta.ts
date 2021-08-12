@@ -17,7 +17,7 @@ footer_internal[]{
    "slug" : slug.current
  },
  "collections": *[_type == "shopifyCollection"][] {
-  	"key" : _id,
+  	"_key" : _id,
    "title" : title,
    "slug" : slug.current
  }
