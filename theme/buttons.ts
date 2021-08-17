@@ -42,13 +42,14 @@ export type ButtonTypes =
   | "link"
   | "controls"
   | "underline"
-export const ButtonVariants: ThemeUICSSObject = {
+export const ButtonVariants = {
   primary: {
     ...ButtonBase,
     ...ButtonSizeStandard,
     bg: ColorTokens.primary,
     borderColor: ColorTokens.primary,
     color: ColorTokens.background,
+
     ":hover": {
       borderColor: ColorTokens.accent,
       bg: ColorTokens.accent

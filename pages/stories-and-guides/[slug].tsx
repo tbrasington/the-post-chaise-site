@@ -42,11 +42,11 @@ export async function getStaticPaths({ locales }: GetStaticPathsContext) {
       ? locales.reduce<string[]>((arr, locale) => {
           // Add a product path for every locale
           data.forEach((guide: any) => {
-            arr.push(`/${locale}/guide/${guide.slug}`)
+            arr.push(`/${locale}/stories-and-guides/${guide.slug}`)
           })
           return arr
         }, [])
-      : data.map((guide: any) => `/guide/${guide.slug}`),
+      : data.map((guide: any) => `/stories-and-guides/${guide.slug}`),
     fallback: "blocking"
   }
 }

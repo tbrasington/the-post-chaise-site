@@ -166,7 +166,7 @@ const NavigationMenu: FC<Props> = ({ links }) => {
               <NavColumn label="Stories & Guides">
                 {links.guides.map(item => (
                   <Link
-                    href={`/guide/${item.slug}`}
+                    href={`/stories-and-guides/${item.slug}`}
                     key={`guides-${item._key}`}
                     passHref
                   >
@@ -178,7 +178,7 @@ const NavigationMenu: FC<Props> = ({ links }) => {
                     </a>
                   </Link>
                 ))}
-                <Link href={`/guides`} passHref>
+                <Link href={`/stories-and-guides`} passHref>
                   <a
                     onClick={closeMenu}
                     sx={{ variant: `buttons.${ButtonNames.underline}` }}

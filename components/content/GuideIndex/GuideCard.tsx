@@ -1,11 +1,14 @@
+/** @jsxImportSource theme-ui */
+
 import { getClient } from "@sanity/sanity.server"
 import { GuideIndexList } from "@sanity/types/guides"
 import { useNextSanityImage } from "next-sanity-image"
 import Link from "next/link"
 import React, { FC } from "react"
-import { Flex } from "theme-ui"
+import { Box, Flex } from "theme-ui"
 import Image from "next/image"
 import { Text } from "@components/ui"
+import { ButtonNames } from "@theme/buttons"
 const GuideCard: FC<{ item: GuideIndexList }> = ({ item }) => {
   const image = useNextSanityImage(getClient(false), item.hero_image, {
     imageBuilder: imageUrlBuilder => {
@@ -15,7 +18,7 @@ const GuideCard: FC<{ item: GuideIndexList }> = ({ item }) => {
   return (
     <Flex sx={{ flexDirection: "column" }}>
       {image && (
-        <Link href={`/guide/${item.slug}`} passHref>
+        <Link href={`/stories-and-guides/${item.slug}`} passHref>
           <Image
             {...image}
             alt={" "}
@@ -38,11 +41,19 @@ const GuideCard: FC<{ item: GuideIndexList }> = ({ item }) => {
       >
         <Text variant="sub_heading">{item.title}</Text>
         <Text variant="paragraph">{item.seo_description}</Text>
-        <Text variant="paragraph">
-          <Link href={`/guide/${item.slug}`}>
-            <a>Read</a>
-          </Link>
-        </Text>
+        <Box sx={{ mt: 24 }}>
+          <Text variant="paragraph">
+            <Link href={`/stories-and-guides/${item.slug}`} passHref>
+              <a
+                sx={{
+                  variant: `buttons.${ButtonNames.underline}`
+                }}
+              >
+                Read
+              </a>
+            </Link>
+          </Text>
+        </Box>
       </Flex>
     </Flex>
   )

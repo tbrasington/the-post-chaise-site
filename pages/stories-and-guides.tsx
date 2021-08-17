@@ -3,7 +3,7 @@
 import { ColorTokens, TextStyleNames } from "@theme/tokens"
 import type { GetStaticPropsContext, InferGetStaticPropsType } from "next"
 
-import { Container } from "@components/ui"
+import { Container, Text } from "@components/ui"
 import { Layout } from "@components/common"
 import { getClient } from "@sanity/sanity.server"
 import { getNavigation } from "@sanity/api/meta"
@@ -30,16 +30,10 @@ export default function Guides({
   return (
     <>
       <Container sx={{ py: 64 }}>
-        <h2
-          sx={{
-            variant: `text.${TextStyleNames.sub_heading}`,
-            m: 0,
-            p: 0,
-            color: ColorTokens.text
-          }}
-        >
-          Latest guides
-        </h2>
+        <Text variant="page_title">Stories and guides</Text>
+        <Text variant="statement">
+          Photostories, notes on journeys and explorations.
+        </Text>
         <Grid sx={{ mt: 32 }} columns={[1, null, 2, 2, 3]}>
           {guides.map((item: GuideIndexList) => {
             return <GuideCard key={item._id} item={item} />
