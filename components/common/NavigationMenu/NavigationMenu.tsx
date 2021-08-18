@@ -16,6 +16,7 @@ import { SanityPages } from "@sanity/types/meta"
 import Link from "next/link"
 import { ButtonNames } from "@theme/buttons"
 import { Grid } from "theme-ui"
+import { motion } from "framer-motion"
 
 const countItem = (count: number, item: LineItem) => count + item.quantity
 
@@ -74,138 +75,164 @@ const NavigationMenu: FC<Props> = ({ links }) => {
           }}
           onClick={closeMenu}
         />
-        <Flex
-          as="section"
-          sx={{
-            position: "absolute",
-            width: ["100%", null, "60%"],
-            minHeight: ["100%", null, "20%"],
-            py: 64,
-            maxWidth: "40rem",
-            bg: ColorTokens.background,
-            overflowY: "auto"
+        <motion.div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+          initial={{
+            opacity: 0,
+            y: 100
+          }}
+          animate={{
+            opacity: 1,
+            y: 0
+          }}
+          exit={{
+            opacity: 0
+          }}
+          transition={{
+            stiffness: 300,
+            damping: 20,
+            type: "spring"
           }}
         >
-          <Box sx={{ position: "absolute", right: 24, top: 40 }}>
-            <Button variant="mini" onClick={() => closeMenu()}>
-              Close
-            </Button>
-          </Box>
-
           <Flex
-            key="menu-overlay"
-            ref={ref}
+            as="section"
             sx={{
-              alignItems: "flex-start",
-              justifyContent: "center",
-              width: "100%",
-              flexDirection: "column",
-              px: 24
+              position: "absolute",
+              width: ["100%", null, "60%"],
+              minHeight: ["100%", null, "20%"],
+              py: 64,
+              maxWidth: "40rem",
+              bg: ColorTokens.background,
+              overflowY: "auto"
             }}
           >
-            <Box
-              sx={{
-                textAlign: "left",
-                color: ColorTokens.darken,
-                variant: `text.${TextStyleNames.sub_heading}`,
-                mt: 24,
-                mb: [72, null, 48]
-              }}
-            >
-              Where do you want to go?
+            <Box sx={{ position: "absolute", right: 24, top: 40 }}>
+              <Button variant="mini" onClick={() => closeMenu()}>
+                Close
+              </Button>
             </Box>
-            <Grid
-              gap={56}
-              columns={1}
+
+            <Flex
+              key="menu-overlay"
+              ref={ref}
               sx={{
-                width: "100%"
+                alignItems: "flex-start",
+                justifyContent: "center",
+                width: "100%",
+                flexDirection: "column",
+                px: 24
               }}
             >
-              <Flex sx={{ flexDirection: "column", "& > a + a": { mt: 12 } }}>
-                <Link href={`/`} passHref>
-                  <a
-                    onClick={closeMenu}
-                    sx={{ variant: `buttons.${ButtonNames.underline}` }}
-                  >
-                    Home
-                  </a>
-                </Link>
-                <Link href={`/cart`} passHref>
-                  <a
-                    onClick={closeMenu}
-                    sx={{ variant: `buttons.${ButtonNames.underline}` }}
-                  >
-                    Bag ({itemsCount})
-                  </a>
-                </Link>
-              </Flex>
-              <NavColumn label="Collections">
-                {links.collections.map(item => (
-                  <Link
-                    href={`/collections/${item.slug}`}
-                    key={`collections-${item._key}`}
-                    passHref
-                  >
+              <Box
+                sx={{
+                  textAlign: "left",
+                  color: ColorTokens.darken,
+                  variant: `text.${TextStyleNames.sub_heading}`,
+                  mt: 24,
+                  mb: [72, null, 48]
+                }}
+              >
+                Where do you want to go?
+              </Box>
+              <Grid
+                gap={56}
+                columns={1}
+                sx={{
+                  width: "100%"
+                }}
+              >
+                <Flex sx={{ flexDirection: "column", "& > a + a": { mt: 16 } }}>
+                  <Link href={`/`} passHref>
                     <a
                       onClick={closeMenu}
                       sx={{ variant: `buttons.${ButtonNames.underline}` }}
                     >
-                      {item.title}
+                      Home
                     </a>
                   </Link>
-                ))}
-                <Link href={`/collections`} passHref>
-                  <a
-                    onClick={closeMenu}
-                    sx={{ variant: `buttons.${ButtonNames.underline}` }}
-                  >
-                    View all
-                  </a>
-                </Link>
-              </NavColumn>
-              <NavColumn label="Stories & Guides">
-                {links.guides.map(item => (
-                  <Link
-                    href={`/stories-and-guides/${item.slug}`}
-                    key={`guides-${item._key}`}
-                    passHref
-                  >
+                  <Link href={`/cart`} passHref>
                     <a
                       onClick={closeMenu}
                       sx={{ variant: `buttons.${ButtonNames.underline}` }}
                     >
-                      {item.title}
+                      Bag ({itemsCount})
                     </a>
                   </Link>
-                ))}
-                <Link href={`/stories-and-guides`} passHref>
-                  <a
-                    onClick={closeMenu}
-                    sx={{ variant: `buttons.${ButtonNames.underline}` }}
-                  >
-                    View all
-                  </a>
-                </Link>
-              </NavColumn>
-              <NavColumn label="About">
-                {links.menu_pages.map(item => (
-                  <Link
-                    href={`/information/${item.slug}`}
-                    key={`info-${item._key}`}
-                    passHref
-                  >
+                </Flex>
+                <NavColumn label="Collections">
+                  {links.collections.map(item => (
+                    <Link
+                      href={`/collections/${item.slug}`}
+                      key={`collections-${item._key}`}
+                      passHref
+                    >
+                      <a
+                        onClick={closeMenu}
+                        sx={{ variant: `buttons.${ButtonNames.underline}` }}
+                      >
+                        {item.title}
+                      </a>
+                    </Link>
+                  ))}
+                  <Link href={`/collections`} passHref>
                     <a
                       onClick={closeMenu}
                       sx={{ variant: `buttons.${ButtonNames.underline}` }}
                     >
-                      {item.title}
+                      View all
                     </a>
                   </Link>
-                ))}
-              </NavColumn>
-            </Grid>
+                </NavColumn>
+                <NavColumn label="Stories & Guides">
+                  {links.guides.map(item => (
+                    <Link
+                      href={`/stories-and-guides/${item.slug}`}
+                      key={`guides-${item._key}`}
+                      passHref
+                    >
+                      <a
+                        onClick={closeMenu}
+                        sx={{ variant: `buttons.${ButtonNames.underline}` }}
+                      >
+                        {item.title}
+                      </a>
+                    </Link>
+                  ))}
+                  <Link href={`/stories-and-guides`} passHref>
+                    <a
+                      onClick={closeMenu}
+                      sx={{ variant: `buttons.${ButtonNames.underline}` }}
+                    >
+                      View all
+                    </a>
+                  </Link>
+                </NavColumn>
+                <NavColumn label="About">
+                  {links.menu_pages.map(item => (
+                    <Link
+                      href={`/information/${item.slug}`}
+                      key={`info-${item._key}`}
+                      passHref
+                    >
+                      <a
+                        onClick={closeMenu}
+                        sx={{ variant: `buttons.${ButtonNames.underline}` }}
+                      >
+                        {item.title}
+                      </a>
+                    </Link>
+                  ))}
+                </NavColumn>
+              </Grid>
+            </Flex>
           </Flex>
-        </Flex>
+        </motion.div>
       </Box>
     </Box>
   )
@@ -213,7 +240,7 @@ const NavigationMenu: FC<Props> = ({ links }) => {
 
 const NavColumn: FC<{ label: string }> = ({ label, children }) => {
   return (
-    <Flex sx={{ flexDirection: "column", "& > a + a": { mt: 12 } }}>
+    <Flex sx={{ flexDirection: "column", "& > a + a": { mt: 16 } }}>
       <Box
         sx={{
           variant: `text.${TextStyleNames.label_upper}`,

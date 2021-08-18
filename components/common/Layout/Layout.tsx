@@ -1,24 +1,23 @@
 import { Footer, Navbar } from "@components/common"
-import { Modal, Sidebar } from "@components/ui"
+import { Sidebar } from "@components/ui"
 import React, { FC } from "react"
 
 import CartSidebarView from "@components/cart/CartSidebarView"
 import type { Category } from "@commerce/types/site"
 import CheckoutSidebarView from "@components/checkout/CheckoutSidebarView"
 import { CommerceProvider } from "@framework"
-import Loader from "@components/ui/Loader"
-import dynamic from "next/dynamic"
+//import Loader from "@components/ui/Loader"
 import { useAcceptCookies } from "@lib/hooks/useAcceptCookies"
 import { useRouter } from "next/router"
 import { useUI } from "@components/ui/context"
 import { SanityPages } from "@sanity/types/meta"
 import NavigationMenu from "../NavigationMenu"
 
-const dynamicProps = {
-  loading: function LoaderLoding() {
-    return <Loader />
-  }
-}
+// const dynamicProps = {
+//   loading: function LoaderLoding() {
+//     return <Loader />
+//   }
+// }
 
 // const FeatureBar = dynamic(
 //   () => import("@components/common/FeatureBar"),
