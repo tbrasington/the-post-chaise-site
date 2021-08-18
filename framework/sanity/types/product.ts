@@ -19,6 +19,7 @@ export interface SanityProduct {
   title: string
   variants: VariantsEntity[]
   gallery?: SanityAsset[]
+  thumbnail?: SanityAsset
 }
 export interface CollectionsEntity {
   _key: string

@@ -16,7 +16,7 @@ export const getCollectionsAndProducts = groq`*[_type == "shopifyCollection" && 
   handle,
   minVariantPrice,
   title,
-  gallery[0]{...,"palette": Image.asset->metadata.palette,}
+  "thumbnail" : gallery[0]{...,"palette": Image.asset->metadata.palette,}
 
 },
   "slug" : slug.current,

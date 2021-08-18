@@ -46,23 +46,23 @@ const ProductCard: FC<Props> = ({
               width: "100%",
               height: "300px",
               bg:
-                (product.gallery &&
-                  alpha(product.gallery[0].palette.muted.background, 0.3)) ||
+                (product.thumbnail &&
+                  alpha(product.thumbnail.palette.muted.background, 0.3)) ||
                 alpha(ColorTokens.darken, 0.1),
               transition: "background 0.2s ease",
               cursor: "pointer",
               p: 32,
               ":hover": {
                 bg:
-                  (product.gallery &&
-                    alpha(product.gallery[0].palette.muted.background, 0.8)) ||
+                  (product.thumbnail &&
+                    alpha(product.thumbnail.palette.muted.background, 0.8)) ||
                   alpha(ColorTokens.darken, 0.4)
               }
             }}
           >
-            {product.gallery && (
+            {product.thumbnail && (
               <ProductImage
-                sanityImage={product.gallery[0]}
+                sanityImage={product.thumbnail}
                 sizes="(max-height: 150px) 50vw, 150px"
                 priority={priority}
               />
