@@ -17,6 +17,11 @@ export default {
         maxLength: 96,
       },
     },
+      {
+      name: "seo_description",
+      title: "SEO description / Summary",
+      type: "text",
+    },
     {
       name: "body",
       title: "Body",
