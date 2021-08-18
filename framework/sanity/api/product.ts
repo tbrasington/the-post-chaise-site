@@ -2,7 +2,7 @@ import { groq } from "next-sanity"
 
 export const getProducts = groq`*[_type == "shopifyProduct" && archived == false && sourceData.availableForSale == true]{
   _id,
-  _handle,
+  handle,
   maxVariantPrice,
   minVariantPrice,
   shopifyId, 
@@ -23,7 +23,7 @@ export const getProduct = groq`*[_type == "shopifyProduct" &&  handle == $slug &
 export const getProductRecomendations = groq`*[_type == "shopifyProduct" && handle != $slug  &&  archived == false && sourceData.availableForSale == true][0..1]{
  
   _id,
-  _handle,
+  handle,
   maxVariantPrice,
   minVariantPrice,
   shopifyId, 
