@@ -22,3 +22,20 @@ export const getCollectionsAndProducts = groq`*[_type == "shopifyCollection" && 
   "slug" : slug.current,
   shopifyId
 }`
+
+export const getCollection = groq`*[_type == "shopifyCollection" && archived== false &&  slug.current == $slug] {
+  _id, 
+  title, 
+  description,
+  "products" : *[_type=='shopifyProduct' && references(^._id)]{ 
+  _id,
+  shopifyId,
+  handle,
+  minVariantPrice,
+  title,
+  "thumbnail" : gallery[0]{...,"palette": Image.asset->metadata.palette,}
+
+},
+  "slug" : slug.current,
+  shopifyId
+}[0]`
