@@ -6,7 +6,7 @@ import { Flex } from "theme-ui"
 import { PageContent } from "@sanity/types/guides"
 import { ProductImage } from "@components/product"
 import { SanityAsset } from "@sanity/types/image"
-import { StandardXAxisSpace } from "@theme/tokens"
+import { StandardXAxisSpace, StandardXPadding } from "@theme/tokens"
 interface MediaProps {
   content: PageContent
 }
@@ -24,10 +24,11 @@ const Media: FC<MediaProps> = ({ content }) => {
     return (
       <Box
         sx={{
-          ml: "auto",
+          ml: [0, null, "auto"],
+          px: content.fullbleed ? 0 : [24, null, 0],
           width: content.fullbleed
             ? "100%"
-            : `calc(100% - ${StandardXAxisSpace})`
+            : ["100%", null, `calc(100% - ${StandardXAxisSpace})`]
         }}
       >
         {content.Image && (
@@ -40,16 +41,19 @@ const Media: FC<MediaProps> = ({ content }) => {
             flexWrap: "wrap",
             flexShrink: 1,
             flexGrow: 1,
+            px: content.fullbleed ? StandardXPadding : 0,
             "& > div": {
               flexShrink: 1,
               flexGrow: 1,
               mb: 16,
-              pr: 24,
-              mx: content.fullbleed ? StandardXAxisSpace : 0
+              pr: content.fullbleed ? 0 : StandardXPadding
             },
             "& > div + div": {
               flexShrink: 0.5,
               flexGrow: 0.5
+            },
+            "& > div a": {
+              ml: [0, 0, "auto"]
             }
           }}
         >
