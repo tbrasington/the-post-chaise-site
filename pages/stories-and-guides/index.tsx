@@ -45,7 +45,7 @@ export default function Guides({
           bgOverride={bg}
         />
         <Container>
-          <Grid sx={{ mt: 32 }} columns={[1, null, 2, 2, 3]}>
+          <Grid sx={{ mt: 32, mb: 128 }} columns={[1, null, 2, 2, 3]}>
             {guides.map((item: GuideIndexList) => {
               return <GuideCard key={item._id} item={item} />
             })}
