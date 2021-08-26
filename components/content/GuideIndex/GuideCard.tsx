@@ -12,7 +12,11 @@ import { ButtonNames } from "@theme/buttons"
 const GuideCard: FC<{ item: GuideIndexList }> = ({ item }) => {
   const image = useNextSanityImage(getClient(false), item.hero_image, {
     imageBuilder: imageUrlBuilder => {
-      return imageUrlBuilder.width(800).height(600).crop("focalpoint")
+      return imageUrlBuilder
+        .width(800)
+        .height(600)
+        .crop("focalpoint")
+        .fit("crop")
     }
   })
   return (

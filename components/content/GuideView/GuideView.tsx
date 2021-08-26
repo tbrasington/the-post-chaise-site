@@ -23,7 +23,11 @@ const GuideView: FC<GuideViewProps> = ({ content }) => {
 
   const SEOImage = useNextSanityImage(getClient(false), image, {
     imageBuilder: imageUrlBuilder => {
-      return imageUrlBuilder.width(800).height(600).crop("focalpoint")
+      return imageUrlBuilder
+        .width(800)
+        .height(600)
+        .crop("focalpoint")
+        .fit("crop")
     }
   })
 
