@@ -6,7 +6,6 @@ import { FC } from "react"
 import Link from "next/link"
 import NavbarRoot from "./NavbarRoot"
 import { TextStyleNames } from "@theme/tokens"
-import { UserNav } from "@components/common"
 
 interface Link {
   href: string
@@ -59,11 +58,6 @@ const Navbar: FC<NavbarProps> = ({ links }) => {
                 menu
               </Button>
             </nav>
-            <Box sx={{ position: "relative" }}>
-              <Box sx={{ position: "absolute", right: -12, top: -4 }}>
-                <UserNav />
-              </Box>
-            </Box>
           </Flex>
         </Flex>
 

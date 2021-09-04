@@ -1,8 +1,6 @@
 /**  @jsxImportSource theme-ui */
 
 import React, { FC, useEffect, useRef } from "react"
-import type { LineItem } from "@commerce/types/cart"
-import useCart from "@framework/cart/use-cart"
 import { useUI, Logo, Button } from "@components/ui"
 import { Box, Flex } from "@theme-ui/components"
 import {
@@ -18,16 +16,12 @@ import { ButtonNames } from "@theme/buttons"
 import { Grid } from "theme-ui"
 import { motion } from "framer-motion"
 
-const countItem = (count: number, item: LineItem) => count + item.quantity
-
 type Props = {
   links: SanityPages
 }
 const NavigationMenu: FC<Props> = ({ links }) => {
-  const { data } = useCart()
   const { closeMenu } = useUI()
   const ref = useRef() as React.MutableRefObject<HTMLDivElement>
-  const itemsCount = data?.lineItems.reduce(countItem, 0) ?? 0
 
   useEffect(() => {
     if (ref.current) {
@@ -156,39 +150,8 @@ const NavigationMenu: FC<Props> = ({ links }) => {
                       Home
                     </a>
                   </Link>
-                  <Link href={`/cart`} passHref>
-                    <a
-                      onClick={closeMenu}
-                      sx={{ variant: `buttons.${ButtonNames.underline}` }}
-                    >
-                      Bag ({itemsCount})
-                    </a>
-                  </Link>
                 </Flex>
-                <NavColumn label="Collections">
-                  {links.collections.map(item => (
-                    <Link
-                      href={`/collections/${item.slug}`}
-                      key={`collections-${item._key}`}
-                      passHref
-                    >
-                      <a
-                        onClick={closeMenu}
-                        sx={{ variant: `buttons.${ButtonNames.underline}` }}
-                      >
-                        {item.title}
-                      </a>
-                    </Link>
-                  ))}
-                  <Link href={`/collections`} passHref>
-                    <a
-                      onClick={closeMenu}
-                      sx={{ variant: `buttons.${ButtonNames.underline}` }}
-                    >
-                      View all
-                    </a>
-                  </Link>
-                </NavColumn>
+
                 <NavColumn label="Stories & Guides">
                   {links.guides.map(item => (
                     <Link

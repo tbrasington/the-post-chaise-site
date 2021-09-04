@@ -1,7 +1,6 @@
-export { default as Gallery } from "./Gallery"
+export { default as Gallery } from "../../common/Gallery"
 export { default as Media } from "./Media"
 export { default as Paragraph } from "./Paragraph"
 export { default as SliceRenderer } from "./SliceRenderer"
 export { default as SliceWidth } from "./SliceWidth"
-export { default as AddToBag } from "./AddToBag"
 export { default as Caption } from "./Caption"

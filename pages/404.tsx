@@ -1,7 +1,6 @@
 import type { GetStaticPropsContext } from "next"
 import { Layout } from "@components/common"
 import { Container, Text } from "@components/ui"
-import commerce from "@lib/api/commerce"
 import { getNavigation } from "@sanity/api/meta"
 import { getClient } from "@sanity/sanity.server"
 
@@ -13,12 +12,9 @@ export async function getStaticProps({
   const config = { locale, locales }
   const sanityPages = await getClient(preview || false).fetch(getNavigation)
 
-  const { categories, brands } = await commerce.getSiteInfo({ config, preview })
   return {
     props: {
-      pages: sanityPages,
-      categories,
-      brands
+      pages: sanityPages
     },
     revalidate: 200
   }

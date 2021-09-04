@@ -1,10 +1,9 @@
-import AddToBag from "./AddToBag"
 import { Box } from "theme-ui"
 import { Caption } from "@components/content/Slices"
 import { FC } from "react"
 import { Flex } from "theme-ui"
 import { PageContent } from "@sanity/types/guides"
-import { ProductImage } from "@components/product"
+import { MediaImage } from "@components/common"
 import { SanityAsset } from "@sanity/types/image"
 import { StandardXAxisSpace, StandardXPadding } from "@theme/tokens"
 interface MediaProps {
@@ -32,7 +31,7 @@ const Media: FC<MediaProps> = ({ content }) => {
         }}
       >
         {content.Image && (
-          <ProductImage fit="cover" sanityImage={remappedImage} />
+          <MediaImage fit="cover" sanityImage={remappedImage} />
         )}
         <Flex
           sx={{
@@ -58,12 +57,6 @@ const Media: FC<MediaProps> = ({ content }) => {
           }}
         >
           {content.caption && <Caption>{content.caption}</Caption>}
-          {content.shopifyProduct && (
-            <AddToBag
-              sanityProduct={content.shopifyProduct}
-              colorOverride={remappedImage.palette.lightMuted.background}
-            />
-          )}
         </Flex>
       </Box>
     )

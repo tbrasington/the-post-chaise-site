@@ -1,15 +1,15 @@
-import { FC, useState } from "react"
-import { ProductImage, ProductSlider } from "@components/product"
-
+import { FC } from "react"
+import { Gallery } from "@components/common"
+import MediaImage from "../../common/MediaImage"
 import { Box } from "theme-ui"
-import { ColorTokens } from "@theme/tokens"
+
 import { PageContent } from "@sanity/types/guides"
 
 interface GalleryProps {
   content: PageContent
 }
 
-const Gallery: FC<GalleryProps> = ({ content }) => {
+const GallerySlice: FC<GalleryProps> = ({ content }) => {
   const slideColors =
     content.gallery && content.gallery.map(slide => slide.palette)
 
@@ -20,20 +20,20 @@ const Gallery: FC<GalleryProps> = ({ content }) => {
       }}
     >
       {content.gallery && (
-        <ProductSlider slideColorData={slideColors}>
+        <Gallery slideColorData={slideColors}>
           {content.gallery?.map((slide, i) => {
             return (
-              <ProductImage
+              <MediaImage
                 sanityImage={slide.mediaAsset}
                 priority={i}
                 key={slide._key}
               />
             )
           })}
-        </ProductSlider>
+        </Gallery>
       )}
     </Box>
   )
 }
 
-export default Gallery
+export default GallerySlice

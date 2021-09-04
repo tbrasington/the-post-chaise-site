@@ -1,10 +1,9 @@
 /** @jsxImportSource theme-ui */
-import { Box, Flex } from "theme-ui"
+import { Flex } from "theme-ui"
 import { ChevronLeft, Cross } from "@components/icons"
 import { ColorTokens, TextStyleNames } from "@theme/tokens"
 
 import { FC } from "react"
-import { UserNav } from "@components/common"
 
 type ComponentProps = { className?: string } & (
   | { handleClose: () => any; handleBack?: never }
@@ -63,9 +62,6 @@ const SidebarLayout: FC<ComponentProps> = ({
             <span className="ml-2 text-accent-7 text-xs">Back</span>
           </button>
         )}
-        <span>
-          <UserNav />
-        </span>
       </header>
       <Flex
         sx={{
