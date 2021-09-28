@@ -22,14 +22,18 @@ const MediaImage: React.FC<Props> = ({
   fit = "contain"
 }) => {
   const image = useNextSanityImage(getClient(false), sanityImage.Image, {
-    imageBuilder: imageUrlBuilder => {
-      return width && height
-        ? imageUrlBuilder
-            .auto("format")
-            .minWidth(width)
-            .maxHeight(height)
-            .crop("focalpoint")
-        : imageUrlBuilder
+    imageBuilder: (imageUrlBuilder, options) => {
+      return imageUrlBuilder
+        .auto("format")
+        .width(
+          width ||
+            options.width ||
+            Math.min(options.originalImageDimensions.width, 1920)
+        )
+        .maxHeight(
+          height || Math.min(options.originalImageDimensions.height, 1920)
+        )
+        .crop("focalpoint")
     }
   })
 
@@ -46,6 +50,9 @@ const MediaImage: React.FC<Props> = ({
           justifyContent: "center",
           "& > div": {
             height: "100%"
+          },
+          "& img": {
+            backgroundRepeat: "no-repeat"
           }
         }}
       >

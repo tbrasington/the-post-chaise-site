@@ -107,7 +107,11 @@ const NavigationMenu: FC<Props> = ({ links }) => {
             }}
           >
             <Box sx={{ position: "absolute", right: 24, top: 40 }}>
-              <Button variant="mini" onClick={() => closeMenu()}>
+              <Button
+                variant="mini"
+                sx={{ bg: "red" }}
+                onClick={() => closeMenu()}
+              >
                 Close
               </Button>
             </Box>

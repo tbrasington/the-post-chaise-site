@@ -12,8 +12,7 @@
     "@sanity/components",
     "@sanity/default-layout",
     "@sanity/default-login",
-    "@sanity/desk-tool",
-    "@sane-shopify/sanity-plugin"
+    "@sanity/desk-tool"
   ],
   "env": {
     "development": {
