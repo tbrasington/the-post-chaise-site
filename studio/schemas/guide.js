@@ -9,6 +9,11 @@ export default {
       type: "string",
     },
     {
+      name: "date_of_guide",
+      title: "Date of guide",
+      type: "date",
+    },
+    {
       name: "slug",
       title: "Slug",
       type: "slug",

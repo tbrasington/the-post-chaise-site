@@ -32,7 +32,8 @@ module.exports = withPlugins([
         defaultLocale: "en-GB"
       },
       images: {
-        domains: ["cdn.sanity.io"]
+        domains: ["cdn.sanity.io"],
+        loader: 'custom'
       }
     }
   ]

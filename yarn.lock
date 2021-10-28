@@ -8681,7 +8681,7 @@ next-compose-plugins@^2.2.1:
   resolved "https://registry.yarnpkg.com/next-compose-plugins/-/next-compose-plugins-2.2.1.tgz#020fc53f275a7e719d62521bef4300fbb6fde5ab"
   integrity sha512-OjJ+fV15FXO2uQXQagLD4C0abYErBjyjE0I0FHpOEIB8upw0hg1ldFP6cqHTJBH1cZqy96OeR3u1dJ+Ez2D4Bg==
 
-next-sanity-image@^3.1.5:
+next-sanity-image@^3.1.7:
   version "3.1.7"
   resolved "https://registry.yarnpkg.com/next-sanity-image/-/next-sanity-image-3.1.7.tgz#3b57bcecd6987aadc85d2761d0164b21fe243947"
   integrity sha512-mk842380HwDrlUSmyyx54MGcGcbz847c2rCTj9c75lkO+VSpuJ00+uaiJE3arktrnHAUV4XCZ+OVxJ6C1mqtBw==
