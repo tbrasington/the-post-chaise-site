@@ -16,6 +16,8 @@ export interface SanityGuide {
   slug: Slug
   title: string
   date_of_guide: string
+  country: string
+  location:string
 }
 
 export interface Slug {

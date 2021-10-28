@@ -13,7 +13,7 @@ import { getGuideIndexList } from '@sanity/api/guide'
 import { motion } from 'framer-motion'
 export async function getStaticProps({ preview }: GetStaticPropsContext) {
   const sanityMetaData = await getClient(preview || false).fetch(getNavigation)
-  const guides = await getClient(preview || false).fetch(getGuideIndexList)
+  const guides: GuideIndexList[] = await getClient(preview || false).fetch(getGuideIndexList)
 
   return {
     props: {
@@ -89,11 +89,12 @@ export default function Home({
           {guides.map((item: GuideIndexList) => {
             return (
               <motion.li
+                key={item._id}
                 variants={motionItem}
                 sx={{ listStyle: 'none', m: 0, p: 0 }}
                 transition={{ type: 'spring', damping: 30, stiffness: 100 }}
               >
-                <GuideCard key={item._id} item={item} showDescription={false} />
+                <GuideCard item={item} showDescription={false} />
               </motion.li>
             )
           })}
