@@ -5,13 +5,19 @@ function slugify(string) {
   .replace(/\s+/g, '-')
 }
 function myAsyncSlugifier(input) {
-  const slug = slugify(input)
-  const query = '*[_type=="guide" && slug.current == $slug]{_id, date_of_guide}[0]'
-  const params = {slug: slug}
-  return sanityClient.fetch(query, params).then(result => {
-    const date = result.date_of_guide.split('-')
-    return `${slug}-${date[0]}`
-  })
+
+  const date = input.doc.date_of_guide
+  const yearDate = date.split('-')
+  const title = input.doc.title
+  return `${slugify(title)}-${yearDate[0]}`
+  // const slug = slugify(input)
+  // const query = '*[_type=="guide" && slug.current == $slug]{_id, date_of_guide}[0]'
+  // const params = {slug: slug}
+  // return sanityClient.fetch(query, params).then(result => {
+  //   console.log(result)
+  //   const date = result.date_of_guide.split('-')
+  //   return `${slug}-${date[0]}`
+  // })
 }
 
 export default {
@@ -39,7 +45,7 @@ export default {
       title: "Slug",
       type: "slug",
       options: {
-        source: "title",
+        source: (doc, options) => ({ doc, options }),
         slugify : myAsyncSlugifier,
         maxLength: 96,
         isUnique: isUniqueAcrossAllDocuments
