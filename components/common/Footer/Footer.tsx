@@ -26,6 +26,7 @@ const Footer: FC<Props> = ({ pages }) => {
   return (
     <footer
       sx={{
+        mt : 64,
         py: 64,
         borderTopStyle: "solid",
         borderTopWidth: "1px",

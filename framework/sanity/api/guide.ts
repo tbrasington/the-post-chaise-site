@@ -1,4 +1,4 @@
-import { groq } from "next-sanity"
+import { groq } from 'next-sanity'
 
 export const getGuides = groq`*[_type == "guide"] {
   ...,
@@ -8,7 +8,7 @@ export const getGuides = groq`*[_type == "guide"] {
     gallery[] {
       ...,
      "palette": mediaAsset.Image.asset->metadata.palette,
-      shopifyProduct->
+
     },
 		"palette": Image.asset->metadata.palette,
 	}
@@ -24,7 +24,7 @@ export const getGuide = groq`*[_type == "guide" &&  slug.current == $slug]{
     gallery[] {
       ...,
      "palette": mediaAsset.Image.asset->metadata.palette,
-      shopifyProduct->
+
     },
 		"palette": Image.asset->metadata.palette,
 	}

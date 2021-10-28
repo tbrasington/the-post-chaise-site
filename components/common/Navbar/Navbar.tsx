@@ -43,8 +43,8 @@ const Navbar: FC<NavbarProps> = ({ links }) => {
               >
                 <Logo
                   sx={{
-                    width: [64, 64, 128],
-                    height: [64, 64, 128]
+                    width: [48, 48, 64],
+                    height: [48, 48, 64]
                   }}
                 />
                 <span sx={{ ml: 32 }}>The Post Chaise</span>

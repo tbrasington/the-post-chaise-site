@@ -1,7 +1,7 @@
-import { Asset, Image, Palette, SanityAsset } from "./image"
+import { Asset, Image, Palette, SanityAsset } from './image'
 
-import { SanityBlock } from "./shared"
-import { SanityProduct } from "./product"
+import { SanityBlock } from './shared'
+import { SanityProduct } from './product'
 
 export interface SanityGuide {
   _createdAt: Date
@@ -15,6 +15,7 @@ export interface SanityGuide {
   hero_image?: Asset
   slug: Slug
   title: string
+  date_of_guide: string
 }
 
 export interface Slug {
@@ -24,7 +25,7 @@ export interface Slug {
 
 export interface PageContent {
   _key: string
-  _type: "paragraph" | "gallery" | "Media" | string
+  _type: 'paragraph' | 'gallery' | 'Media' | string
   body?: SanityBlock[]
   gallery?: PageContentGallery[]
   Image?: Image
@@ -49,4 +50,5 @@ export interface GuideIndexList {
   seo_description: string
   hero_image: Image
   palette: Palette
+  date_of_guide: string
 }
