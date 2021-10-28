@@ -5,6 +5,7 @@ import blockContent from './blockContent'
 // First, we must import the schema creator
 import gallery from './gallery'
 import guide from './guide'
+import country from './country'
 import mediaAsset from './mediaAsset'
 import page from './page'
 import paper_materials from './paper_materials'
@@ -21,6 +22,7 @@ export default createSchema({
   // to the ones provided by any plugins that are installed
   types: schemaTypes.concat([
     /* Your types here! */
+    country,
     blockContent,
     paper_materials,
     mediaAsset,

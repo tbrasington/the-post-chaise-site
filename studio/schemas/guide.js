@@ -1,5 +1,4 @@
 import {isUniqueAcrossAllDocuments} from './slug'
-import sanityClient from 'part:@sanity/base/client';
 function slugify(string) {
   return string .toLowerCase()
   .replace(/\s+/g, '-')
@@ -31,14 +30,22 @@ export default {
       type: "string",
     },
     {
+      title: 'Country',
+      name: 'country',
+      type: 'reference',
+      to: [{type: 'country'}]
+    },
+    {
       name: "date_of_guide",
       title: "Date of guide",
       type: "date",
     },
     {
-      title: 'Location',
+      title: 'Location ',
+      description : "e.g. 63.905, -22.2725",
       name: 'location',
-      type: 'string'
+      type: 'string',
+
     },
     {
       name: "slug",
