@@ -36,7 +36,7 @@ export const getGuideList = groq`*[_type == "guide"]| order(_createdAt desc)  {
   "slug": slug.current,
 }`
 
-export const getGuideIndexList  = groq`*[_type == "guide"]| order(_createdAt desc)  {
+export const getGuideIndexList  = groq`*[_type == "guide"]| order(date_of_guide desc)  {
   _id,
  	"title": title,
   "slug": slug.current,

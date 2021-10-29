@@ -41,7 +41,7 @@ export default {
       type: "date",
     },
     {
-      title: 'Location ',
+      title: 'Location',
       description : "e.g. 63.905, -22.2725",
       name: 'location',
       type: 'string',

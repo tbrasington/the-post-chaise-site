@@ -8,17 +8,25 @@ import { getNavigation } from '@sanity/api/meta'
 import { Text } from '@components/ui'
 import { GuideIndexList } from '@sanity/types/guides'
 import { GuideCard } from '@components/content'
-import { Grid } from '@theme-ui/components'
+import { Flex, Box, Grid } from '@theme-ui/components'
 import { getGuideIndexList } from '@sanity/api/guide'
 import { motion } from 'framer-motion'
+import { TextStyleVariants } from '@theme/textStyles'
+import { TextStyleNames } from '@theme/tokens'
 export async function getStaticProps({ preview }: GetStaticPropsContext) {
   const sanityMetaData = await getClient(preview || false).fetch(getNavigation)
   const guides: GuideIndexList[] = await getClient(preview || false).fetch(getGuideIndexList)
 
+  const dates = guides.map(item => item.date_of_guide.split('-')[0])
+  const uniqeYears = [...new Set(dates)];
+  const groupedGuidesByYear: Array<{ year: string, items: GuideIndexList[] }> = uniqeYears.map((el) => {
+    return { year: el, items: guides.filter(item => item.date_of_guide.split('-')[0] === el) }
+  })
+
   return {
     props: {
       pages: sanityMetaData,
-      guides: guides,
+      groupedGuidesByYear
     },
     revalidate: 60,
   }
@@ -26,7 +34,7 @@ export async function getStaticProps({ preview }: GetStaticPropsContext) {
 
 export default function Home({
   pages,
-  guides,
+  groupedGuidesByYear
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const MotionGrid = motion(Grid)
   const container = {
@@ -66,39 +74,58 @@ export default function Home({
       <Container
         el="section"
         sx={{
-          ml: [0, 80, 96],
+          "& > div + div": {
+            mt: 32
+          }
         }}
       >
-        <Text variant="sub_heading">Places</Text>
-        <MotionGrid
-          sx={{
-            p: 0,
-            m: 0,
-            mt: 12,
-          }}
-          columns={[1, 3, 4]}
-          gap={12}
-          variants={container}
-          initial="hidden"
-          animate="show"
-          as="ol"
-          transition={{
-            duration: 0,
-          }}
-        >
-          {guides.map((item: GuideIndexList) => {
-            return (
-              <motion.li
-                key={item._id}
-                variants={motionItem}
-                sx={{ listStyle: 'none', m: 0, p: 0 }}
-                transition={{ type: 'spring', damping: 30, stiffness: 100 }}
+        <Text variant="sub_heading" sx={{
+          ml: [0, 80, 96],
+          mb: 12
+        }}>Stories</Text>
+        {
+          groupedGuidesByYear.map((groupYear) => {
+            return <Flex key={`grid-${groupYear.year}`} sx={{
+              flexDirection: ['column', 'row']
+            }}>
+              <Box sx={{
+                width: ['100%', 80, 96],
+                mb: 12,
+                variant: `text.${TextStyleNames.label_upper}`
+              }}>{groupYear.year}</Box>
+              <MotionGrid
+
+                sx={{
+                  flex: 1,
+                  p: 0,
+                  m: 0,
+                }}
+                columns={[1, 3, 4]}
+                gap={12}
+                variants={container}
+                initial="hidden"
+                animate="show"
+                as="ol"
+                transition={{
+                  duration: 0,
+                }}
               >
-                <GuideCard item={item} showDescription={false} />
-              </motion.li>
-            )
-          })}
-        </MotionGrid>
+                {groupYear.items.map((item: GuideIndexList) => {
+                  return (
+                    <motion.li
+                      key={item._id}
+                      variants={motionItem}
+                      sx={{ listStyle: 'none', m: 0, p: 0 }}
+                      transition={{ type: 'spring', damping: 30, stiffness: 100 }}
+                    >
+                      <GuideCard item={item} showDescription={false} />
+                    </motion.li>
+                  )
+                })}
+              </MotionGrid></Flex>
+          })
+        }
+
       </Container>
     </>
   )
