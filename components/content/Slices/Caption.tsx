@@ -1,9 +1,11 @@
-import { Box } from "theme-ui"
+import { Box, ThemeUIStyleObject } from "theme-ui"
 import { FC } from "react"
 import { TextStyleNames } from "@theme/tokens"
-const Caption: FC = ({ children }) => {
+const Caption: FC<{ sx?: ThemeUIStyleObject }> = ({ children, sx }) => {
   return (
-    <Box sx={{ variant: `text.${TextStyleNames.caption}` }}>{children}</Box>
+    <Box sx={{ variant: `text.${TextStyleNames.caption}`, ...sx }}>
+      {children}
+    </Box>
   )
 }
 

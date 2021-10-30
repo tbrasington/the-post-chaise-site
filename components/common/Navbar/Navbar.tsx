@@ -5,7 +5,7 @@ import { Button, Container, Logo, useUI } from "@components/ui"
 import { FC } from "react"
 import Link from "next/link"
 import NavbarRoot from "./NavbarRoot"
-import { TextStyleNames } from "@theme/tokens"
+import { ColorTokens, TextStyleNames } from "@theme/tokens"
 
 interface Link {
   href: string
@@ -31,14 +31,19 @@ const Navbar: FC<NavbarProps> = ({ links }) => {
               flex: 1
             }}
           >
-            <Link href="/">
+            <Link href="/" passHref>
               <a
                 aria-label="Logo"
                 sx={{
                   display: "flex",
                   alignItems: "center",
                   alignContent: "center",
-                  variant: `text.${TextStyleNames.label_upper}`
+                  variant: `text.${TextStyleNames.sub_heading}`,
+                  textDecoration: "none",
+                  color: ColorTokens.text,
+                  ":hover": {
+                    color: ColorTokens.primary
+                  }
                 }}
               >
                 <Logo

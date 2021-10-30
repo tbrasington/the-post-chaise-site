@@ -12,6 +12,8 @@ import { ColorTokens, StandardLeftIndent, TextStyleNames } from "@theme/tokens"
 import { getClient } from "@sanity/sanity.server"
 import { useNextSanityImage } from "next-sanity-image"
 import DmsCoordinates from "dms-conversion"
+import { motion } from "framer-motion"
+import { defaultMotionContainer } from "@theme/motion"
 
 interface GuideViewProps {
   content: SanityGuide
@@ -33,7 +35,7 @@ const GuideView: FC<GuideViewProps> = ({ content }) => {
   })
 
   /// coords
-  const LocationData = content.location.split(",")
+  const LocationData = content.location ? content.location.split(",") : [0, 0]
   const DMSCoordinates = new DmsCoordinates(
     Number(LocationData[0]),
     Number(LocationData[1])
@@ -47,7 +49,12 @@ const GuideView: FC<GuideViewProps> = ({ content }) => {
   const north = `${dla}° ${mla}′ ${Math.round(sla)}″ ${nsewla}`
 
   return (
-    <>
+    <motion.div
+      variants={defaultMotionContainer}
+      initial="hidden"
+      animate="show"
+      exit="exit"
+    >
       <Container sx={{ ml: StandardLeftIndent }}>
         <Box
           sx={{
@@ -124,7 +131,7 @@ const GuideView: FC<GuideViewProps> = ({ content }) => {
           ]
         }}
       />
-    </>
+    </motion.div>
   )
 }
 

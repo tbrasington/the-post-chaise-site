@@ -5,7 +5,11 @@ import { Flex } from "theme-ui"
 import { PageContent } from "@sanity/types/guides"
 import { MediaImage } from "@components/common"
 import { SanityAsset } from "@sanity/types/image"
-import { StandardLeftIndent, StandardXPadding } from "@theme/tokens"
+import {
+  ColorTokens,
+  StandardLeftIndent,
+  StandardXPadding
+} from "@theme/tokens"
 interface MediaProps {
   content: PageContent
 }
@@ -23,11 +27,11 @@ const Media: FC<MediaProps> = ({ content }) => {
     return (
       <Box
         sx={{
-          px: StandardXPadding,
+          px: content.fullbleed ? 0 : StandardXPadding,
           width: "100%"
         }}
       >
-        <Box sx={{ mx: StandardLeftIndent }}>
+        <Box sx={{ mx: content.fullbleed ? 0 : StandardLeftIndent }}>
           {content.Image && (
             <MediaImage fit="contain" sanityImage={remappedImage} />
           )}
@@ -39,6 +43,7 @@ const Media: FC<MediaProps> = ({ content }) => {
                 flexWrap: "wrap",
                 flexShrink: 1,
                 flexGrow: 1,
+                ml: content.fullbleed ? StandardLeftIndent : 0,
                 px: content.fullbleed ? StandardXPadding : 0,
                 "& > div": {
                   flexShrink: 1,
@@ -55,7 +60,9 @@ const Media: FC<MediaProps> = ({ content }) => {
                 }
               }}
             >
-              <Caption>{content.caption}</Caption>
+              <Caption sx={{ color: ColorTokens.darken }}>
+                {content.caption}
+              </Caption>
             </Flex>
           )}
         </Box>

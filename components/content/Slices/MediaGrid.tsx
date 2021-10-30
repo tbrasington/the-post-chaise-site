@@ -1,6 +1,6 @@
 import { Box } from "theme-ui"
 import { Caption } from "@components/content/Slices"
-import { FC } from "react"
+import React, { FC } from "react"
 import { Flex, Grid } from "theme-ui"
 import { PageContent } from "@sanity/types/guides"
 import { MediaImage } from "@components/common"
@@ -19,23 +19,29 @@ const MediaGrid: FC<MediaProps> = ({ content }) => {
       }}
     >
       <Grid columns={content.columns || 2} gap={24} sx={{ width: "100%" }}>
-        {content.gallery?.map(item => {
-          const remappedImage: SanityAsset = {
-            Image: item.mediaAsset.Image,
-            alt_text: item.mediaAsset.alt_text,
-            palette: item.mediaAsset.palette,
-            _key: item._key,
-            _type: item._type
-          }
+        {content.gallery &&
+          content.gallery?.length > 0 &&
+          content.gallery?.map(item => {
+            if (item.mediaAsset) {
+              const remappedImage: SanityAsset = {
+                Image: item.mediaAsset.Image,
+                alt_text: item.mediaAsset.alt_text,
+                palette: item.mediaAsset.palette,
+                _key: item._key,
+                _type: item._type
+              }
 
-          return (
-            <MediaImage
-              key={remappedImage._key}
-              fit="contain"
-              sanityImage={remappedImage}
-            />
-          )
-        })}
+              return (
+                <MediaImage
+                  key={remappedImage._key}
+                  fit="contain"
+                  sanityImage={remappedImage}
+                />
+              )
+            } else {
+              return <React.Fragment />
+            }
+          })}
       </Grid>
 
       {content.caption && (

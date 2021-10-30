@@ -46,12 +46,11 @@ export const ParagraphSmall: ThemeUICSSObject = {
 }
 
 export const Caption: ThemeUICSSObject = {
-  fontFamily: TextStyles.label,
+  fontFamily: TextStyles.paragraph,
   lineHeight: LineHeights.heading,
   fontWeight: FontWeights.regular,
   fontSize: FontSizes.stepNegativeOne,
-  letterSpacing: "0.05rem",
-  fontStyle: "italic"
+  letterSpacing: "0.05rem"
 }
 
 export const LabelRegular: ThemeUICSSObject = {

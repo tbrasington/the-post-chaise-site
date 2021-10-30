@@ -12,6 +12,7 @@ import { Flex, Box, Grid } from "@theme-ui/components"
 import { getGuideIndexList } from "@sanity/api/guide"
 import { motion } from "framer-motion"
 import { StandardLeftIndent, TextStyleNames } from "@theme/tokens"
+import { defaultMotionContainer, motionItem } from "@theme/motion"
 export async function getStaticProps({ preview }: GetStaticPropsContext) {
   const sanityMetaData = await getClient(preview || false).fetch(getNavigation)
   const guides: GuideIndexList[] = await getClient(preview || false).fetch(
@@ -41,25 +42,13 @@ export default function Home({
   pages,
   groupedGuidesByYear
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const MotionGrid = motion(Grid)
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  }
-
-  const motionItem = {
-    hidden: { y: 30, opacity: 0 },
-    show: { y: 0, opacity: 1 },
-    exit: { y: 30, opacity: 0 }
-  }
-
   return (
-    <>
+    <motion.div
+      variants={defaultMotionContainer}
+      initial="hidden"
+      animate="show"
+      exit="exit"
+    >
       <Container
         el="section"
         sx={{
@@ -110,7 +99,7 @@ export default function Home({
               >
                 {groupYear.year}
               </Box>
-              <MotionGrid
+              <Grid
                 sx={{
                   flex: 1,
                   p: 0,
@@ -118,13 +107,7 @@ export default function Home({
                 }}
                 columns={[1, 3, 4]}
                 gap={12}
-                variants={container}
-                initial="hidden"
-                animate="show"
                 as="ol"
-                transition={{
-                  duration: 0
-                }}
               >
                 {groupYear.items.map((item: GuideIndexList) => {
                   return (
@@ -142,12 +125,12 @@ export default function Home({
                     </motion.li>
                   )
                 })}
-              </MotionGrid>
+              </Grid>
             </Flex>
           )
         })}
       </Container>
-    </>
+    </motion.div>
   )
 }
 
