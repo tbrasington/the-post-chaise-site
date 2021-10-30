@@ -4,29 +4,24 @@ import { ColorTokens, TextStyleNames } from "@theme/tokens"
 import { Container } from "@components/ui"
 import { FC } from "react"
 import Link from "next/link"
-import type { Page } from "@commerce/types/page"
-import getSlug from "@lib/get-slug"
-import { useRouter } from "next/router"
+import { SanityPages } from "@sanity/types/meta"
 
 interface Props {
   children?: any
-  pages?: Page[]
 }
 
 const links = [
   {
     name: "Instagram",
-    url: "https://instagram.com/thepostchaise"
+    url: "https://instagram.com/tbrasington"
   }
 ]
 
-const Footer: FC<Props> = ({ pages }) => {
-  const { sitePages } = usePages(pages)
-
+const Footer: FC<Props> = ({}) => {
   return (
     <footer
       sx={{
-        mt : 64,
+        mt: 64,
         py: 64,
         borderTopStyle: "solid",
         borderTopWidth: "1px",
@@ -47,7 +42,7 @@ const Footer: FC<Props> = ({ pages }) => {
           </a>
         </Link>
 
-        {[...links, ...sitePages].map(page => (
+        {[...links].map(page => (
           <span
             key={page.url}
             sx={{
@@ -70,29 +65,6 @@ const Footer: FC<Props> = ({ pages }) => {
       </Container>
     </footer>
   )
-}
-
-function usePages(pages?: Page[]) {
-  const { locale } = useRouter()
-  const sitePages: Page[] = []
-
-  if (pages) {
-    pages.forEach(page => {
-      const slug = page.url && getSlug(page.url)
-      if (!slug) return
-      if (locale && !slug.startsWith(`${locale}/`)) return
-      sitePages.push(page)
-    })
-  }
-
-  return {
-    sitePages: sitePages.sort(bySortOrder)
-  }
-}
-
-// Sort pages by the sort order assigned in the BC dashboard
-function bySortOrder(a: Page, b: Page) {
-  return (a.sort_order ?? 0) - (b.sort_order ?? 0)
 }
 
 export default Footer
