@@ -6,9 +6,11 @@ export const standardMotionEasing = {
 
 export const defaultMotionContainer = {
   hidden: {
-    opacity: 0
+    opacity: 0,
+    y: 30
   },
   show: {
+    y: 0,
     opacity: 1,
     transition: {
       staggerChildren: 0.2,
@@ -17,7 +19,7 @@ export const defaultMotionContainer = {
   },
   exit: {
     opacity: 0,
-    y: 0,
+    y: 30,
     transition: {
       staggerChildren: 0.2,
       ...standardMotionEasing

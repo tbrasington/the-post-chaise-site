@@ -33,7 +33,8 @@ export const ButtonNames = {
   mini: "mini",
   link: "link",
   controls: "controls",
-  underline: "underline"
+  underline: "underline",
+  underlineHighlight: "underlineHighlight"
 }
 
 export type ButtonTypes =
@@ -125,6 +126,21 @@ export const ButtonVariants = {
     m: 0,
     p: 0,
     color: ColorTokens.primary,
+    textUnderlineOffset: 4,
+    variant: `text.${TextStyleNames.label_standard}`,
+    ":hover": {
+      color: ColorTokens.accent
+    },
+    ":active": {
+      color: ColorTokens.accent
+    }
+  },
+  underlineHighlight: {
+    cursor: "pointer",
+    height: "auto",
+    m: 0,
+    p: 0,
+    color: ColorTokens.accent,
     textUnderlineOffset: 4,
     variant: `text.${TextStyleNames.label_standard}`,
     ":hover": {

@@ -100,7 +100,8 @@ const NavigationMenu: FC<Props> = ({ links }) => {
               position: "absolute",
               width: ["100%", null, "60%"],
               minHeight: ["100%", null, "20%"],
-              py: 64,
+              pt: 24,
+              pb: 64,
               maxWidth: "40rem",
               bg: ColorTokens.background,
               overflowY: "auto"
@@ -124,7 +125,7 @@ const NavigationMenu: FC<Props> = ({ links }) => {
                 justifyContent: "center",
                 width: "100%",
                 flexDirection: "column",
-                px: 24
+                px: 32
               }}
             >
               <Box
@@ -133,6 +134,7 @@ const NavigationMenu: FC<Props> = ({ links }) => {
                   color: ColorTokens.darken,
                   variant: `text.${TextStyleNames.sub_heading}`,
                   mt: 24,
+                  pt: 8,
                   mb: [72, null, 48]
                 }}
               >
@@ -149,7 +151,9 @@ const NavigationMenu: FC<Props> = ({ links }) => {
                   <Link href={`/`} passHref>
                     <a
                       onClick={closeMenu}
-                      sx={{ variant: `buttons.${ButtonNames.underline}` }}
+                      sx={{
+                        variant: `buttons.${ButtonNames.underlineHighlight}`
+                      }}
                     >
                       Home
                     </a>
@@ -171,10 +175,12 @@ const NavigationMenu: FC<Props> = ({ links }) => {
                       </a>
                     </Link>
                   ))}
-                  <Link href={`/stories-and-guides`} passHref>
+                  <Link href={`/`} passHref>
                     <a
                       onClick={closeMenu}
-                      sx={{ variant: `buttons.${ButtonNames.underline}` }}
+                      sx={{
+                        variant: `buttons.${ButtonNames.underlineHighlight}`
+                      }}
                     >
                       View all
                     </a>
