@@ -11,6 +11,10 @@ interface TextProps {
   children?: React.ReactNode | any
   html?: string
   onClick?: () => any
+  /**
+   * Overwrite the element defined by the style, this is useful for when you have headings that need the same visual appearance but different semantics
+   */
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span"
 }
 
 type Variant =
@@ -26,7 +30,7 @@ type Variant =
 
 const Text: FunctionComponent<TextProps> = ({
   variant = "paragraph",
-
+  as,
   children,
   html,
   onClick,
@@ -50,7 +54,7 @@ const Text: FunctionComponent<TextProps> = ({
     | JSXElementConstructor<any>
     | React.ReactElement<any>
     | React.ComponentType<any>
-    | string = componentsMap![variant!]
+    | string = as ? as : componentsMap![variant!]
 
   const htmlContentProps = html
     ? {
