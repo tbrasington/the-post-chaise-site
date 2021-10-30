@@ -27,7 +27,7 @@ export interface Slug {
 
 export interface PageContent {
   _key: string
-  _type: "paragraph" | "gallery" | "Media" | string
+  _type: "paragraph" | "gallery" | "Media" | "mediaGrid" | string
   body?: SanityBlock[]
   gallery?: PageContentGallery[]
   Image?: Image
@@ -35,7 +35,7 @@ export interface PageContent {
   caption?: string
   palette?: Palette
   fullbleed?: boolean
-  shopifyProduct?: SanityProduct
+  columns?: number
 }
 
 export interface PageContentGallery {

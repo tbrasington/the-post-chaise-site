@@ -28,11 +28,9 @@ const MediaImage: React.FC<Props> = ({
         .width(
           width ||
             options.width ||
-            Math.min(options.originalImageDimensions.width, 1920)
+            Math.min(options.originalImageDimensions.width)
         )
-        .maxHeight(
-          height || Math.min(options.originalImageDimensions.height, 1920)
-        )
+        .maxHeight(height || Math.min(options.originalImageDimensions.height))
         .crop("focalpoint")
     }
   })
@@ -48,8 +46,10 @@ const MediaImage: React.FC<Props> = ({
           alignItems: "center",
           alignContent: "center",
           justifyContent: "center",
+          aspectRatio: String(image.width / image.height),
           "& > div": {
-            height: "100%"
+            height: "100%",
+            width: "100%"
           },
           "& img": {
             backgroundRepeat: "no-repeat"
@@ -59,7 +59,7 @@ const MediaImage: React.FC<Props> = ({
         <Image
           {...image}
           alt={sanityImage.alt_text}
-          layout="intrinsic"
+          layout="responsive"
           objectFit={fit}
           objectPosition="center"
           priority={priority === 0}

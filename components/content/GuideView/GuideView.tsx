@@ -54,8 +54,9 @@ const GuideView: FC<GuideViewProps> = ({ content }) => {
         </Box>
       </Container>
 
-      <Container clean spacing={96} sx={{ mb: 128 }}>
+      <Container clean spacing={24}>
         {content.page_content.map(slice => {
+          console.log({ slice })
           return (
             <Container clean={SliceWidth(slice)} key={slice._key}>
               <SliceRenderer block={slice} />

@@ -109,7 +109,6 @@ export interface SanityAsset {
   caption?: string
   palette: Palette
   fullbleed?: boolean
-  shopifyProduct?: SanityProduct
 }
 export interface Image {
   _type: string

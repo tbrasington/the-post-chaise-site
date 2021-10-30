@@ -8,6 +8,8 @@ function SliceWidth(block: PageContent) {
       return true
     case "Media":
       return true
+    case "mediaGrid":
+      return false
     default:
       return false
   }

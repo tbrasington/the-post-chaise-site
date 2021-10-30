@@ -117,7 +117,12 @@ export default {
               name: 'gallery',
               title: "Gallery",
               type: 'gallery'
-            }
+            },
+            {
+              name: 'caption',
+              type: 'text',
+              title: 'Caption'
+            },
           ],
           preview: {
             select: {

@@ -5,7 +5,7 @@ import { Flex } from "theme-ui"
 import { PageContent } from "@sanity/types/guides"
 import { MediaImage } from "@components/common"
 import { SanityAsset } from "@sanity/types/image"
-import { StandardXAxisSpace, StandardXPadding } from "@theme/tokens"
+import { StandardLeftIndent, StandardXPadding } from "@theme/tokens"
 interface MediaProps {
   content: PageContent
 }
@@ -23,41 +23,42 @@ const Media: FC<MediaProps> = ({ content }) => {
     return (
       <Box
         sx={{
-          ml: [0, null, "auto"],
-          px: content.fullbleed ? 0 : [24, null, 0],
-          width: content.fullbleed
-            ? "100%"
-            : ["100%", null, `calc(100% - ${StandardXAxisSpace})`]
+          px: StandardXPadding,
+          width: "100%"
         }}
       >
-        {content.Image && (
-          <MediaImage fit="cover" sanityImage={remappedImage} />
-        )}
-        <Flex
-          sx={{
-            alignItems: "center",
-            pt: 24,
-            flexWrap: "wrap",
-            flexShrink: 1,
-            flexGrow: 1,
-            px: content.fullbleed ? StandardXPadding : 0,
-            "& > div": {
-              flexShrink: 1,
-              flexGrow: 1,
-              mb: 16,
-              pr: content.fullbleed ? 0 : StandardXPadding
-            },
-            "& > div + div": {
-              flexShrink: 0.5,
-              flexGrow: 0.5
-            },
-            "& > div a": {
-              ml: [0, 0, "auto"]
-            }
-          }}
-        >
-          {content.caption && <Caption>{content.caption}</Caption>}
-        </Flex>
+        <Box sx={{ mx: StandardLeftIndent }}>
+          {content.Image && (
+            <MediaImage fit="contain" sanityImage={remappedImage} />
+          )}
+          {content.caption && (
+            <Flex
+              sx={{
+                alignItems: "center",
+                pt: 24,
+                flexWrap: "wrap",
+                flexShrink: 1,
+                flexGrow: 1,
+                px: content.fullbleed ? StandardXPadding : 0,
+                "& > div": {
+                  flexShrink: 1,
+                  flexGrow: 1,
+                  mb: 16,
+                  pr: content.fullbleed ? 0 : StandardXPadding
+                },
+                "& > div + div": {
+                  flexShrink: 0.5,
+                  flexGrow: 0.5
+                },
+                "& > div a": {
+                  ml: [0, 0, "auto"]
+                }
+              }}
+            >
+              <Caption>{content.caption}</Caption>
+            </Flex>
+          )}
+        </Box>
       </Box>
     )
   } else {
