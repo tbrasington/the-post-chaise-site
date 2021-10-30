@@ -85,7 +85,7 @@ const GuideView: FC<GuideViewProps> = ({ content }) => {
             variant="sub_heading"
             as="p"
             sx={{
-              color: ColorTokens.gray,
+              color: ColorTokens.text,
               mt: 24
             }}
           >

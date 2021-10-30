@@ -115,11 +115,6 @@ export default function Home({
                       key={item._id}
                       variants={motionItem}
                       sx={{ listStyle: "none", m: 0, p: 0 }}
-                      transition={{
-                        type: "spring",
-                        damping: 30,
-                        stiffness: 100
-                      }}
                     >
                       <GuideCard item={item} showDescription={false} />
                     </motion.li>
