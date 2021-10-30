@@ -1,7 +1,7 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from "react"
 
-import { Box } from 'theme-ui'
-import throttle from 'lodash.throttle'
+import { Box } from "theme-ui"
+import throttle from "lodash.throttle"
 
 const NavbarRoot: FC = ({ children }) => {
   const [hasScrolled, setHasScrolled] = useState(false)
@@ -17,9 +17,9 @@ const NavbarRoot: FC = ({ children }) => {
       }
     }, 200)
 
-    document.addEventListener('scroll', handleScroll)
+    document.addEventListener("scroll", handleScroll)
     return () => {
-      document.removeEventListener('scroll', handleScroll)
+      document.removeEventListener("scroll", handleScroll)
     }
   }, [hasScrolled])
 
@@ -28,7 +28,7 @@ const NavbarRoot: FC = ({ children }) => {
       sx={{
         pt: [32, 64, 48],
         pb: [32, 32, 48],
-        borderBottom: hasScrolled ? 'solid 1px #fff' : 'none',
+        borderBottom: hasScrolled ? "solid 1px #fff" : "none"
       }}
     >
       {children}
