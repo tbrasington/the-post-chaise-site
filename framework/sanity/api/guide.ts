@@ -1,4 +1,4 @@
-import { groq } from 'next-sanity'
+import { groq } from "next-sanity"
 
 export const getGuides = groq`*[_type == "guide"] {
   ...,
@@ -36,7 +36,7 @@ export const getGuideList = groq`*[_type == "guide"]| order(_createdAt desc)  {
   "slug": slug.current,
 }`
 
-export const getGuideIndexList  = groq`*[_type == "guide"]| order(date_of_guide desc)  {
+export const getGuideIndexList = groq`*[_type == "guide"]| order(date_of_guide desc)  {
   _id,
  	"title": title,
   "slug": slug.current,

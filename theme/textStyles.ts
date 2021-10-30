@@ -3,16 +3,16 @@ import {
   FontWeights,
   LineHeights,
   TextStyleNames,
-  TextStyles,
-} from './tokens'
+  TextStyles
+} from "./tokens"
 
-import { ThemeUICSSObject } from '@theme-ui/css'
+import { ThemeUICSSObject } from "@theme-ui/css"
 
 export const PageTitle: ThemeUICSSObject = {
   fontFamily: TextStyles.heading,
   lineHeight: LineHeights.heading,
   fontWeight: FontWeights.regular,
-  fontSize: FontSizes.stepOne,
+  fontSize: FontSizes.stepOne
 }
 
 export const SubHeading: ThemeUICSSObject = {
@@ -20,29 +20,29 @@ export const SubHeading: ThemeUICSSObject = {
   lineHeight: LineHeights.heading,
   fontWeight: FontWeights.regular,
   fontSize: FontSizes.stepNegativeOne,
-  letterSpacing: '0.05rem',
-  textTransform: 'uppercase',
+  letterSpacing: "0.05rem",
+  textTransform: "uppercase"
 }
 
 export const Statement: ThemeUICSSObject = {
   fontFamily: TextStyles.paragraph,
   lineHeight: LineHeights.body,
   fontWeight: FontWeights.regular,
-  fontSize: FontSizes.stepOne,
+  fontSize: FontSizes.stepOne
 }
 
 export const Paragraph: ThemeUICSSObject = {
   fontFamily: TextStyles.paragraph,
   lineHeight: LineHeights.body,
   fontWeight: FontWeights.regular,
-  fontSize: FontSizes.stepZero,
+  fontSize: FontSizes.stepZero
 }
 
 export const ParagraphSmall: ThemeUICSSObject = {
   fontFamily: TextStyles.paragraph,
   lineHeight: LineHeights.body,
   fontWeight: FontWeights.regular,
-  fontSize: FontSizes.stepNegativeOne,
+  fontSize: FontSizes.stepNegativeOne
 }
 
 export const Caption: ThemeUICSSObject = {
@@ -50,15 +50,15 @@ export const Caption: ThemeUICSSObject = {
   lineHeight: LineHeights.heading,
   fontWeight: FontWeights.regular,
   fontSize: FontSizes.stepNegativeOne,
-  letterSpacing: '0.05rem',
-  fontStyle: 'italic',
+  letterSpacing: "0.05rem",
+  fontStyle: "italic"
 }
 
 export const LabelRegular: ThemeUICSSObject = {
   fontFamily: TextStyles.label,
   lineHeight: LineHeights.heading,
   fontWeight: FontWeights.regular,
-  fontSize: FontSizes.stepNegativeOne,
+  fontSize: FontSizes.stepNegativeOne
 }
 
 export const LabelUpperRegular: ThemeUICSSObject = {
@@ -66,43 +66,43 @@ export const LabelUpperRegular: ThemeUICSSObject = {
   lineHeight: LineHeights.heading,
   fontWeight: FontWeights.regular,
   fontSize: FontSizes.stepNegativeOne,
-  letterSpacing: '0.05rem',
-  textTransform: 'uppercase',
+  letterSpacing: "0.05rem",
+  textTransform: "uppercase"
 }
 export const Action: ThemeUICSSObject = {
   fontFamily: TextStyles.label,
-  lineHeight: 'normal',
-  letterSpacing: '0.05rem',
+  lineHeight: "normal",
+  letterSpacing: "0.05rem",
   fontWeight: FontWeights.bold,
-  fontSize: FontSizes.stepZero,
+  fontSize: FontSizes.stepZero
 }
 
 export const TextStyleVariants = {
   [TextStyleNames.page_title]: {
-    ...PageTitle,
+    ...PageTitle
   },
   [TextStyleNames.sub_heading]: {
-    ...SubHeading,
+    ...SubHeading
   },
   [TextStyleNames.statement]: {
-    ...Statement,
+    ...Statement
   },
   [TextStyleNames.paragraph]: {
-    ...Paragraph,
+    ...Paragraph
   },
   [TextStyleNames.paragraph_small]: {
-    ...ParagraphSmall,
+    ...ParagraphSmall
   },
   [TextStyleNames.caption]: {
-    ...Caption,
+    ...Caption
   },
   [TextStyleNames.label_standard]: {
-    ...LabelRegular,
+    ...LabelRegular
   },
   [TextStyleNames.label_upper]: {
-    ...LabelUpperRegular,
+    ...LabelUpperRegular
   },
   [TextStyleNames.action]: {
-    ...Action,
-  },
+    ...Action
+  }
 }

@@ -8,7 +8,7 @@ import { FC } from "react"
 import { NextSeo } from "next-seo"
 import { PortableText } from "@sanity/sanity"
 import { SanityGuide } from "@sanity/types/guides"
-import { TextStyleNames } from "@theme/tokens"
+import { StandardLeftIndent, TextStyleNames } from "@theme/tokens"
 import { getClient } from "@sanity/sanity.server"
 import { useNextSanityImage } from "next-sanity-image"
 
@@ -33,10 +33,9 @@ const GuideView: FC<GuideViewProps> = ({ content }) => {
 
   return (
     <>
-      <Container>
+      <Container sx={{ ml: StandardLeftIndent }}>
         <Box
           sx={{
-            m: "auto",
             variant: `text.${TextStyleNames.paragraph}`,
             maxWidth: "56ch"
           }}
@@ -44,7 +43,6 @@ const GuideView: FC<GuideViewProps> = ({ content }) => {
           <Text variant="page_title">{content.title}</Text>
           <Box
             sx={{
-              m: "auto",
               mb: 48,
               p: {
                 variant: `text.${TextStyleNames.statement}`
