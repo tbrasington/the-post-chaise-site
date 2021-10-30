@@ -4,24 +4,28 @@ import { ThemeUICSSObject } from "theme-ui"
 
 const ButtonSizeStandard: ThemeUICSSObject = {
   px: 16,
+  py: 0,
   height: 40,
   borderRadius: 40,
+  borderWidth: 0,
   variant: `text.${TextStyleNames.action}`
 }
 
 const ButtonSizeMini: ThemeUICSSObject = {
   px: 12,
   height: 32,
+  py: 0,
   borderRadius: 32,
+  borderWidth: 0,
   variant: `text.${TextStyleNames.label_upper}`
 }
 export const ButtonBase: ThemeUICSSObject = {
   m: 0,
-  pt: 4,
+  display: "inline-flex",
   borderStyle: "solid",
   transition: "all 0.2s ease",
   cursor: "pointer",
-  display: "inline-grid",
+
   alignItems: "center",
   justifyContent: "center",
   textDecoration: "none"
