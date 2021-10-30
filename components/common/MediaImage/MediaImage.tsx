@@ -47,7 +47,7 @@ const MediaImage: React.FC<Props> = ({
           alignContent: "center",
           justifyContent: "center",
           aspectRatio: String(image.width / image.height),
-          "& > div": {
+          "& span": {
             height: "100%",
             width: "100%"
           },
@@ -59,7 +59,7 @@ const MediaImage: React.FC<Props> = ({
         <Image
           {...image}
           alt={sanityImage.alt_text}
-          layout="responsive"
+          layout="fill"
           objectFit={fit}
           objectPosition="center"
           priority={priority === 0}

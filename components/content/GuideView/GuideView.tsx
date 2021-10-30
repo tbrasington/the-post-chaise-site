@@ -94,6 +94,7 @@ const GuideView: FC<GuideViewProps> = ({ content }) => {
 
           <Text
             variant="paragraph"
+            as="div"
             sx={{
               mt: 32,
               mb: 56

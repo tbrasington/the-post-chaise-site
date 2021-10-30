@@ -14,7 +14,7 @@ interface TextProps {
   /**
    * Overwrite the element defined by the style, this is useful for when you have headings that need the same visual appearance but different semantics
    */
-  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span"
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "div"
 }
 
 type Variant =
