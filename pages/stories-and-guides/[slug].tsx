@@ -29,7 +29,7 @@ export async function getStaticProps({
     props: {
       guideContent,
       pages: sanityPages,
-      preview,
+      preview: preview || false,
       slug: params?.slug
     },
     revalidate: 200
