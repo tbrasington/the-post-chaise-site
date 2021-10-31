@@ -1,7 +1,7 @@
-import * as Sentry from "@sentry/nextjs"
 import { getGuide } from "@sanity/api/guide"
 import { getClient } from "@sanity/sanity.server"
 import type { NextApiRequest, NextApiResponse } from "next"
+import { customWithSentry } from "../../framework/customWithSentry"
 
 async function preview(req: NextApiRequest, res: NextApiResponse) {
   // Check the secret and next parameters
@@ -11,7 +11,6 @@ async function preview(req: NextApiRequest, res: NextApiResponse) {
     !req.query.slug ||
     !req.query.type
   ) {
-    await Sentry.flush(2000)
     return res.status(401).json({ message: "Invalid token" })
   }
 
@@ -26,7 +25,6 @@ async function preview(req: NextApiRequest, res: NextApiResponse) {
     }
 
     res.setPreviewData({})
-    await Sentry.flush(2000)
 
     res.writeHead(307, {
       Location: `/stories-and-guides/${guideContent.slug}`
@@ -37,7 +35,7 @@ async function preview(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default Sentry.withSentry(preview)
+export default customWithSentry(preview)
 
 // A simple example for testing it manually from your browser.
 // If this is located at pages/api/preview.js, then

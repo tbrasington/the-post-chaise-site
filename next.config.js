@@ -23,8 +23,6 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 // )
 
 module.exports = withPlugins([
-  [withBundleAnalyzer],
-  [withSentryConfig, SentryWebpackPluginOptions],
   [
     {
       i18n: {
@@ -36,8 +34,9 @@ module.exports = withPlugins([
         loader: "custom"
       }
     }
-  ]
-  // your other plugins here
+  ],
+  [withBundleAnalyzer],
+  [withSentryConfig, SentryWebpackPluginOptions]
 ])
 
 // Don't delete this console log, useful to see the commerce config in Vercel deployments
