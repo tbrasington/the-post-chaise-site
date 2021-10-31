@@ -1,0 +1,39 @@
+import { getGuide } from "@sanity/api/guide"
+import { getClient } from "@sanity/sanity.server"
+export default async function preview(req: any, res: any) {
+  // Check the secret and next parameters
+  // This secret should only be known to this API route and the CMS
+  if (
+    req.query.secret !== process.env.SANITY_PREVIEW_SECRET ||
+    !req.query.slug ||
+    !req.query.type
+  ) {
+    return res.status(401).json({ message: "Invalid token" })
+  }
+
+  // Fetch the headless CMS to check if the provided `slug` exists
+  if (req.query.type === "guide") {
+    const guideContent = await getClient(true).fetch(getGuide, {
+      slug: req.query.slug
+    })
+
+    if (!guideContent) {
+      return res.status(401).json({ message: "Invalid slug" })
+    }
+
+    res.setPreviewData({})
+    res.writeHead(307, {
+      Location: `/stories-and-guides/${guideContent.slug}`
+    })
+    res.end()
+  } else {
+    res.end()
+  }
+}
+// A simple example for testing it manually from your browser.
+// If this is located at pages/api/preview.js, then
+// open /api/preview from your browser.
+// export default (req:any, res:any) => {
+//   res.setPreviewData({})
+//   res.end('Preview mode enabled')
+// }

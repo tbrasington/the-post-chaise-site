@@ -28,7 +28,9 @@ export async function getStaticProps({
   return {
     props: {
       guideContent,
-      pages: sanityPages
+      pages: sanityPages,
+      preview,
+      slug: params?.slug
     },
     revalidate: 200
   }
@@ -52,14 +54,16 @@ export async function getStaticPaths({ locales }: GetStaticPathsContext) {
 }
 
 export default function Slug({
-  guideContent
+  guideContent,
+  slug,
+  preview
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const router = useRouter()
 
   return router.isFallback ? (
     <h1>Loading...</h1>
   ) : (
-    <GuideView content={guideContent} />
+    <GuideView content={guideContent} preview={preview} slug={slug} />
   )
 }
 

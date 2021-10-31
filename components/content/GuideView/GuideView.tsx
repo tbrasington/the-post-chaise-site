@@ -6,7 +6,7 @@ import { SliceRenderer, SliceWidth } from "@components/content/Slices"
 import { Box } from "theme-ui"
 import { FC } from "react"
 import { NextSeo } from "next-seo"
-import { PortableText } from "@sanity/sanity"
+import { PortableText, usePreviewSubscription } from "@sanity/sanity"
 import { SanityGuide } from "@sanity/types/guides"
 import { ColorTokens, StandardLeftIndent, TextStyleNames } from "@theme/tokens"
 import { getClient } from "@sanity/sanity.server"
@@ -14,17 +14,28 @@ import { useNextSanityImage } from "next-sanity-image"
 import DmsCoordinates from "dms-conversion"
 import { motion } from "framer-motion"
 import { defaultMotionContainer } from "@theme/motion"
+import { getGuide } from "@sanity/api/guide"
 
 interface GuideViewProps {
   content: SanityGuide
+  preview?: boolean
+  slug?: string
 }
 
-const GuideView: FC<GuideViewProps> = ({ content }) => {
+const GuideView: FC<GuideViewProps> = ({ content, preview = false, slug }) => {
+  // preview
+  //
+  const data = usePreviewSubscription(getGuide, {
+    params: { slug: slug },
+    initialData: content,
+    enabled: preview
+  })
+
   // // seo image
   const image =
-    content && content.hero_image ? content.hero_image : "logo/disc.png"
+    data && data.data.hero_image ? data.data.hero_image : "logo/disc.png"
 
-  const SEOImage = useNextSanityImage(getClient(false), image, {
+  const SEOImage = useNextSanityImage(getClient(preview), image, {
     imageBuilder: imageUrlBuilder => {
       return imageUrlBuilder
         .width(800)
@@ -35,7 +46,9 @@ const GuideView: FC<GuideViewProps> = ({ content }) => {
   })
 
   /// coords
-  const LocationData = content.location ? content.location.split(",") : [0, 0]
+  const LocationData = data.data.location
+    ? data.data.location.split(",")
+    : [0, 0]
   const DMSCoordinates = new DmsCoordinates(
     Number(LocationData[0]),
     Number(LocationData[1])
@@ -68,7 +81,7 @@ const GuideView: FC<GuideViewProps> = ({ content }) => {
               color: ColorTokens.secondary
             }}
           >
-            {content.title}
+            {data.data.title}
           </Text>
           <Text
             variant="page_title"
@@ -78,7 +91,7 @@ const GuideView: FC<GuideViewProps> = ({ content }) => {
               mt: 8
             }}
           >
-            {content.date_of_guide.split("-")[0]}
+            {data.data.date_of_guide.split("-")[0]}
           </Text>
 
           <Text
@@ -100,13 +113,13 @@ const GuideView: FC<GuideViewProps> = ({ content }) => {
               mb: 56
             }}
           >
-            <PortableText blocks={content.short_description} />
+            <PortableText blocks={data.data.short_description} />
           </Text>
         </Box>
       </Container>
 
       <Container clean spacing={24}>
-        {content.page_content.map(slice => {
+        {data.data.page_content.map(slice => {
           return (
             <Container clean={SliceWidth(slice)} key={slice._key}>
               <SliceRenderer block={slice} />
@@ -116,18 +129,18 @@ const GuideView: FC<GuideViewProps> = ({ content }) => {
       </Container>
 
       <NextSeo
-        title={content.title}
-        description={content.seo_description}
+        title={data.data.title}
+        description={data.data.seo_description}
         openGraph={{
           type: "website",
-          title: content.title,
-          description: content.title,
+          title: data.data.title,
+          description: data.data.title,
           images: [
             {
               url: SEOImage?.src!,
               width: 800,
               height: 600,
-              alt: content.title
+              alt: data.data.title
             }
           ]
         }}
