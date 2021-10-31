@@ -4,7 +4,6 @@ import { ColorTokens, TextStyleNames } from "@theme/tokens"
 import { Container } from "@components/ui"
 import { FC } from "react"
 import Link from "next/link"
-import { SanityPages } from "@sanity/types/meta"
 
 interface Props {
   children?: any
