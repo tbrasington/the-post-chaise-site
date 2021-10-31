@@ -39,3 +39,5 @@ yarn-error.log*
 
 # sanity
 public/studio
+# Sentry
+.sentryclirc
