@@ -1,6 +1,9 @@
 import { getGuide } from "@sanity/api/guide"
 import { getClient } from "@sanity/sanity.server"
-export default async function preview(req: any, res: any) {
+import type { NextApiRequest, NextApiResponse } from "next"
+import { withSentry } from "@sentry/nextjs"
+
+async function preview(req: NextApiRequest, res: NextApiResponse) {
   // Check the secret and next parameters
   // This secret should only be known to this API route and the CMS
   if (
@@ -30,6 +33,9 @@ export default async function preview(req: any, res: any) {
     res.end()
   }
 }
+
+export default withSentry(preview)
+
 // A simple example for testing it manually from your browser.
 // If this is located at pages/api/preview.js, then
 // open /api/preview from your browser.
