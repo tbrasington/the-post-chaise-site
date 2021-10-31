@@ -1,4 +1,3 @@
-import { withSentry } from "@sentry/nextjs"
 import { NextApiRequest, NextApiResponse } from "next"
 
 async function exit(_req: NextApiRequest, res: NextApiResponse) {
@@ -10,4 +9,4 @@ async function exit(_req: NextApiRequest, res: NextApiResponse) {
   res.end()
 }
 
-export default withSentry(exit)
+export default exit
