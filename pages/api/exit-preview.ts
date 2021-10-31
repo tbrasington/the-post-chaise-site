@@ -1,4 +1,7 @@
-export default async function exit(_req: any, res: any) {
+import { withSentry } from "@sentry/nextjs"
+import { NextApiRequest, NextApiResponse } from "next"
+
+async function exit(_req: NextApiRequest, res: NextApiResponse) {
   // Exit the current user from "Preview Mode". This function accepts no args.
   res.clearPreviewData()
 
@@ -6,3 +9,5 @@ export default async function exit(_req: any, res: any) {
   res.writeHead(307, { Location: "/" })
   res.end()
 }
+
+export default withSentry(exit)
