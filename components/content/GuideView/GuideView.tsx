@@ -15,6 +15,7 @@ import DmsCoordinates from "dms-conversion"
 import { motion } from "framer-motion"
 import { defaultMotionContainer } from "@theme/motion"
 import { getGuide } from "@sanity/api/guide"
+import config from "@config/seo.json"
 
 interface GuideViewProps {
   content: SanityGuide
@@ -44,6 +45,8 @@ const GuideView: FC<GuideViewProps> = ({ content, preview = false, slug }) => {
         .fit("crop")
     }
   })
+
+  const SEODescription = data.data.seo_description || config.description
 
   /// coords
   const LocationData = data.data.location
@@ -129,12 +132,12 @@ const GuideView: FC<GuideViewProps> = ({ content, preview = false, slug }) => {
       </Container>
 
       <NextSeo
-        title={data.data.title}
-        description={data.data.seo_description}
+        title={`${data.data.title} | ${config.title}`}
+        description={SEODescription}
         openGraph={{
           type: "website",
-          title: data.data.title,
-          description: data.data.title,
+          title: `${data.data.title} | ${config.title}`,
+          description: SEODescription,
           images: [
             {
               url: SEOImage?.src!,

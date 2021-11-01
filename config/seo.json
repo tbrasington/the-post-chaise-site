@@ -1,13 +1,13 @@
 {
-  "title": "The Post Chaise | Prints and Guides",
+  "title": "The Post Chaise",
   "titleTemplate": "%s - The Post Chaise",
-  "description": "The Post Chaise - https://thepostchaise.com",
+  "description": "The Post Chaise - https://www.thepostchaise.com",
   "openGraph": {
-    "title": "The Post Chaise | Prints and Guides",
+    "title": "The Post Chaise",
     "description": "A guide to going nowhere",
     "type": "website",
     "locale": "en_GB",
-    "url": "https://thepostchaise.com",
+    "url": "https://www.thepostchaise.com",
     "site_name": "The Post Chaise",
     "images": [
       {
@@ -19,8 +19,8 @@
     ]
   },
   "twitter": {
-    "handle": "@thepostchaise",
-    "site": "@thepostchaise",
+    "handle": "@tbrasington",
+    "site": "https://www.thepostchaise.com",
     "cardType": "summary_large_image"
   }
 }
