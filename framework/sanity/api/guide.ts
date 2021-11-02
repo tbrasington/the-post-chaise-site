@@ -47,3 +47,12 @@ export const getGuideIndexList = groq`*[_type == "guide"]| order(date_of_guide d
   hero_image,
    "palette": hero_image.asset->metadata.palette,
 }`
+
+export const getSelectionOfAssets = groq`*[_type in [ "sanity.imageAsset"] | order(_createdAt desc)][0...5] {
+  _id,
+  _createdAt,
+  assetId,
+  "guide" : *[_type == "guide" && references(^._id)]{
+title
+}
+}`
