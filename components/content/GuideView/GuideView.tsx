@@ -123,7 +123,14 @@ const GuideView: FC<GuideViewProps> = ({ content, preview = false, slug }) => {
             }}
           >
             {data.data.short_description && (
-              <PortableText blocks={data.data.short_description} />
+              <PortableText
+                blocks={data.data.short_description}
+                sx={{
+                  "& p + p": {
+                    mt: 16
+                  }
+                }}
+              />
             )}
           </Text>
         </Box>
