@@ -69,7 +69,7 @@ const GuideView: FC<GuideViewProps> = ({ content, preview = false, slug }) => {
   const mergedRecomendations = data.data.related?.nearby
     ?.concat(data.data.related?.time || [])
     .slice(0, 4)
-  console.log({ mergedRecomendations })
+
   return (
     <motion.div
       variants={defaultMotionContainer}
@@ -156,7 +156,7 @@ const GuideView: FC<GuideViewProps> = ({ content, preview = false, slug }) => {
               p: 0,
               m: 0
             }}
-            columns={[1, 3, 4]}
+            columns={[2, 4, 4]}
             gap={12}
             as="ol"
           >

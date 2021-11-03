@@ -25,7 +25,7 @@ const MediaImage: React.FC<Props> = ({
     imageBuilder: (imageUrlBuilder, options) => {
       return imageUrlBuilder
         .auto("format")
-        .width(
+        .maxWidth(
           width ||
             options.width ||
             Math.min(options.originalImageDimensions.width)
@@ -57,7 +57,10 @@ const MediaImage: React.FC<Props> = ({
         }}
       >
         <Image
-          {...image}
+          loader={image.loader}
+          placeholder={image.placeholder}
+          src={image.src}
+          blurDataURL={image.blurDataURL}
           alt={sanityImage.alt_text}
           layout="fill"
           objectFit={fit}
