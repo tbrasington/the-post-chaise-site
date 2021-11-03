@@ -27,7 +27,28 @@ export const getGuide = groq`*[_type == "guide" &&  slug.current == $slug]{
 
     },
 		"palette": Image.asset->metadata.palette,
-	}
+	},
+  "related" : { "nearby" : *[_type == "guide" && country->title in [^.country->title] && slug.current != $slug] | order(date_of_guide desc)  {
+  _id,
+ 	"title": title,
+  "slug": slug.current,
+  "country" :  country->title,
+  date_of_guide,
+                 hero_image,
+                  "palette": hero_image.asset->metadata.palette,
+  
+}[0...3],
+"time" : *[_type == "guide" && slug.current != $slug] | order(date_of_guide desc)  {
+  _id,
+ 	"title": title,
+  "slug": slug.current,
+  "country" :  country->title,
+  date_of_guide,
+    hero_image,
+     "palette": hero_image.asset->metadata.palette,
+  
+}[0...3]
+}
 }[0]`
 
 export const getGuideList = groq`*[_type == "guide"]| order(_createdAt desc)  {
@@ -53,6 +74,9 @@ export const getSelectionOfAssets = groq`*[_type in [ "sanity.imageAsset"] | ord
   _createdAt,
   assetId,
   "guide" : *[_type == "guide" && references(^._id)]{
-title
-}
+title,
+"slug": slug.current,
+  location,
+  'country' : country->title
+}[0]
 }`

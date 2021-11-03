@@ -1,7 +1,6 @@
 import { Asset, Image, Palette, SanityAsset } from "./image"
 
 import { SanityBlock } from "./shared"
-import { SanityProduct } from "./product"
 
 export interface SanityGuide {
   _createdAt: Date
@@ -18,6 +17,10 @@ export interface SanityGuide {
   date_of_guide: string
   country: string
   location: string
+  related?: {
+    nearby?: GuideIndexList[]
+    time?: GuideIndexList[]
+  }
 }
 
 export interface Slug {
@@ -49,8 +52,10 @@ export interface GuideIndexList {
   _id: string
   title: string
   slug: string
-  seo_description: string
+  seo_description?: string
   hero_image: Image
   palette: Palette
   date_of_guide: string
+  country?: string
+  location?: string
 }

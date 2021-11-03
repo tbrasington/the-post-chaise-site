@@ -3,11 +3,11 @@
 import { Container, Text } from "@components/ui"
 import { SliceRenderer, SliceWidth } from "@components/content/Slices"
 
-import { Box } from "theme-ui"
-import { FC } from "react"
+import { Box, Grid } from "theme-ui"
+import React, { FC } from "react"
 import { NextSeo } from "next-seo"
 import { PortableText, usePreviewSubscription } from "@sanity/sanity"
-import { SanityGuide } from "@sanity/types/guides"
+import { GuideIndexList, SanityGuide } from "@sanity/types/guides"
 import { ColorTokens, StandardLeftIndent, TextStyleNames } from "@theme/tokens"
 import { getClient } from "@sanity/sanity.server"
 import { useNextSanityImage } from "next-sanity-image"
@@ -16,6 +16,7 @@ import { motion } from "framer-motion"
 import { defaultMotionContainer } from "@theme/motion"
 import { getGuide } from "@sanity/api/guide"
 import config from "@config/seo.json"
+import { GuideCard } from ".."
 
 interface GuideViewProps {
   content: SanityGuide
@@ -64,6 +65,11 @@ const GuideView: FC<GuideViewProps> = ({ content, preview = false, slug }) => {
   const west = `${dlo}° ${mlo}′ ${Math.round(slo)}″ ${nsewlo} `
   const north = `${dla}° ${mla}′ ${Math.round(sla)}″ ${nsewla}`
 
+  // recomendations
+  const mergedRecomendations = data.data.related?.nearby
+    ?.concat(data.data.related?.time || [])
+    .slice(0, 4)
+  console.log({ mergedRecomendations })
   return (
     <motion.div
       variants={defaultMotionContainer}
@@ -130,6 +136,38 @@ const GuideView: FC<GuideViewProps> = ({ content, preview = false, slug }) => {
           )
         })}
       </Container>
+
+      {mergedRecomendations && (
+        <Container sx={{ mx: StandardLeftIndent }}>
+          <Text
+            variant="sub_heading"
+            sx={{
+              mt: 128,
+
+              mb: 12
+            }}
+          >
+            Further
+          </Text>
+
+          <Grid
+            sx={{
+              flex: 1,
+              p: 0,
+              m: 0
+            }}
+            columns={[1, 3, 4]}
+            gap={12}
+            as="ol"
+          >
+            {mergedRecomendations.map((item: GuideIndexList) => {
+              return (
+                <GuideCard key={item._id} item={item} showDescription={false} />
+              )
+            })}
+          </Grid>
+        </Container>
+      )}
 
       <NextSeo
         title={`${data.data.title} | ${config.title}`}
