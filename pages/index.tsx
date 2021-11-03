@@ -92,9 +92,13 @@ export default function Home({
             >
               <Box
                 sx={{
+                  position: ["relative", "sticky"],
+                  top: [0, 32],
+                  height: 12,
                   width: ["100%", 80, 96],
                   mb: 12,
-                  variant: `text.${TextStyleNames.label_upper}`
+                  variant: `text.${TextStyleNames.label_upper}`,
+                  zIndex: 2
                 }}
               >
                 {groupYear.year}
