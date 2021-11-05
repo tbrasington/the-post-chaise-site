@@ -80,3 +80,17 @@ title,
   'country' : country->title
 }[0]
 }`
+
+/*
+*[_type=="guide" &&  slug.current == $slug]{
+  _id,
+  title,
+ "images":   *[ _type in ["sanity.imageAsset"] ]
+  {_id, "refs": count(*[ references(^._id) ])}
+  [ refs == 0 ] {...}
+  
+
+
+}[0]
+
+*/
