@@ -82,15 +82,20 @@ title,
 }`
 
 /*
+
+
+get assets all form sanity into one array
+we will use this to make a seamless gallery
 *[_type=="guide" &&  slug.current == $slug]{
   _id,
   title,
- "images":   *[ _type in ["sanity.imageAsset"] ]
-  {_id, "refs": count(*[ references(^._id) ])}
-  [ refs == 0 ] {...}
-  
+  "sluggy" :slug.current,
+"images":  *[_type in ['sanity.imageAsset']] {
+  _id,
+  alt,
+  'refs': count( *[_type == "guide" && references(^._id) &&  slug.current == $slug ])
 
+} | [refs > 0]
 
 }[0]
-
 */

@@ -1,5 +1,5 @@
-import { getGuide } from "@sanity/api/guide"
-import { getClient } from "@sanity/sanity.server"
+import { getGuide } from "@sanityLib/api/guide"
+import { getClient } from "@sanityLib/sanity.server"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 async function preview(req: NextApiRequest, res: NextApiResponse) {

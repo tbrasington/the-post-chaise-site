@@ -2,9 +2,9 @@ import { Box } from "theme-ui"
 import { Caption } from "@components/content/Slices"
 import { FC } from "react"
 import { Flex } from "theme-ui"
-import { PageContent } from "@sanity/types/guides"
+import { PageContent } from "@sanityLib/types/guides"
 import { MediaImage } from "@components/common"
-import { SanityAsset } from "@sanity/types/image"
+import { SanityAsset } from "@sanityLib/types/image"
 import {
   ColorTokens,
   StandardLeftIndent,

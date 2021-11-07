@@ -6,10 +6,10 @@ import type {
 
 import { PageView } from "@components/content"
 import { Layout } from "@components/common"
-import { getClient } from "@sanity/sanity.server"
+import { getClient } from "@sanityLib/sanity.server"
 import { useRouter } from "next/router"
-import { getNavigation } from "@sanity/api/meta"
-import { getPage, getPageList } from "@sanity/api/pages"
+import { getNavigation } from "@sanityLib/api/meta"
+import { getPage, getPageList } from "@sanityLib/api/pages"
 
 export async function getStaticProps({
   params,

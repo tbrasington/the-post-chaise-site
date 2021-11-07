@@ -1,7 +1,7 @@
 import { Fragment } from "react"
 import Gallery from "./Gallery"
 import Media from "./Media"
-import { PageContent } from "@sanity/types/guides"
+import { PageContent } from "@sanityLib/types/guides"
 import Paragraph from "./Paragraph"
 import MediaGrid from "./MediaGrid"
 

@@ -1,8 +1,8 @@
 import type { GetStaticPropsContext } from "next"
 import { Layout } from "@components/common"
 import { Container, Text } from "@components/ui"
-import { getNavigation } from "@sanity/api/meta"
-import { getClient } from "@sanity/sanity.server"
+import { getNavigation } from "@sanityLib/api/meta"
+import { getClient } from "@sanityLib/sanity.server"
 
 export async function getStaticProps({
   preview,

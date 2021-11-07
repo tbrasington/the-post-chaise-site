@@ -3,13 +3,13 @@ import type {
   GetStaticPropsContext,
   InferGetStaticPropsType
 } from "next"
-import { getGuide, getGuides } from "@sanity/api/guide"
+import { getGuide, getGuides } from "@sanityLib/api/guide"
 
 import { GuideView } from "@components/content"
 import { Layout } from "@components/common"
-import { getClient } from "@sanity/sanity.server"
+import { getClient } from "@sanityLib/sanity.server"
 import { useRouter } from "next/router"
-import { getNavigation } from "@sanity/api/meta"
+import { getNavigation } from "@sanityLib/api/meta"
 
 export async function getStaticProps({
   params,

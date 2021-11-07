@@ -1,8 +1,8 @@
+/** @jsxImportSource theme-ui */
 import { Box, Flex } from "@theme-ui/components"
 // also exported from '@storybook/react' if you can deal with breaking changes in 6.1
 import { ComponentMeta, ComponentStory } from "@storybook/react"
 
-/** @jsxImportSource theme-ui */
 import React from "react"
 import { TextStyleNames } from "../theme/tokens"
 

@@ -1,7 +1,7 @@
 import { Flex } from "theme-ui"
 import Image from "next/image"
-import { SanityAsset } from "@sanity/types/image"
-import { getClient } from "@sanity/sanity.server"
+import { SanityAsset } from "@sanityLib/types/image"
+import { getClient } from "@sanityLib/sanity.server"
 import { useNextSanityImage } from "next-sanity-image"
 
 type Props = {

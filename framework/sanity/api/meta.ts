@@ -1,4 +1,4 @@
-import { groq } from 'next-sanity'
+import { groq } from "next-sanity"
 
 export const getNavigation = groq`*[_type == "site_metadata"] {
 

@@ -16,7 +16,8 @@ module.exports = {
       "@assets": path.resolve(__dirname, "../assets"),
       "@theme": path.resolve(__dirname, "../theme"),
       "@config": path.resolve(__dirname, "../config"),
-      "@commerce": path.resolve(__dirname, "../commerce")
+      "@commerce": path.resolve(__dirname, "../commerce"),
+      "@sanityLib": path.resolve(__dirname, "../framework/sanity")
     };
 
     // Return the altered config

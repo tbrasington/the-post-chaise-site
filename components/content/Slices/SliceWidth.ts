@@ -1,4 +1,4 @@
-import { PageContent } from "@sanity/types/guides"
+import { PageContent } from "@sanityLib/types/guides"
 
 function SliceWidth(block: PageContent) {
   switch (block._type) {

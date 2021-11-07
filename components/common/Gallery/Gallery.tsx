@@ -4,7 +4,7 @@ import { Box, Flex } from "theme-ui"
 import { ColorTokens, StandardXPadding } from "@theme/tokens"
 import React, { Children, Fragment, useRef, useState } from "react"
 
-import { Palette } from "@sanity/types/image"
+import { Palette } from "@sanityLib/types/image"
 import SliderControl from "./Controls"
 import { alpha } from "@theme-ui/color"
 import { wrap } from "@popmotion/popcorn"

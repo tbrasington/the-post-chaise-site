@@ -3,7 +3,7 @@ import React, { FC } from "react"
 //import Loader from "@components/ui/Loader"
 
 import { useUI } from "@components/ui/context"
-import { SanityPages } from "@sanity/types/meta"
+import { SanityPages } from "@sanityLib/types/meta"
 import NavigationMenu from "../NavigationMenu"
 
 interface Props {
