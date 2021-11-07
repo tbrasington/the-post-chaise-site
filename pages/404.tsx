@@ -1,5 +1,5 @@
 import type { GetStaticPropsContext } from "next"
-import { Layout } from "@components/common"
+import { Layout, Zoom } from "@components/common"
 import { Container, Text } from "@components/ui"
 import { getNavigation } from "@sanityLib/api/meta"
 import { getClient } from "@sanityLib/sanity.server"
@@ -27,6 +27,7 @@ export default function NotFound() {
       <Text variant="statement">
         {`The requested page doesn't exist or you don't have access to it.`}
       </Text>
+      <Zoom />
     </Container>
   )
 }

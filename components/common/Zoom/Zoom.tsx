@@ -4,6 +4,19 @@ import { ColorTokens } from "@theme/tokens"
 import { motion } from "framer-motion"
 import { FC } from "react"
 
+/**
+ *
+ * Zoom in and out of a component
+ * Tap, launch zoom
+ * Initial state
+ *  Zoom in level 200%
+ *  Tap to Zoom out level 100%
+ *  Swipe left and right
+ *  Tap to zoom in again 200%
+ *  Pan to move around
+ *  Close button to close
+ *
+ */
 export const Zoom: FC = ({}) => {
   return (
     <Box>

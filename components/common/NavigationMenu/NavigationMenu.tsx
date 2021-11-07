@@ -10,7 +10,7 @@ import {
 } from "body-scroll-lock"
 import { alpha } from "@theme-ui/color"
 import { ColorTokens, TextStyleNames } from "@theme/tokens"
-import { SanityPages } from "@sanity/types/meta"
+import { SanityPages } from "@sanityLib/types/meta"
 import Link from "next/link"
 import { ButtonNames } from "@theme/buttons"
 import { Grid } from "theme-ui"

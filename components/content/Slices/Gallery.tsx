@@ -3,7 +3,7 @@ import { Gallery } from "@components/common"
 import MediaImage from "../../common/MediaImage"
 import { Box } from "theme-ui"
 
-import { PageContent } from "@sanity/types/guides"
+import { PageContent } from "@sanityLib/types/guides"
 
 interface GalleryProps {
   content: PageContent

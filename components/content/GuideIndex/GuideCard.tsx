@@ -1,7 +1,7 @@
 /** @jsxImportSource theme-ui */
 
-import { getClient } from "@sanity/sanity.server"
-import { GuideIndexList } from "@sanity/types/guides"
+import { getClient } from "@sanityLib/sanity.server"
+import { GuideIndexList } from "@sanityLib/types/guides"
 import { useNextSanityImage } from "next-sanity-image"
 import Link from "next/link"
 import { FC } from "react"

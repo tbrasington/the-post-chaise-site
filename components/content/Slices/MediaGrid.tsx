@@ -1,11 +1,12 @@
-import { Box } from "theme-ui"
-import { Caption } from "@components/content/Slices"
 import React, { FC } from "react"
-import { Flex, Grid } from "theme-ui"
-import { PageContent } from "@sanityLib/types/guides"
+import { Box, Flex, Grid } from "theme-ui"
+
 import { MediaImage } from "@components/common"
+import { Caption } from "@components/content/Slices"
+import { PageContent } from "@sanityLib/types/guides"
 import { SanityAsset } from "@sanityLib/types/image"
 import { StandardLeftIndent, StandardXPadding } from "@theme/tokens"
+
 interface MediaProps {
   content: PageContent
 }

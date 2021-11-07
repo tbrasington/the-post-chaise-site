@@ -1,22 +1,23 @@
 /** @jsxImportSource theme-ui */
 
-import { Container, Text } from "@components/ui"
-import { SliceRenderer, SliceWidth } from "@components/content/Slices"
-
-import { Box, Grid } from "theme-ui"
-import React, { FC } from "react"
-import { NextSeo } from "next-seo"
-import { PortableText, usePreviewSubscription } from "@sanity/sanity"
-import { GuideIndexList, SanityGuide } from "@sanity/types/guides"
-import { ColorTokens, StandardLeftIndent, TextStyleNames } from "@theme/tokens"
-import { getClient } from "@sanity/sanity.server"
-import { useNextSanityImage } from "next-sanity-image"
 import DmsCoordinates from "dms-conversion"
 import { motion } from "framer-motion"
-import { defaultMotionContainer } from "@theme/motion"
-import { getGuide } from "@sanity/api/guide"
+import { useNextSanityImage } from "next-sanity-image"
+import { NextSeo } from "next-seo"
+import React, { FC } from "react"
+import { Box, Grid } from "theme-ui"
+
+import { SliceRenderer, SliceWidth } from "@components/content/Slices"
+import { Container, Text } from "@components/ui"
 import config from "@config/seo.json"
-import { GuideCard } from ".."
+import { getGuide } from "@sanityLib/api/guide"
+import { PortableText, usePreviewSubscription } from "@sanityLib/sanity"
+import { getClient } from "@sanityLib/sanity.server"
+import { GuideIndexList, SanityGuide } from "@sanityLib/types/guides"
+import { defaultMotionContainer } from "@theme/motion"
+import { ColorTokens, StandardLeftIndent, TextStyleNames } from "@theme/tokens"
+
+import { GuideCard } from "../"
 
 interface GuideViewProps {
   content: SanityGuide
