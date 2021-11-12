@@ -15,7 +15,7 @@ interface GallerySliderProps {
   slideColorData?: Palette[]
 }
 
-const variants = {
+export const galleryMotionVariants = {
   enter: (props: { direction: number; width: number }) => {
     return {
       x: props.direction > 0 ? props.width : -props.width,
@@ -37,8 +37,8 @@ const variants = {
   }
 }
 
-const swipeConfidenceThreshold = 10000
-const swipePower = (offset: number, velocity: number) => {
+export const swipeConfidenceThreshold = 10000
+export const swipePower = (offset: number, velocity: number) => {
   return Math.abs(offset) * velocity
 }
 
@@ -129,7 +129,7 @@ const GallerySlider: React.FC<GallerySliderProps> = ({
               display: "flex"
             }}
             key={page}
-            variants={variants}
+            variants={galleryMotionVariants}
             initial="enter"
             animate="center"
             exit="exit"
