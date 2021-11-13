@@ -1,7 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { PageContentGallery } from "@sanityLib/types/guides"
 import { SanityAsset } from "@sanityLib/types/image"
-import { Box } from "@theme-ui/components"
+import { Box, Flex } from "@theme-ui/components"
 import { ColorTokens } from "@theme/tokens"
 import { AnimatePresence, motion, useMotionValue } from "framer-motion"
 import { FC, useState, useRef } from "react"
@@ -14,6 +14,7 @@ import {
 } from "../Gallery/Gallery"
 
 import SliderControl from "../Gallery/Controls"
+import { Text } from "@components/ui"
 
 /**
  *
@@ -35,6 +36,7 @@ type ZoomProps = {
 }
 
 export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0 }) => {
+  const totalSlides = slides.length
   const [zoomLevel, setZoomLevel] = useState<1 | 2>(1)
   const [[zoomIndex, direction], setZoomIndex] = useState([initialIndex, 0])
   const [zoomOffset, setZoomOffset] = useState<{
@@ -75,14 +77,15 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0 }) => {
   }
 
   return (
-    <Box
+    <Flex
       ref={galleryRef}
       sx={{
         position: "absolute",
         width: "100%",
         height: "100%",
         bg: slides[imageIndex].palette.darkMuted.background,
-        p: 32
+        p: 32,
+        flexDirection: "column"
       }}
     >
       <Box
@@ -132,6 +135,7 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0 }) => {
             }}
           >
             <button
+              aria-label="Zoom image"
               sx={{
                 position: "absolute",
                 width: "100%",
@@ -215,8 +219,25 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0 }) => {
           </motion.div>
         </AnimatePresence>
       </Box>
-      <SliderControl onPrev={onPrev} onNext={onNext} />
-    </Box>
+      <Flex
+        sx={{
+          width: "100%",
+          alignItems: "center",
+          justifyContent: "space-between"
+        }}
+      >
+        <Text
+          sx={{
+            color: slides[imageIndex].palette.darkMuted.foreground
+          }}
+          variant="caption"
+        >
+          {zoomIndex + 1} / {totalSlides}
+        </Text>
+
+        <SliderControl onPrev={onPrev} onNext={onNext} />
+      </Flex>
+    </Flex>
   )
 }
 
