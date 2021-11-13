@@ -20,6 +20,12 @@ module.exports = {
       "@sanityLib": path.resolve(__dirname, "../framework/sanity")
     };
 
+     config.module.rules.push({
+      type: "javascript/auto",
+      test: /\.mjs$/,
+      include: /node_modules/,
+    });
+
     // Return the altered config
     return config;
   },

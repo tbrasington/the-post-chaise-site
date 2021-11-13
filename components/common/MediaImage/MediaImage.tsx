@@ -3,7 +3,8 @@ import Image from "next/image"
 import { SanityAsset } from "@sanityLib/types/image"
 import { getClient } from "@sanityLib/sanity.server"
 import { useNextSanityImage } from "next-sanity-image"
-
+import { useRef } from "react"
+import React from "react"
 type Props = {
   sanityImage: SanityAsset
   priority?: number
@@ -11,6 +12,7 @@ type Props = {
   height?: number
   sizes?: string
   fit?: "contain" | "cover"
+  innerRef?: React.ForwardedRef<HTMLDivElement>
 }
 
 const MediaImage: React.FC<Props> = ({
@@ -19,7 +21,8 @@ const MediaImage: React.FC<Props> = ({
   width,
   height,
   sizes = "(max-width: 800px) 100vw, 800px",
-  fit = "contain"
+  fit = "contain",
+  innerRef
 }) => {
   const image = useNextSanityImage(getClient(false), sanityImage.Image, {
     imageBuilder: (imageUrlBuilder, options) => {
@@ -39,6 +42,7 @@ const MediaImage: React.FC<Props> = ({
     image && (
       <Flex
         key={image.src}
+        ref={innerRef}
         sx={{
           position: "relative",
           width: "100%",

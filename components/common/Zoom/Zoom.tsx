@@ -3,7 +3,7 @@ import { PageContentGallery } from "@sanityLib/types/guides"
 import { SanityAsset } from "@sanityLib/types/image"
 import { Box } from "@theme-ui/components"
 import { ColorTokens } from "@theme/tokens"
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence, motion, useMotionValue } from "framer-motion"
 import { FC, useState, useRef } from "react"
 import { MediaImage } from "@components/common"
 import { wrap } from "popmotion"
@@ -34,22 +34,25 @@ type ZoomProps = {
   slides: PageContentGallery[]
 }
 
-export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0, children }) => {
+export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0 }) => {
   const [zoomLevel, setZoomLevel] = useState<1 | 2>(1)
-  const [[x, y], setPosition] = useState([0, 0])
   const [[zoomIndex, direction], setZoomIndex] = useState([initialIndex, 0])
+  const [zoomOffset, setZoomOffset] = useState<{
+    top: number
+    left: number
+    right: number
+    bottom: number
+  }>({
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0
+  })
   const imageIndex = wrap(0, slides.length, zoomIndex)
-  const slideTotal = slides.length
-
-  const slideColorData = slides[imageIndex]?.palette
-  const [slideBg, setSlideBG] = useState(
-    slideColorData && slideColorData.muted
-      ? slideColorData.muted.background
-      : ColorTokens.muted
-  )
 
   // gallery state actions
   const galleryRef = useRef<HTMLDivElement>(null)
+  const currentMediaRef = useRef<HTMLDivElement>(null)
 
   const containerWidth = galleryRef.current
     ? galleryRef.current.getBoundingClientRect().width
@@ -59,8 +62,6 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0, children }) => {
 
   function paginate(newDirection: number) {
     setZoomIndex([zoomIndex + newDirection, newDirection])
-    slides && slides[imageIndex].palette
-    setSlideBG(slides[imageIndex].palette.muted.background)
   }
 
   const onPrev = () => paginate(-1)
@@ -81,7 +82,7 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0, children }) => {
         position: "absolute",
         width: "100%",
         height: "100%",
-        bg: slideBg,
+        bg: slides[imageIndex].palette.darkMuted.background,
         p: 32
       }}
     >
@@ -90,8 +91,7 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0, children }) => {
           position: "relative",
           width: "100%",
           height: "100%",
-          overflow: "hidden",
-          bg: "green"
+          overflow: "hidden"
         }}
       >
         <AnimatePresence
@@ -131,25 +131,81 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0, children }) => {
               width: "100%",
               height: "100%"
             }}
-            onTap={e => {
-              setZoomLevel(zoomLevel === 1 ? 2 : 1)
-              setPosition([e.x, e.y])
-            }}
           >
-            <motion.div
+            <button
               sx={{
                 position: "absolute",
                 width: "100%",
-                height: "100%"
+                height: "100%",
+                bg: "red",
+                zIndex: 10,
+                display: zoomLevel === 2 ? "none" : "block",
+                opacity: 0
+              }}
+              onClick={() => {
+                setZoomLevel(zoomLevel === 1 ? 2 : 1)
+
+                let imageWrapper =
+                  currentMediaRef.current &&
+                  currentMediaRef.current.getElementsByTagName("img")[0]
+
+                /* 
+                calculate the new width and height of the image 
+                
+                */
+                const width =
+                  imageWrapper?.getBoundingClientRect().width ||
+                  window.innerWidth
+
+                const height =
+                  imageWrapper?.getBoundingClientRect().height ||
+                  window.innerHeight
+
+                const naturalWidth = imageWrapper?.naturalWidth || width
+                const naturalHeight =
+                  imageWrapper?.naturalHeight || window.innerHeight
+                const scale = 3
+                const scaledWidth = width * scale
+                const scaledHeight =
+                  scaledWidth * (naturalHeight / naturalWidth)
+                //(scaledWidth - width) * -1,
+                setZoomOffset({
+                  top: ((scaledHeight - height) / 2) * -1,
+                  left: ((scaledWidth - width) / 2) * -1,
+                  right: (scaledWidth - width) / 2,
+                  bottom: (scaledHeight - height) / 2
+                })
+              }}
+            ></button>
+            <motion.div
+              dragConstraints={{
+                top: zoomOffset.top,
+                bottom: zoomOffset.bottom,
+                left: zoomOffset.left,
+                right: zoomOffset.right
+              }}
+              style={{
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                ...(zoomLevel === 2
+                  ? {
+                      x: 0,
+                      y: 0
+                    }
+                  : {})
               }}
               animate={{
                 // needs maths on bounding
-                x: zoomLevel === 1 ? 0 : x * -1,
-                y: zoomLevel === 1 ? 0 : y * -1,
                 scale: zoomLevel === 1 ? 1 : 3
+              }}
+              drag
+              onClick={() => {
+                setZoomLevel(1)
               }}
             >
               <MediaImage
+                innerRef={currentMediaRef}
                 key={remappedImage._key}
                 fit="contain"
                 sanityImage={remappedImage}
