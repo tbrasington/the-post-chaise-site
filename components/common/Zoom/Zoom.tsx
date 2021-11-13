@@ -2,10 +2,11 @@
 import { PageContentGallery } from "@sanityLib/types/guides"
 import { SanityAsset } from "@sanityLib/types/image"
 import { Box, Flex } from "@theme-ui/components"
-import { ColorTokens } from "@theme/tokens"
-import { AnimatePresence, motion, useMotionValue } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 import { FC, useState, useRef } from "react"
 import { MediaImage } from "@components/common"
+import { Button } from "@components/ui"
+
 import { wrap } from "popmotion"
 import {
   galleryMotionVariants,
@@ -33,9 +34,10 @@ import { Text } from "@components/ui"
 type ZoomProps = {
   initialIndex: number
   slides: PageContentGallery[]
+  close: () => void
 }
 
-export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0 }) => {
+export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0, close }) => {
   const totalSlides = slides.length
   const [zoomLevel, setZoomLevel] = useState<1 | 2>(1)
   const [[zoomIndex, direction], setZoomIndex] = useState([initialIndex, 0])
@@ -88,6 +90,16 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0 }) => {
         flexDirection: "column"
       }}
     >
+      <Box sx={{ position: "absolute", right: 24, top: 40, zIndex: 10 }}>
+        <Button
+          variant="mini"
+          bgOverride={slides[imageIndex].palette.vibrant.background}
+          textOverride={slides[imageIndex].palette.vibrant.foreground}
+          onClick={close}
+        >
+          Close
+        </Button>
+      </Box>
       <Box
         sx={{
           position: "relative",
@@ -235,7 +247,12 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0 }) => {
           {zoomIndex + 1} / {totalSlides}
         </Text>
 
-        <SliderControl onPrev={onPrev} onNext={onNext} />
+        <SliderControl
+          onPrev={onPrev}
+          onNext={onNext}
+          bgOverride={slides[imageIndex].palette.vibrant.background}
+          textOverride={slides[imageIndex].palette.vibrant.foreground}
+        />
       </Flex>
     </Flex>
   )

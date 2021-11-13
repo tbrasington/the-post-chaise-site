@@ -40,6 +40,10 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    * override the color value of the bg
    */
   bgOverride?: string
+  /**
+   * override the color value of the bg
+   */
+  textOverride?: string
 }
 
 const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
@@ -52,6 +56,7 @@ const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
     loading = false,
     disabled = false,
     bgOverride,
+    textOverride,
     Component = "button",
     ...rest
   } = props
@@ -61,8 +66,19 @@ const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
   let colorOverrides: ThemeUIStyleObject = {}
 
   if (bgOverride && bgOverride?.length > 0) {
-    colorOverrides = { bg: bgOverride, borderColor: bgOverride }
+    colorOverrides = {
+      bg: bgOverride,
+      borderColor: bgOverride
+    }
   }
+
+  if (textOverride && textOverride?.length > 0) {
+    colorOverrides = {
+      ...colorOverrides,
+      color: textOverride
+    }
+  }
+
   return (
     <Component
       aria-pressed={active}

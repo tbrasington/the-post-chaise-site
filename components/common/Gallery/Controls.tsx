@@ -9,10 +9,12 @@ import React from "react"
 interface GalleryControlProps {
   onPrev: React.MouseEventHandler<HTMLButtonElement>
   onNext: React.MouseEventHandler<HTMLButtonElement>
+  textOverride?: string
+  bgOverride?: string
 }
 
 const GalleryControl: React.FC<GalleryControlProps> = React.memo(
-  function Slider({ onPrev, onNext }) {
+  function Slider({ onPrev, onNext, textOverride, bgOverride }) {
     return (
       <Flex
         sx={{
@@ -27,6 +29,8 @@ const GalleryControl: React.FC<GalleryControlProps> = React.memo(
           aria-label="Previous Product Image"
           variant="controls"
           width={40}
+          bgOverride={bgOverride}
+          textOverride={textOverride}
         >
           <ArrowLeft />
         </Button>
@@ -35,6 +39,8 @@ const GalleryControl: React.FC<GalleryControlProps> = React.memo(
           aria-label="Next Product Image"
           variant="controls"
           width={40}
+          bgOverride={bgOverride}
+          textOverride={textOverride}
         >
           <ArrowRight />
         </Button>
