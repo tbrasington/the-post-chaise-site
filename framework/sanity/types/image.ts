@@ -1,5 +1,3 @@
-import { SanityProduct } from "./product"
-
 export interface Dimensions {
   _type: string
   aspectRatio: number
@@ -12,7 +10,7 @@ export interface DarkMuted {
   background: string
   foreground: string
   population: number
-  title: string
+  title?: string
 }
 
 export interface DarkVibrant {
@@ -20,7 +18,7 @@ export interface DarkVibrant {
   background: string
   foreground: string
   population: number
-  title: string
+  title?: string
 }
 
 export interface Dominant {
@@ -28,7 +26,7 @@ export interface Dominant {
   background: string
   foreground: string
   population: number
-  title: string
+  title?: string
 }
 
 export interface LightMuted {
@@ -36,7 +34,7 @@ export interface LightMuted {
   background: string
   foreground: string
   population: number
-  title: string
+  title?: string
 }
 
 export interface LightVibrant {
@@ -44,7 +42,7 @@ export interface LightVibrant {
   background: string
   foreground: string
   population: number
-  title: string
+  title?: string
 }
 
 export interface Muted {
@@ -52,7 +50,7 @@ export interface Muted {
   background: string
   foreground: string
   population: number
-  title: string
+  title?: string
 }
 
 export interface Vibrant {
@@ -60,11 +58,11 @@ export interface Vibrant {
   background: string
   foreground: string
   population: number
-  title: string
+  title?: string
 }
 
 export interface Palette {
-  _type: string
+  _type?: string
   darkMuted: DarkMuted
   darkVibrant: DarkVibrant
   dominant: Dominant
@@ -105,16 +103,16 @@ export interface SanityAsset {
   Image: Image
   _key: string
   _type: string
-  alt_text: string
+  alt_text?: string
   caption?: string
-  palette: Palette
+  palette?: Palette
   fullbleed?: boolean
 }
 export interface Image {
   _type: string
   asset: Asset
-  crop: Crop
-  hotspot: Hotspot
+  crop?: Crop
+  hotspot?: Hotspot
 }
 export interface Asset {
   _ref: string

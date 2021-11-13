@@ -44,8 +44,8 @@ export interface PageContent {
 export interface PageContentGallery {
   _key: string
   _type: string
-  mediaAsset: SanityAsset
-  palette: Palette
+  mediaAsset?: SanityAsset
+  palette?: Palette
 }
 
 export interface GuideIndexList {

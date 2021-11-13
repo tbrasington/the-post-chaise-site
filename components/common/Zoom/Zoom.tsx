@@ -16,6 +16,7 @@ import {
 
 import SliderControl from "../Gallery/Controls"
 import { Text } from "@components/ui"
+import { ColorTokens } from "@theme/tokens"
 
 /**
  *
@@ -38,7 +39,6 @@ type ZoomProps = {
 }
 
 export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0, close }) => {
-  const totalSlides = slides.length
   const [zoomLevel, setZoomLevel] = useState<1 | 2>(1)
   const [[zoomIndex, direction], setZoomIndex] = useState([initialIndex, 0])
   const [zoomOffset, setZoomOffset] = useState<{
@@ -52,7 +52,6 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0, close }) => {
     left: 0,
     right: 0
   })
-  const imageIndex = wrap(0, slides.length, zoomIndex)
 
   // gallery state actions
   const galleryRef = useRef<HTMLDivElement>(null)
@@ -70,12 +69,66 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0, close }) => {
   const onPrev = () => paginate(-1)
   const onNext = () => paginate(1)
 
+  const filterSlides = slides.filter(item => item.mediaAsset !== null)
+  const totalSlides = filterSlides.length
+  const imageIndex = wrap(0, totalSlides, zoomIndex)
+
   const remappedImage: SanityAsset = {
-    Image: slides[imageIndex].mediaAsset.Image,
-    alt_text: slides[imageIndex].mediaAsset.alt_text,
-    palette: slides[imageIndex].palette,
-    _key: slides[imageIndex]._key,
-    _type: slides[imageIndex]._type
+    Image: filterSlides[imageIndex].mediaAsset?.Image || {
+      _type: "image",
+      asset: {
+        _ref: "image-45b6703725a2b226e0fb3cdb230b1c2e714b3569-3199x4000-jpg",
+        _type: "reference"
+      }
+    },
+    alt_text: filterSlides[imageIndex].mediaAsset?.alt_text || "",
+    palette: filterSlides[imageIndex]?.palette || {
+      vibrant: {
+        _type: "string",
+        population: 0,
+        foreground: ColorTokens.text,
+        background: ColorTokens.primary
+      },
+      darkMuted: {
+        _type: "string",
+        population: 0,
+        foreground: ColorTokens.text,
+        background: ColorTokens.primary
+      },
+      darkVibrant: {
+        _type: "string",
+        population: 0,
+        foreground: ColorTokens.text,
+        background: ColorTokens.primary
+      },
+      muted: {
+        _type: "string",
+        population: 0,
+        foreground: ColorTokens.text,
+        background: ColorTokens.primary
+      },
+      lightMuted: {
+        _type: "string",
+        population: 0,
+        foreground: ColorTokens.text,
+        background: ColorTokens.primary
+      },
+
+      lightVibrant: {
+        _type: "string",
+        population: 0,
+        foreground: ColorTokens.text,
+        background: ColorTokens.primary
+      },
+      dominant: {
+        _type: "string",
+        population: 0,
+        foreground: ColorTokens.text,
+        background: ColorTokens.primary
+      }
+    },
+    _key: filterSlides[imageIndex]._key,
+    _type: filterSlides[imageIndex]._type
   }
 
   return (
@@ -85,7 +138,7 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0, close }) => {
         position: "absolute",
         width: "100%",
         height: "100%",
-        bg: slides[imageIndex].palette.darkMuted.background,
+        bg: filterSlides[imageIndex].palette?.darkMuted.background,
         p: 32,
         flexDirection: "column"
       }}
@@ -93,8 +146,8 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0, close }) => {
       <Box sx={{ position: "absolute", right: 24, top: 40, zIndex: 10 }}>
         <Button
           variant="mini"
-          bgOverride={slides[imageIndex].palette.vibrant.background}
-          textOverride={slides[imageIndex].palette.vibrant.foreground}
+          bgOverride={filterSlides[imageIndex].palette?.vibrant.background}
+          textOverride={filterSlides[imageIndex].palette?.vibrant.foreground}
           onClick={close}
         >
           Close
@@ -240,7 +293,7 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0, close }) => {
       >
         <Text
           sx={{
-            color: slides[imageIndex].palette.darkMuted.foreground
+            color: filterSlides[imageIndex].palette?.darkMuted.foreground
           }}
           variant="caption"
         >
@@ -250,8 +303,8 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0, close }) => {
         <SliderControl
           onPrev={onPrev}
           onNext={onNext}
-          bgOverride={slides[imageIndex].palette.vibrant.background}
-          textOverride={slides[imageIndex].palette.vibrant.foreground}
+          bgOverride={filterSlides[imageIndex].palette?.vibrant.background}
+          textOverride={filterSlides[imageIndex].palette?.vibrant.foreground}
         />
       </Flex>
     </Flex>

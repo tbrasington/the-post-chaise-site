@@ -10,7 +10,6 @@ type SliceRendererProps = {
 }
 
 function SliceRenderer({ block }: SliceRendererProps) {
-  console.log({ block })
   switch (block._type) {
     case "paragraph":
       return <Paragraph content={block} />

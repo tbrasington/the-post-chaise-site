@@ -10,6 +10,7 @@ import { Layout } from "@components/common"
 import { getClient } from "@sanityLib/sanity.server"
 import { useRouter } from "next/router"
 import { getNavigation } from "@sanityLib/api/meta"
+import { SanityGuide } from "@sanityLib/types/guides"
 
 export async function getStaticProps({
   params,
@@ -17,17 +18,25 @@ export async function getStaticProps({
 }: GetStaticPropsContext<{ slug: string }>) {
   const sanityPages = await getClient(preview || false).fetch(getNavigation)
 
-  const guideContent = await getClient(preview || false).fetch(getGuide, {
-    slug: params!.slug
-  })
+  const guideContent: SanityGuide = await getClient(preview || false).fetch(
+    getGuide,
+    {
+      slug: params!.slug
+    }
+  )
 
   if (!guideContent) {
     throw new Error(`Guide with slug '${params!.slug}' not found`)
   }
 
+  const allMedia = guideContent.page_content.filter(
+    block => block._type === "Media" || block._type === "mediaGrid"
+  )
+
   return {
     props: {
       guideContent,
+      allMedia,
       pages: sanityPages,
       preview: preview || false,
       slug: params?.slug
@@ -55,6 +64,7 @@ export async function getStaticPaths({ locales }: GetStaticPathsContext) {
 
 export default function Slug({
   guideContent,
+  allMedia,
   slug,
   preview
 }: InferGetStaticPropsType<typeof getStaticProps>) {
@@ -63,7 +73,12 @@ export default function Slug({
   return router.isFallback ? (
     <h1>Loading...</h1>
   ) : (
-    <GuideView content={guideContent} preview={preview} slug={slug} />
+    <GuideView
+      content={guideContent}
+      allMedia={allMedia}
+      preview={preview}
+      slug={slug}
+    />
   )
 }
 
