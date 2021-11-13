@@ -52,7 +52,6 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0 }) => {
 
   // gallery state actions
   const galleryRef = useRef<HTMLDivElement>(null)
-  const currentMediaRef = useRef<HTMLDivElement>(null)
 
   const containerWidth = galleryRef.current
     ? galleryRef.current.getBoundingClientRect().width
@@ -143,38 +142,35 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0 }) => {
                 opacity: 0
               }}
               onClick={() => {
-                setZoomLevel(zoomLevel === 1 ? 2 : 1)
-
                 let imageWrapper =
-                  currentMediaRef.current &&
-                  currentMediaRef.current.getElementsByTagName("img")[0]
+                  galleryRef.current &&
+                  galleryRef.current.getElementsByTagName("img")[0]
 
                 /* 
                 calculate the new width and height of the image 
-                
                 */
-                const width =
-                  imageWrapper?.getBoundingClientRect().width ||
-                  window.innerWidth
 
-                const height =
-                  imageWrapper?.getBoundingClientRect().height ||
-                  window.innerHeight
+                const width = imageWrapper?.getBoundingClientRect().width || 0
 
-                const naturalWidth = imageWrapper?.naturalWidth || width
-                const naturalHeight =
-                  imageWrapper?.naturalHeight || window.innerHeight
+                const height = imageWrapper?.getBoundingClientRect().height || 0
+
+                const naturalWidth = imageWrapper?.naturalWidth || 0
+                const naturalHeight = imageWrapper?.naturalHeight || 0
                 const scale = 3
-                const scaledWidth = width * scale
-                const scaledHeight =
-                  scaledWidth * (naturalHeight / naturalWidth)
-                //(scaledWidth - width) * -1,
+                const scaledWidth = Math.round(width * scale)
+                const scaledHeight = Math.round(
+                  (scaledWidth * naturalHeight) / naturalWidth
+                )
+
+                // set the connstraints
                 setZoomOffset({
                   top: ((scaledHeight - height) / 2) * -1,
                   left: ((scaledWidth - width) / 2) * -1,
                   right: (scaledWidth - width) / 2,
                   bottom: (scaledHeight - height) / 2
                 })
+
+                setZoomLevel(zoomLevel === 1 ? 2 : 1)
               }}
             ></button>
             <motion.div
@@ -202,10 +198,15 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0 }) => {
               drag
               onClick={() => {
                 setZoomLevel(1)
+                setZoomOffset({
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0
+                })
               }}
             >
               <MediaImage
-                innerRef={currentMediaRef}
                 key={remappedImage._key}
                 fit="contain"
                 sanityImage={remappedImage}
