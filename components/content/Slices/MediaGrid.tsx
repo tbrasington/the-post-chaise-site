@@ -9,7 +9,7 @@ import { StandardLeftIndent, StandardXPadding } from "@theme/tokens"
 
 interface MediaProps {
   content: PageContent
-  clickEvent?: () => void
+  clickEvent?: (clickData: string) => void
 }
 
 const MediaGrid: FC<MediaProps> = ({ content, clickEvent }) => {
@@ -35,7 +35,9 @@ const MediaGrid: FC<MediaProps> = ({ content, clickEvent }) => {
 
               return (
                 <MediaImage
-                  clickEvent={clickEvent}
+                  clickEvent={() =>
+                    clickEvent && clickEvent(remappedImage._key)
+                  }
                   key={remappedImage._key}
                   fit="contain"
                   sanityImage={remappedImage}

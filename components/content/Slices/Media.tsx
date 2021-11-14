@@ -12,7 +12,7 @@ import {
 } from "@theme/tokens"
 interface MediaProps {
   content: PageContent
-  clickEvent?: () => void
+  clickEvent?: (clickData: string) => void
 }
 
 const Media: FC<MediaProps> = ({ content, clickEvent }) => {
@@ -37,7 +37,7 @@ const Media: FC<MediaProps> = ({ content, clickEvent }) => {
             <MediaImage
               fit="contain"
               sanityImage={remappedImage}
-              clickEvent={clickEvent}
+              clickEvent={() => clickEvent && clickEvent(remappedImage._key)}
             />
           )}
           {content.caption && (

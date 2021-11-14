@@ -87,7 +87,7 @@ const GuideView: FC<GuideViewProps> = ({
   // add logic to filter out duplacates
 
   // manage gallery zoom
-  const [zoomOpen, toggleZoom] = React.useState(false)
+  const [[zoomOpen, zoomKey], toggleZoom] = React.useState([false, "0"])
   return (
     <motion.div
       variants={defaultMotionContainer}
@@ -160,8 +160,8 @@ const GuideView: FC<GuideViewProps> = ({
             <Container clean={SliceWidth(slice)} key={slice._key}>
               <SliceRenderer
                 block={slice}
-                clickEvent={() => {
-                  toggleZoom(!zoomOpen)
+                clickEvent={(clickData?: string) => {
+                  toggleZoom([!zoomOpen, clickData || ""])
                 }}
               />
             </Container>
@@ -237,9 +237,9 @@ const GuideView: FC<GuideViewProps> = ({
         >
           <Zoom
             slides={data.data.allMedia}
-            initialIndex={0}
+            initialIndex={zoomKey}
             close={() => {
-              toggleZoom(false)
+              toggleZoom([false, "0"])
             }}
           />
         </motion.div>

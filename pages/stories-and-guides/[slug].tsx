@@ -4,6 +4,7 @@ import type {
   InferGetStaticPropsType
 } from "next"
 import { getGuide, getGuides } from "@sanityLib/api/guide"
+import { Layout } from "@components/common"
 
 import { GuideView } from "@components/content"
 import { getClient } from "@sanityLib/sanity.server"
@@ -94,3 +95,4 @@ export default function Slug({
     />
   )
 }
+Slug.Layout = Layout

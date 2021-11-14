@@ -36,14 +36,16 @@ import { fallbackPalette } from "@theme/palette"
  */
 
 type ZoomProps = {
-  initialIndex: number
+  initialIndex: string
   slides: remappedAllMediaProps[]
   close: () => void
 }
 
-export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0, close }) => {
+export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = "", close }) => {
+  const mappedIndex =
+    slides.findIndex(slide => slide._key === initialIndex) || 0
   const [zoomLevel, setZoomLevel] = useState<1 | 2>(1)
-  const [[zoomIndex, direction], setZoomIndex] = useState([initialIndex, 0])
+  const [[zoomIndex, direction], setZoomIndex] = useState([mappedIndex, 0])
   const [zoomOffset, setZoomOffset] = useState<{
     top: number
     left: number
