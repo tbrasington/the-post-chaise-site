@@ -235,7 +235,13 @@ const GuideView: FC<GuideViewProps> = ({
             opacity: 1
           }}
         >
-          <Zoom slides={data.data.allMedia} initialIndex={0} close={() => {}} />
+          <Zoom
+            slides={data.data.allMedia}
+            initialIndex={0}
+            close={() => {
+              toggleZoom(false)
+            }}
+          />
         </motion.div>
       )}
     </motion.div>
