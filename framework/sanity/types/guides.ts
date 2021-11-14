@@ -30,7 +30,7 @@ export interface Slug {
 
 export interface PageContent {
   _key: string
-  _type: "paragraph" | "gallery" | "Media" | "mediaGrid" | string
+  _type: "paragraph" | "gallery" | "Media" | "mediaGrid"
   body?: SanityBlock[]
   gallery?: PageContentGallery[]
   Image?: Image
@@ -42,6 +42,7 @@ export interface PageContent {
 }
 
 export interface PageContentGallery {
+  alt_text?: string
   _key: string
   _type: string
   mediaAsset?: SanityAsset
@@ -58,4 +59,12 @@ export interface GuideIndexList {
   date_of_guide: string
   country?: string
   location?: string
+}
+
+export interface remappedAllMediaProps {
+  Image?: Image
+  palette?: Palette
+  alt_text?: string
+  _key: string
+  _type: string
 }

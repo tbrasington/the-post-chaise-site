@@ -6,11 +6,10 @@ import type {
 import { getGuide, getGuides } from "@sanityLib/api/guide"
 
 import { GuideView } from "@components/content"
-import { Layout } from "@components/common"
 import { getClient } from "@sanityLib/sanity.server"
 import { useRouter } from "next/router"
 import { getNavigation } from "@sanityLib/api/meta"
-import { SanityGuide } from "@sanityLib/types/guides"
+import { remappedAllMediaProps, SanityGuide } from "@sanityLib/types/guides"
 
 export async function getStaticProps({
   params,
@@ -33,10 +32,24 @@ export async function getStaticProps({
     block => block._type === "Media" || block._type === "mediaGrid"
   )
 
+  const remapAllMedia = allMedia.flatMap(x => {
+    if (x._type === "Media") return x
+    else if (x._type === "mediaGrid") {
+      return x.gallery?.flatMap(gallery => {
+        return {
+          ...gallery,
+          ...gallery.mediaAsset
+        }
+      })
+    } else {
+      return null
+    }
+  })
+
   return {
     props: {
       guideContent,
-      allMedia,
+      allMedia: remapAllMedia,
       pages: sanityPages,
       preview: preview || false,
       slug: params?.slug
@@ -75,11 +88,9 @@ export default function Slug({
   ) : (
     <GuideView
       content={guideContent}
-      allMedia={allMedia}
+      allMedia={allMedia as remappedAllMediaProps[]}
       preview={preview}
       slug={slug}
     />
   )
 }
-
-Slug.Layout = Layout

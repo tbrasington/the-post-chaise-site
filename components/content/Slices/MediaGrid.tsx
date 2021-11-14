@@ -9,9 +9,10 @@ import { StandardLeftIndent, StandardXPadding } from "@theme/tokens"
 
 interface MediaProps {
   content: PageContent
+  clickEvent?: () => void
 }
 
-const MediaGrid: FC<MediaProps> = ({ content }) => {
+const MediaGrid: FC<MediaProps> = ({ content, clickEvent }) => {
   return (
     <Box
       sx={{
@@ -34,6 +35,7 @@ const MediaGrid: FC<MediaProps> = ({ content }) => {
 
               return (
                 <MediaImage
+                  clickEvent={clickEvent}
                   key={remappedImage._key}
                   fit="contain"
                   sanityImage={remappedImage}

@@ -12,9 +12,10 @@ import {
 } from "@theme/tokens"
 interface MediaProps {
   content: PageContent
+  clickEvent?: () => void
 }
 
-const Media: FC<MediaProps> = ({ content }) => {
+const Media: FC<MediaProps> = ({ content, clickEvent }) => {
   if (content.Image && content.palette) {
     const remappedImage: SanityAsset = {
       Image: content.Image,
@@ -33,7 +34,11 @@ const Media: FC<MediaProps> = ({ content }) => {
       >
         <Box sx={{ mx: content.fullbleed ? 0 : StandardLeftIndent }}>
           {content.Image && (
-            <MediaImage fit="contain" sanityImage={remappedImage} />
+            <MediaImage
+              fit="contain"
+              sanityImage={remappedImage}
+              clickEvent={clickEvent}
+            />
           )}
           {content.caption && (
             <Flex

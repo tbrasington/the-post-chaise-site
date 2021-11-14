@@ -16,6 +16,7 @@ import { getClient } from "@sanityLib/sanity.server"
 import {
   GuideIndexList,
   PageContent,
+  remappedAllMediaProps,
   SanityGuide
 } from "@sanityLib/types/guides"
 import { defaultMotionContainer } from "@theme/motion"
@@ -26,7 +27,7 @@ import { Zoom } from "@components/common"
 
 interface GuideViewProps {
   content: SanityGuide
-  allMedia: PageContent[]
+  allMedia?: remappedAllMediaProps[]
   preview?: boolean
   slug?: string
 }
@@ -44,14 +45,6 @@ const GuideView: FC<GuideViewProps> = ({
     initialData: { content, allMedia },
     enabled: preview
   })
-
-  console.log({ allMedia })
-
-  const n = allMedia.flatMap(x => {
-    if (x._type === "Media") return x
-    if (x._type === "mediaGrid") return x.gallery
-  })
-  console.log(n)
 
   // // seo image
   const image =
@@ -87,11 +80,14 @@ const GuideView: FC<GuideViewProps> = ({
   const west = `${dlo}° ${mlo}′ ${Math.round(slo)}″ ${nsewlo} `
   const north = `${dla}° ${mla}′ ${Math.round(sla)}″ ${nsewla}`
 
-  // recomendations
+  // recomendations.
   const mergedRecomendations = data.data.content.related?.nearby
     ?.concat(data.data.content.related?.time || [])
     .slice(0, 4)
+  // add logic to filter out duplacates
 
+  // manage gallery zoom
+  const [zoomOpen, toggleZoom] = React.useState(false)
   return (
     <motion.div
       variants={defaultMotionContainer}
@@ -162,7 +158,12 @@ const GuideView: FC<GuideViewProps> = ({
         {data.data.content.page_content.map(slice => {
           return (
             <Container clean={SliceWidth(slice)} key={slice._key}>
-              <SliceRenderer block={slice} />
+              <SliceRenderer
+                block={slice}
+                clickEvent={() => {
+                  toggleZoom(!zoomOpen)
+                }}
+              />
             </Container>
           )
         })}
@@ -218,7 +219,25 @@ const GuideView: FC<GuideViewProps> = ({
         }}
       />
 
-      {/* <Zoom slides={[]} initialIndex={0} close={() => {}} /> */}
+      {data.data.allMedia && zoomOpen && (
+        <motion.div
+          style={{
+            opacity: 0,
+            position: "fixed",
+            width: "100vw",
+            height: "100vh",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0
+          }}
+          animate={{
+            opacity: 1
+          }}
+        >
+          <Zoom slides={data.data.allMedia} initialIndex={0} close={() => {}} />
+        </motion.div>
+      )}
     </motion.div>
   )
 }

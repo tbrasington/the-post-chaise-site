@@ -1,5 +1,8 @@
 /** @jsxImportSource theme-ui */
-import { PageContentGallery } from "@sanityLib/types/guides"
+import {
+  PageContentGallery,
+  remappedAllMediaProps
+} from "@sanityLib/types/guides"
 import { SanityAsset } from "@sanityLib/types/image"
 import { Box, Flex } from "@theme-ui/components"
 import { AnimatePresence, motion } from "framer-motion"
@@ -16,7 +19,7 @@ import {
 
 import SliderControl from "../Gallery/Controls"
 import { Text } from "@components/ui"
-import { ColorTokens } from "@theme/tokens"
+import { fallbackPalette } from "@theme/palette"
 
 /**
  *
@@ -34,7 +37,7 @@ import { ColorTokens } from "@theme/tokens"
 
 type ZoomProps = {
   initialIndex: number
-  slides: PageContentGallery[]
+  slides: remappedAllMediaProps[]
   close: () => void
 }
 
@@ -69,64 +72,20 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0, close }) => {
   const onPrev = () => paginate(-1)
   const onNext = () => paginate(1)
 
-  const filterSlides = slides.filter(item => item.mediaAsset !== null)
+  const filterSlides = slides.filter(item => item.Image !== null)
   const totalSlides = filterSlides.length
   const imageIndex = wrap(0, totalSlides, zoomIndex)
-
+  console.log({ filterSlides, imageIndex })
   const remappedImage: SanityAsset = {
-    Image: filterSlides[imageIndex].mediaAsset?.Image || {
+    Image: filterSlides[imageIndex]?.Image || {
       _type: "image",
       asset: {
         _ref: "image-45b6703725a2b226e0fb3cdb230b1c2e714b3569-3199x4000-jpg",
         _type: "reference"
       }
     },
-    alt_text: filterSlides[imageIndex].mediaAsset?.alt_text || "",
-    palette: filterSlides[imageIndex]?.palette || {
-      vibrant: {
-        _type: "string",
-        population: 0,
-        foreground: ColorTokens.text,
-        background: ColorTokens.primary
-      },
-      darkMuted: {
-        _type: "string",
-        population: 0,
-        foreground: ColorTokens.text,
-        background: ColorTokens.primary
-      },
-      darkVibrant: {
-        _type: "string",
-        population: 0,
-        foreground: ColorTokens.text,
-        background: ColorTokens.primary
-      },
-      muted: {
-        _type: "string",
-        population: 0,
-        foreground: ColorTokens.text,
-        background: ColorTokens.primary
-      },
-      lightMuted: {
-        _type: "string",
-        population: 0,
-        foreground: ColorTokens.text,
-        background: ColorTokens.primary
-      },
-
-      lightVibrant: {
-        _type: "string",
-        population: 0,
-        foreground: ColorTokens.text,
-        background: ColorTokens.primary
-      },
-      dominant: {
-        _type: "string",
-        population: 0,
-        foreground: ColorTokens.text,
-        background: ColorTokens.primary
-      }
-    },
+    alt_text: filterSlides[imageIndex]?.alt_text || "",
+    palette: filterSlides[imageIndex]?.palette || fallbackPalette,
     _key: filterSlides[imageIndex]._key,
     _type: filterSlides[imageIndex]._type
   }
@@ -276,7 +235,7 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0, close }) => {
               }}
             >
               <MediaImage
-                key={remappedImage._key}
+                key={zoomIndex}
                 fit="contain"
                 sanityImage={remappedImage}
               />
@@ -297,7 +256,7 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = 0, close }) => {
           }}
           variant="caption"
         >
-          {zoomIndex + 1} / {totalSlides}
+          {imageIndex + 1} / {totalSlides}
         </Text>
 
         <SliderControl

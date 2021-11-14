@@ -7,18 +7,19 @@ import MediaGrid from "./MediaGrid"
 
 type SliceRendererProps = {
   block: PageContent
+  clickEvent?: () => void
 }
 
-function SliceRenderer({ block }: SliceRendererProps) {
+function SliceRenderer({ block, clickEvent }: SliceRendererProps) {
   switch (block._type) {
     case "paragraph":
       return <Paragraph content={block} />
     case "Media":
-      return <Media content={block} />
+      return <Media content={block} clickEvent={clickEvent} />
     case "gallery":
       return <Gallery content={block} />
     case "mediaGrid":
-      return <MediaGrid content={block} />
+      return <MediaGrid content={block} clickEvent={clickEvent} />
     default:
       return <Fragment />
   }

@@ -13,6 +13,7 @@ type Props = {
   sizes?: string
   fit?: "contain" | "cover"
   innerRef?: React.ForwardedRef<HTMLDivElement>
+  clickEvent?: () => void
 }
 
 const MediaImage: React.FC<Props> = ({
@@ -22,7 +23,8 @@ const MediaImage: React.FC<Props> = ({
   height,
   sizes = "(max-width: 800px) 100vw, 800px",
   fit = "contain",
-  innerRef
+  innerRef,
+  clickEvent
 }) => {
   const image = useNextSanityImage(getClient(false), sanityImage.Image, {
     imageBuilder: (imageUrlBuilder, options) => {
@@ -71,6 +73,7 @@ const MediaImage: React.FC<Props> = ({
           objectPosition="center"
           priority={priority === 0}
           sizes={sizes}
+          onClick={clickEvent}
         />
       </Flex>
     )
