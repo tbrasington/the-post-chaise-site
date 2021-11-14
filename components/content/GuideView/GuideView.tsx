@@ -7,6 +7,7 @@ import { NextSeo } from "next-seo"
 import React, { FC } from "react"
 import { Box, Grid } from "theme-ui"
 
+import { Zoom } from "@components/common"
 import { SliceRenderer, SliceWidth } from "@components/content/Slices"
 import { Container, Text } from "@components/ui"
 import config from "@config/seo.json"
@@ -23,7 +24,6 @@ import { defaultMotionContainer } from "@theme/motion"
 import { ColorTokens, StandardLeftIndent, TextStyleNames } from "@theme/tokens"
 
 import { GuideCard } from "../"
-import { Zoom } from "@components/common"
 
 interface GuideViewProps {
   content: SanityGuide
@@ -81,10 +81,26 @@ const GuideView: FC<GuideViewProps> = ({
   const north = `${dla}° ${mla}′ ${Math.round(sla)}″ ${nsewla}`
 
   // recomendations.
-  const mergedRecomendations = data.data.content.related?.nearby
-    ?.concat(data.data.content.related?.time || [])
-    .slice(0, 4)
-  // add logic to filter out duplacates
+  let mergedRecomendations = [] as GuideIndexList[]
+  if (data.data.content.related?.nearby && data.data.content.related.time) {
+    mergedRecomendations = data.data.content.related?.nearby
+      ?.concat(
+        data.data.content.related?.time.filter(item =>
+          data.data.content.related?.nearby?.findIndex(i => i._id === item._id)
+        )
+      )
+      .slice(0, 4)
+  } else if (
+    data.data.content.related?.nearby &&
+    !data.data.content.related.time
+  ) {
+    mergedRecomendations = data.data.content.related?.nearby.slice(0, 4)
+  } else if (
+    !data.data.content.related?.nearby &&
+    data.data.content.related?.time
+  ) {
+    mergedRecomendations = data.data.content.related?.time.slice(0, 4)
+  }
 
   // manage gallery zoom
   const [[zoomOpen, zoomKey], toggleZoom] = React.useState([false, "0"])

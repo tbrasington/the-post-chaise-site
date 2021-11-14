@@ -127,7 +127,7 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = "", close }) => {
           custom={{ direction, width: containerWidth }}
         >
           <motion.div
-            key={zoomIndex}
+            key={`zoom-outer-${zoomIndex}`}
             custom={{ direction, width: containerWidth }}
             variants={galleryMotionVariants}
             initial="enter"
@@ -237,7 +237,7 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = "", close }) => {
               }}
             >
               <MediaImage
-                key={zoomIndex}
+                key={`image-${zoomIndex}`}
                 fit="contain"
                 sanityImage={remappedImage}
               />
