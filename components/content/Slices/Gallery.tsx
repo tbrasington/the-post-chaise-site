@@ -4,6 +4,7 @@ import MediaImage from "../../common/MediaImage"
 import { Box } from "theme-ui"
 
 import { PageContent } from "@sanityLib/types/guides"
+import { fallbackPalette } from "@theme/palette"
 
 interface GalleryProps {
   content: PageContent
@@ -11,7 +12,14 @@ interface GalleryProps {
 
 const GallerySlice: FC<GalleryProps> = ({ content }) => {
   const slideColors =
-    content.gallery && content.gallery.map(slide => slide.palette)
+    content.gallery &&
+    content.gallery.map(slide => {
+      if (slide.palette !== undefined) {
+        return slide.palette
+      } else {
+        return fallbackPalette
+      }
+    })
 
   return (
     <Box
@@ -23,11 +31,13 @@ const GallerySlice: FC<GalleryProps> = ({ content }) => {
         <Gallery slideColorData={slideColors}>
           {content.gallery?.map((slide, i) => {
             return (
-              <MediaImage
-                sanityImage={slide.mediaAsset}
-                priority={i}
-                key={slide._key}
-              />
+              slide.mediaAsset && (
+                <MediaImage
+                  sanityImage={slide.mediaAsset}
+                  priority={i}
+                  key={slide._key}
+                />
+              )
             )
           })}
         </Gallery>

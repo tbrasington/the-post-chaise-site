@@ -222,4 +222,4 @@ const Template: ComponentStory<typeof Component> = args => (
 )
 
 export const Zoom = Template.bind({})
-Zoom.args = { slides: data, initialIndex: 0 }
+Zoom.args = { slides: data, initialIndex: "" }

@@ -89,7 +89,7 @@ export default function Slug({
   ) : (
     <GuideView
       content={guideContent}
-      allMedia={allMedia as remappedAllMediaProps[]}
+      allMedia={allMedia && (allMedia as remappedAllMediaProps[])}
       preview={preview}
       slug={slug}
     />
