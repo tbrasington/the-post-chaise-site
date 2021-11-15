@@ -33,24 +33,23 @@ export async function getStaticProps({
     block => block._type === "Media" || block._type === "mediaGrid"
   )
 
-  const remapAllMedia = allMedia.flatMap(x => {
-    if (x._type === "Media") return x
-    else if (x._type === "mediaGrid") {
-      return x.gallery?.flatMap(gallery => {
-        return {
-          ...gallery,
-          ...gallery.mediaAsset
-        }
-      })
-    } else {
-      return null
-    }
-  })
-
+  const remapAllMedia = allMedia
+    .flatMap(x => {
+      if (x._type === "Media") return x
+      else if (x._type === "mediaGrid") {
+        return x.gallery?.flatMap(gallery => {
+          return {
+            ...gallery,
+            ...gallery.mediaAsset
+          }
+        })
+      }
+    })
+    .filter(item => item !== undefined)
   return {
     props: {
       guideContent,
-      allMedia: remapAllMedia,
+      allMedia: remapAllMedia || [],
       pages: sanityPages,
       preview: preview || false,
       slug: params?.slug
