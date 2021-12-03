@@ -149,11 +149,11 @@ const GuideView: FC<GuideViewProps> = ({
           </Text>
 
           <Text
-            variant="paragraph"
+            variant="statement"
             as="div"
             sx={{
               mt: 32,
-              mb: 56
+              mb: 12
             }}
           >
             {data.data.content.short_description && (
