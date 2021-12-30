@@ -41,3 +41,5 @@ yarn-error.log*
 public/studio
 # Sentry
 .sentryclirc
+
+public/rss.xml

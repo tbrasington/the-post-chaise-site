@@ -11,6 +11,10 @@ interface Props {
 
 const links = [
   {
+    name: "RSS",
+    url: "/rss.xml"
+  },
+  {
     name: "Instagram",
     url: "https://instagram.com/tbrasington"
   }

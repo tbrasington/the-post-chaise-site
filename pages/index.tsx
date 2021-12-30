@@ -1,6 +1,6 @@
 /** @jsxImportSource theme-ui */
 import type { GetStaticPropsContext, InferGetStaticPropsType } from "next"
-
+import fs from "fs"
 import { Container } from "@components/ui"
 import { Layout } from "@components/common"
 import { getClient } from "@sanityLib/sanity.server"
@@ -13,6 +13,7 @@ import { getGuideIndexList } from "@sanityLib/api/guide"
 import { motion } from "framer-motion"
 import { StandardLeftIndent, TextStyleNames } from "@theme/tokens"
 import { defaultMotionContainer, motionItem } from "@theme/motion"
+import { generateRss } from "@lib/rss"
 export async function getStaticProps({ preview }: GetStaticPropsContext) {
   const sanityMetaData = await getClient(preview || false).fetch(getNavigation)
   const guides: GuideIndexList[] = await getClient(preview || false).fetch(
@@ -28,6 +29,10 @@ export async function getStaticProps({ preview }: GetStaticPropsContext) {
         items: guides.filter(item => item.date_of_guide.split("-")[0] === el)
       }
     })
+
+  const rss = await generateRss(guides)
+
+  fs.writeFileSync("./public/rss.xml", rss)
 
   return {
     props: {
