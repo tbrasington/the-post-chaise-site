@@ -104,6 +104,12 @@ const GuideView: FC<GuideViewProps> = ({
 
   // manage gallery zoom
   const [[zoomOpen, zoomKey], toggleZoom] = React.useState([false, "0"])
+
+  const postedDate = new Date(data.data.content.date_of_guide)
+  const textDate = new Intl.DateTimeFormat("en-US", { month: "long" }).format(
+    postedDate
+  )
+
   return (
     <motion.div
       variants={defaultMotionContainer}
@@ -134,7 +140,8 @@ const GuideView: FC<GuideViewProps> = ({
               mt: 8
             }}
           >
-            {data.data.content.date_of_guide.split("-")[0]}
+            {`${data.data.content.date_of_guide.split("-")[0]},
+              ${textDate}`}
           </Text>
 
           <Text
