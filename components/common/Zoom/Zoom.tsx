@@ -5,7 +5,7 @@ import {
 } from "@sanityLib/types/guides"
 import { SanityAsset } from "@sanityLib/types/image"
 import { Box, Flex } from "@theme-ui/components"
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence, motion, useMotionValue } from "framer-motion"
 import { FC, useState, useRef } from "react"
 import { MediaImage } from "@components/common"
 import { Button } from "@components/ui"
@@ -74,10 +74,13 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = "", close }) => {
   const onPrev = () => paginate(-1)
   const onNext = () => paginate(1)
 
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
+
   const filterSlides = slides.filter(item => item.Image !== null)
   const totalSlides = filterSlides.length
   const imageIndex = wrap(0, totalSlides, zoomIndex)
-  console.log({ filterSlides, imageIndex })
+
   const remappedImage: SanityAsset = {
     Image: filterSlides[imageIndex]?.Image || {
       _type: "image",
@@ -216,10 +219,10 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = "", close }) => {
                 height: "100%",
                 ...(zoomLevel === 2
                   ? {
-                      x: 0,
-                      y: 0
+                      x: x,
+                      y: y
                     }
-                  : {})
+                  : { x: 0, y: 0 })
               }}
               animate={{
                 // needs maths on bounding
@@ -234,6 +237,41 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = "", close }) => {
                   right: 0,
                   bottom: 0
                 })
+              }}
+              onMouseMove={e => {
+                if (zoomLevel === 2) {
+                  let xPos = x.get() + e.movementX
+                  let yPos = y.get() + e.movementY
+
+                  let imageWrapper =
+                    galleryRef.current &&
+                    galleryRef.current.getElementsByTagName("img")[0]
+
+                  const zoomedImageWidth =
+                    (imageWrapper?.getBoundingClientRect().width || 0) / 3
+
+                  const zoomedImageHeight =
+                    (imageWrapper?.getBoundingClientRect().height || 0) / 3
+
+                  if (yPos > zoomedImageHeight) {
+                    yPos = zoomedImageHeight
+                  }
+
+                  if (yPos < zoomedImageHeight * -1) {
+                    yPos = zoomedImageHeight * -1
+                  }
+
+                  if (xPos > zoomedImageWidth) {
+                    xPos = zoomedImageWidth
+                  }
+
+                  if (xPos < zoomedImageWidth * -1) {
+                    xPos = zoomedImageWidth * -1
+                  }
+
+                  x.set(xPos)
+                  y.set(yPos)
+                }
               }}
             >
               <MediaImage
