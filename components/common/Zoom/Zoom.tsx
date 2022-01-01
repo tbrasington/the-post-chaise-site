@@ -76,6 +76,7 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = "", close }) => {
 
   const x = useMotionValue(0)
   const y = useMotionValue(0)
+  const scale = 2
 
   const filterSlides = slides.filter(item => item.Image !== null)
   const totalSlides = filterSlides.length
@@ -189,7 +190,6 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = "", close }) => {
 
                 const naturalWidth = imageWrapper?.naturalWidth || 0
                 const naturalHeight = imageWrapper?.naturalHeight || 0
-                const scale = 3
                 const scaledWidth = Math.round(width * scale)
                 const scaledHeight = Math.round(
                   (scaledWidth * naturalHeight) / naturalWidth
@@ -248,10 +248,10 @@ export const Zoom: FC<ZoomProps> = ({ slides, initialIndex = "", close }) => {
                     galleryRef.current.getElementsByTagName("img")[0]
 
                   const zoomedImageWidth =
-                    (imageWrapper?.getBoundingClientRect().width || 0) / 3
+                    (imageWrapper?.getBoundingClientRect().width || 0) / scale
 
                   const zoomedImageHeight =
-                    (imageWrapper?.getBoundingClientRect().height || 0) / 3
+                    (imageWrapper?.getBoundingClientRect().height || 0) / scale
 
                   if (yPos > zoomedImageHeight) {
                     yPos = zoomedImageHeight
