@@ -1,9 +1,10 @@
 import { PortableText } from "@sanityLib/sanity"
 import { GuideRSSList, PageContent } from "@sanityLib/types/guides"
-import { SliceRenderer } from "@components/content/Slices"
+import { SliceRendererRSS } from "@components/content/Slices"
 
 import config from "../config/seo.json"
 import ReactDOMServer from "react-dom/server"
+import { Fragment } from "react"
 
 const URL = config.openGraph.url
 const TITLE = config.openGraph.title
@@ -11,7 +12,7 @@ const SUBTITLE = config.openGraph.description
 
 function generateSlices(page_content: PageContent[]) {
   const slices = page_content.map(slice => {
-    return <SliceRenderer key={slice._key} block={slice} />
+    return <SliceRendererRSS key={slice._key} block={slice} />
   })
 
   return ReactDOMServer.renderToStaticMarkup(<div>{slices}</div>)
@@ -19,7 +20,11 @@ function generateSlices(page_content: PageContent[]) {
 export async function generateRssItem(post: GuideRSSList) {
   // i need to convert page content here to neat html
 
-  const content = <PortableText blocks={post.short_description} />
+  const content = post.short_description ? (
+    <PortableText blocks={post.short_description} />
+  ) : (
+    <Fragment />
+  )
 
   const contentString = ReactDOMServer.renderToStaticMarkup(content)
   const sliceString = generateSlices(post.page_content)
@@ -27,7 +32,7 @@ export async function generateRssItem(post: GuideRSSList) {
 
   return `
     <item>
-      <guid>${URL}/posts/${post.slug}</guid>
+      <guid>${URL}/stories-and-guides/${post.slug}</guid>
       <title>${post.title}</title>
       <description>${post.seo_description}</description>
       <link>${URL}/stories-and-guides/${post.slug}</link>
