@@ -31,7 +31,15 @@ const Footer: FC<Props> = ({}) => {
         borderTopColor: ColorTokens.muted
       }}
     >
-      <Container>
+      <Container
+        sx={{
+          display: "flex",
+          flexDirection: ["column", null, "row"],
+          "& a:hover": {
+            textDecoration: "underline"
+          }
+        }}
+      >
         <Link href="/" passHref>
           <a
             sx={{
@@ -41,29 +49,24 @@ const Footer: FC<Props> = ({}) => {
               variant: `text.${TextStyleNames.label_upper}`
             }}
           >
-            <span>&copy; The Post Chaise</span>
+            The Post Chaise &copy; {new Date().getFullYear()}
           </a>
         </Link>
 
         {[...links].map(page => (
-          <span
-            key={page.url}
-            sx={{
-              mr: 32
-            }}
-          >
-            <Link href={page.url!} passHref>
-              <a
-                sx={{
-                  color: `${ColorTokens.primary}`,
-                  textDecoration: "none",
-                  variant: `text.${TextStyleNames.label_upper}`
-                }}
-              >
-                {page.name}
-              </a>
-            </Link>
-          </span>
+          <Link href={page.url!} passHref key={page.url}>
+            <a
+              sx={{
+                mt: [16, 16, 0],
+                mr: 32,
+                color: `${ColorTokens.primary}`,
+                textDecoration: "none",
+                variant: `text.${TextStyleNames.label_upper}`
+              }}
+            >
+              {page.name}
+            </a>
+          </Link>
         ))}
       </Container>
     </footer>
