@@ -26,12 +26,8 @@ const MediaImageRSS: React.FC<Props> = ({
     imageBuilder: (imageUrlBuilder, options) => {
       return imageUrlBuilder
         .auto("format")
-        .maxWidth(
-          width ||
-            options.width ||
-            Math.min(options.originalImageDimensions.width)
-        )
-        .maxHeight(height || Math.min(options.originalImageDimensions.height))
+        .maxWidth(800)
+        .maxHeight(800)
         .crop("focalpoint")
     }
   })
@@ -41,15 +37,11 @@ const MediaImageRSS: React.FC<Props> = ({
       <div key={image.src} ref={innerRef}>
         <Image
           loader={image.loader}
-          placeholder={image.placeholder}
           src={image.src}
-          blurDataURL={image.blurDataURL}
           alt={sanityImage.alt_text}
-          layout="fill"
+          layout="fixed"
           objectFit={fit}
           objectPosition="center"
-          priority={priority === 0}
-          sizes={sizes}
         />
       </div>
     )
