@@ -1,7 +1,7 @@
 {
-  "name": "Next.js Commerce",
-  "short_name": "Next.js Commerce",
-  "description": "Next.js Commerce -> https://www.nextjs.org/commerce",
+  "name": "The Post Chaise",
+  "short_name": "The Post Chaise",
+  "description": "A guide to going nowhere",
   "display": "standalone",
   "start_url": "/",
   "theme_color": "#fff",
