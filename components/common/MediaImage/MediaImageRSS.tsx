@@ -1,4 +1,4 @@
-import Image from "next/image"
+/* eslint-disable @next/next/no-img-element */
 import { SanityAsset } from "@sanityLib/types/image"
 import { getClient } from "@sanityLib/sanity.server"
 import { useNextSanityImage } from "next-sanity-image"
@@ -15,11 +15,7 @@ type Props = {
 
 const MediaImageRSS: React.FC<Props> = ({
   sanityImage,
-  priority,
-  width,
-  height,
-  sizes = "(max-width: 800px) 100vw, 800px",
-  fit = "contain",
+
   innerRef
 }) => {
   const image = useNextSanityImage(getClient(false), sanityImage.Image, {
@@ -34,15 +30,8 @@ const MediaImageRSS: React.FC<Props> = ({
 
   return (
     image && (
-      <div key={image.src} ref={innerRef}>
-        <Image
-          loader={image.loader}
-          src={image.src}
-          alt={sanityImage.alt_text}
-          layout="fixed"
-          objectFit={fit}
-          objectPosition="center"
-        />
+      <div key={image.src} ref={innerRef} style={{ marginBottom: "24px" }}>
+        <img src={image.src} alt={sanityImage.alt_text} />
       </div>
     )
   )
