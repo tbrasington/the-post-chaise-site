@@ -6,16 +6,17 @@ import { Layout } from "@components/common"
 import { getClient } from "@sanityLib/sanity.server"
 import { getNavigation } from "@sanityLib/api/meta"
 import { Text } from "@components/ui"
-import { GuideIndexList } from "@sanityLib/types/guides"
+import { GuideIndexList, GuideRSSList } from "@sanityLib/types/guides"
 import { GuideCard } from "@components/content"
 import { Flex, Box, Grid } from "@theme-ui/components"
-import { getGuideIndexList } from "@sanityLib/api/guide"
+import { getGuideIndexList, getGuideRSSList } from "@sanityLib/api/guide"
 import { motion } from "framer-motion"
 import { StandardLeftIndent, TextStyleNames } from "@theme/tokens"
 import { defaultMotionContainer, motionItem } from "@theme/motion"
 import { generateRss } from "@lib/rss"
 export async function getStaticProps({ preview }: GetStaticPropsContext) {
   const sanityMetaData = await getClient(preview || false).fetch(getNavigation)
+
   const guides: GuideIndexList[] = await getClient(preview || false).fetch(
     getGuideIndexList
   )
@@ -30,7 +31,12 @@ export async function getStaticProps({ preview }: GetStaticPropsContext) {
       }
     })
 
-  const rss = await generateRss(guides)
+  // rss content
+  const guidesForRSS: GuideRSSList[] = await getClient(preview || false).fetch(
+    getGuideRSSList
+  )
+
+  const rss = await generateRss(guidesForRSS)
 
   fs.writeFileSync("./public/rss.xml", rss)
 

@@ -70,6 +70,19 @@ export const getGuideIndexList = groq`*[_type == "guide"]| order(date_of_guide d
    "palette": hero_image.asset->metadata.palette,
 }`
 
+export const getGuideRSSList = groq`*[_type == "guide"]| order(date_of_guide desc)  {
+  _id,
+ 	"title": title,
+  "slug": slug.current,
+  "country" :  country->title,
+  date_of_guide,
+  location,
+  seo_description, 
+  hero_image,
+  page_content,
+  short_description
+}`
+
 export const getSelectionOfAssets = groq`*[_type in [ "sanity.imageAsset"] | order(_createdAt desc)][0...5] {
   _id,
   _createdAt,

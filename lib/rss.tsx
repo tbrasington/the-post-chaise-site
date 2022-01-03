@@ -1,11 +1,29 @@
-import { GuideIndexList } from "@sanityLib/types/guides"
+import { PortableText } from "@sanityLib/sanity"
+import { GuideRSSList, PageContent } from "@sanityLib/types/guides"
+import { SliceRenderer } from "@components/content/Slices"
+
 import config from "../config/seo.json"
+import ReactDOMServer from "react-dom/server"
+
 const URL = config.openGraph.url
 const TITLE = config.openGraph.title
 const SUBTITLE = config.openGraph.description
-export async function generateRssItem(post: GuideIndexList) {
+
+function generateSlices(page_content: PageContent[]) {
+  const slices = page_content.map(slice => {
+    return <SliceRenderer key={slice._key} block={slice} />
+  })
+
+  return ReactDOMServer.renderToStaticMarkup(<div>{slices}</div>)
+}
+export async function generateRssItem(post: GuideRSSList) {
   // i need to convert page content here to neat html
-  const content = post.seo_description || ""
+
+  const content = <PortableText blocks={post.short_description} />
+
+  const contentString = ReactDOMServer.renderToStaticMarkup(content)
+  const sliceString = generateSlices(post.page_content)
+  // get slices
 
   return `
     <item>
@@ -14,12 +32,12 @@ export async function generateRssItem(post: GuideIndexList) {
       <description>${post.seo_description}</description>
       <link>${URL}/stories-and-guides/${post.slug}</link>
       <pubDate>${new Date(post.date_of_guide).toUTCString()}</pubDate>
-      <content:encoded><![CDATA[${content}]]></content:encoded>
+      <content:encoded><![CDATA[${contentString}${sliceString}]]></content:encoded>
     </item>
   `
 }
 
-export async function generateRss(posts: GuideIndexList[]) {
+export async function generateRss(posts: GuideRSSList[]) {
   const itemsList = await Promise.all(posts.map(generateRssItem))
 
   return `

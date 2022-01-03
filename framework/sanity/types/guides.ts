@@ -61,6 +61,19 @@ export interface GuideIndexList {
   location?: string
 }
 
+export interface GuideRSSList {
+  _id: string
+  title: string
+  slug: string
+  seo_description?: string
+  hero_image: Image
+  page_content: PageContent[]
+  date_of_guide: string
+  country?: string
+  location?: string
+  short_description: SanityBlock[]
+}
+
 export interface remappedAllMediaProps {
   Image?: Image
   palette?: Palette
