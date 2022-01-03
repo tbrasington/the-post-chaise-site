@@ -34,7 +34,7 @@ export async function generateRssItem(post: GuideRSSList) {
     <item>
       <guid>${URL}/stories-and-guides/${post.slug}</guid>
       <title>${post.title}</title>
-      <description>${post.seo_description}</description>
+      <description>${post.seo_description || ""}</description>
       <link>${URL}/stories-and-guides/${post.slug}</link>
       <pubDate>${new Date(post.date_of_guide).toUTCString()}</pubDate>
       <content:encoded><![CDATA[${contentString}${sliceString}]]></content:encoded>
