@@ -30,8 +30,16 @@ const MediaImageRSS: React.FC<Props> = ({
 
   return (
     image && (
-      <div key={image.src} ref={innerRef} style={{ marginBottom: "24px" }}>
-        <img src={image.src} alt={sanityImage.alt_text} />
+      <div
+        key={image.src}
+        ref={innerRef}
+        style={{ marginBottom: "24px", width: "100%", position: "relative" }}
+      >
+        <img
+          src={image.src}
+          alt={sanityImage.alt_text}
+          style={{ width: "100%", height: "auto" }}
+        />
       </div>
     )
   )

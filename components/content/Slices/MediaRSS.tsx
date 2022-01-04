@@ -17,7 +17,7 @@ const MediaRSS: FC<MediaProps> = ({ content }) => {
     }
 
     return (
-      <div>
+      <div style={{ width: "100%", position: "relative" }}>
         <div>
           {content.Image && (
             <MediaImageRSS fit="contain" sanityImage={remappedImage} />
