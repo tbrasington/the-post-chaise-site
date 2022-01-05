@@ -14,6 +14,9 @@ import { motion } from "framer-motion"
 import { StandardLeftIndent, TextStyleNames } from "@theme/tokens"
 import { defaultMotionContainer, motionItem } from "@theme/motion"
 import { generateRss } from "@lib/rss"
+import { NextSeo } from "next-seo"
+import config from "@config/seo.json"
+
 export async function getStaticProps({ preview }: GetStaticPropsContext) {
   const sanityMetaData = await getClient(preview || false).fetch(getNavigation)
 
@@ -140,6 +143,23 @@ export default function Home({
           )
         })}
       </Container>
+
+      <NextSeo
+        title={`${config.title}`}
+        description={config.description}
+        openGraph={{
+          title: config.title,
+          description: config.description,
+          images: [
+            {
+              url: config.openGraph.images[0].url,
+              width: 1820,
+              height: 904,
+              alt: config.openGraph.images[0].alt
+            }
+          ]
+        }}
+      />
     </motion.div>
   )
 }
