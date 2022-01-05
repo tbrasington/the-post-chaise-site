@@ -149,7 +149,7 @@ export default function Home({
         description={config.description}
         openGraph={{
           title: config.title,
-          description: config.description,
+          description: config.openGraph.description,
           images: [
             {
               url: config.openGraph.images[0].url,
