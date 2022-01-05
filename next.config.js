@@ -6,7 +6,8 @@ const moduleExports = {
   images: {
     domains: ["cdn.sanity.io"],
     loader: "custom"
-  }
+  },
+  swcMinify: true
 }
 
 module.exports = moduleExports
