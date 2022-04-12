@@ -73,6 +73,9 @@ export default {
       name: "hero_image",
       title: "Hero image",
       type: "image",
+       options: {
+        hotspot: true,
+      },
     },
     {
       type: 'array',
