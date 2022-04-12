@@ -18,7 +18,7 @@ const GuideCard: FC<{ item: GuideIndexList; showDescription?: boolean }> = ({
       return imageUrlBuilder
         .width(options.width || 800)
         .height((options.width || 800) * 0.75)
-        .crop("entropy")
+
         .fit("crop")
         .auto("format")
     }
