@@ -11,7 +11,7 @@ export default function resolveProductionUrl(document) {
 
 
   previewUrl.pathname = `/api/preview`
-  previewUrl.searchParams.append(`secret`, previewSecret)
+ // previewUrl.searchParams.append(`secret`, previewSecret) // need to re-do this and add the env to the next app hidden in the vercel env
   previewUrl.searchParams.append(`type`, docType)
   previewUrl.searchParams.append(`slug`, encodeURIComponent(document?.slug?.current) ?? `/`)
   return previewUrl.toString()
