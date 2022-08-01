@@ -28,7 +28,7 @@ export const getGuide = groq`*[_type == "guide" &&  slug.current == $slug]{
     },
 		"palette": Image.asset->metadata.palette,
 	},
-   "related" : { "nearby" : *[_type == "guide" && country->title in [^.country->title] && slug.current != $slug] | order(date_of_guide desc)  {
+   "related" : { "nearby" : *[_type == "guide" && country->title in [^.country->title] && slug.current != $slug && _createdAt < ^._createdAt] | order(date_of_guide desc)  {
   _id,
  	"title": title,
   "slug": slug.current,
@@ -38,7 +38,7 @@ export const getGuide = groq`*[_type == "guide" &&  slug.current == $slug]{
                   "palette": hero_image.asset->metadata.palette,
   
 }[0...3],
-"time" : *[_type == "guide" && slug.current != $slug] | order(date_of_guide desc)  {
+"time" : *[_type == "guide" && slug.current != $slug && _createdAt > ^._createdAt] | order(date_of_guide desc)  {
   _id,
  	"title": title,
   "slug": slug.current,

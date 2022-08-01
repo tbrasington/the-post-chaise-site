@@ -54,7 +54,7 @@ export async function getStaticProps({
       preview: preview || false,
       slug: params?.slug
     },
-    revalidate: 200
+    revalidate: 360
   }
 }
 

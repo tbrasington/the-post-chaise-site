@@ -81,26 +81,17 @@ const GuideView: FC<GuideViewProps> = ({
   const north = `${dla}° ${mla}′ ${Math.round(sla)}″ ${nsewla}`
 
   // recomendations.
-  let mergedRecomendations = [] as GuideIndexList[]
-  if (data.data.content.related?.nearby && data.data.content.related.time) {
-    mergedRecomendations = data.data.content.related?.nearby
-      ?.concat(
-        data.data.content.related?.time.filter(item =>
-          data.data.content.related?.nearby?.findIndex(i => i._id === item._id)
-        )
-      )
-      .slice(0, 4)
-  } else if (
-    data.data.content.related?.nearby &&
-    !data.data.content.related.time
-  ) {
-    mergedRecomendations = data.data.content.related?.nearby.slice(0, 4)
-  } else if (
-    !data.data.content.related?.nearby &&
-    data.data.content.related?.time
-  ) {
-    mergedRecomendations = data.data.content.related?.time.slice(0, 4)
+  const nearby = data.data.content.related?.nearby || []
+  const timely = data.data.content.related?.time || []
+  const mergedGuides: GuideIndexList[] = timely.concat(nearby)
+
+  function getUniqueListBy(arr: GuideIndexList[]) {
+    return [
+      ...new Map(arr.map((item: GuideIndexList) => [item._id, item])).values()
+    ]
   }
+
+  const filteredGuide = getUniqueListBy(mergedGuides)
 
   // manage gallery zoom
   const [[zoomOpen, zoomKey], toggleZoom] = React.useState([false, "0"])
@@ -116,6 +107,7 @@ const GuideView: FC<GuideViewProps> = ({
       initial="hidden"
       animate="show"
       exit="exit"
+      key={`page-${data.data.content._id}`}
     >
       <Container sx={{ ml: StandardLeftIndent }}>
         <Box
@@ -192,7 +184,7 @@ const GuideView: FC<GuideViewProps> = ({
         })}
       </Container>
 
-      {mergedRecomendations && (
+      {filteredGuide && (
         <Container sx={{ mx: StandardLeftIndent }}>
           <Text
             variant="sub_heading"
@@ -215,9 +207,13 @@ const GuideView: FC<GuideViewProps> = ({
             gap={12}
             as="ol"
           >
-            {mergedRecomendations.map((item: GuideIndexList) => {
+            {filteredGuide.map((item: GuideIndexList) => {
               return (
-                <GuideCard key={item._id} item={item} showDescription={false} />
+                <GuideCard
+                  key={`recomendations-${item._id}`}
+                  item={item}
+                  showDescription={false}
+                />
               )
             })}
           </Grid>
