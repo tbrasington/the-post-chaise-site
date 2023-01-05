@@ -12,9 +12,9 @@ const Noop: FC = ({ children }) => <>{children}</>
 export default function MyApp({ Component, pageProps, router }: AppProps) {
   const Layout = (Component as any).Layout || Noop
   const url = `${router.asPath}`
-  useEffect(() => {
-    document.body.classList?.remove("loading")
-  }, [])
+  // useEffect(() => {
+  //   document.body.classList?.remove("loading")
+  // }, [])
 
   return (
     <>

@@ -21,10 +21,10 @@ export const defaultMotionContainer = {
     opacity: 0,
     y: 30,
     transition: {
-      staggerChildren: 0.2,
+      staggerChildren: 0.1,
       ...standardMotionEasing
     },
-    duration: 0.2
+    duration: 0.1
   }
 }
 

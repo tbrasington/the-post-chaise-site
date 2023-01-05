@@ -15,9 +15,11 @@ const ButtonSizeMini: ThemeUICSSObject = {
   px: 12,
   height: 32,
   py: 0,
+  mt: 2,
   borderRadius: 32,
   borderWidth: 0,
-  variant: `text.${TextStyleNames.label_upper}`
+  variant: `text.${TextStyleNames.label_upper}`,
+  lineHeight: 0
 }
 export const ButtonBase: ThemeUICSSObject = {
   m: 0,
@@ -25,7 +27,6 @@ export const ButtonBase: ThemeUICSSObject = {
   borderStyle: "solid",
   transition: "all 0.2s ease",
   cursor: "pointer",
-
   alignItems: "center",
   justifyContent: "center",
   textDecoration: "none"

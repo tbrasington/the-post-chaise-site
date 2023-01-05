@@ -102,13 +102,7 @@ const GuideView: FC<GuideViewProps> = ({
   )
 
   return (
-    <motion.div
-      variants={defaultMotionContainer}
-      initial="hidden"
-      animate="show"
-      exit="exit"
-      key={`page-${data.data.content._id}`}
-    >
+    <>
       <Container sx={{ ml: StandardLeftIndent }}>
         <Box
           sx={{
@@ -168,21 +162,28 @@ const GuideView: FC<GuideViewProps> = ({
           </Text>
         </Box>
       </Container>
-
-      <Container clean spacing={24}>
-        {data.data.content.page_content.map(slice => {
-          return (
-            <Container clean={SliceWidth(slice)} key={slice._key}>
-              <SliceRenderer
-                block={slice}
-                clickEvent={(clickData?: string) => {
-                  toggleZoom([!zoomOpen, clickData || ""])
-                }}
-              />
-            </Container>
-          )
-        })}
-      </Container>
+      <motion.div
+        variants={defaultMotionContainer}
+        initial="hidden"
+        animate="show"
+        exit="exit"
+        key={`page-${data.data.content._id}`}
+      >
+        <Container clean spacing={24}>
+          {data.data.content.page_content.map(slice => {
+            return (
+              <Container clean={SliceWidth(slice)} key={slice._key}>
+                <SliceRenderer
+                  block={slice}
+                  clickEvent={(clickData?: string) => {
+                    toggleZoom([!zoomOpen, clickData || ""])
+                  }}
+                />
+              </Container>
+            )
+          })}
+        </Container>
+      </motion.div>
 
       {filteredGuide && (
         <Container sx={{ mx: StandardLeftIndent }}>
@@ -263,7 +264,7 @@ const GuideView: FC<GuideViewProps> = ({
           />
         </motion.div>
       )}
-    </motion.div>
+    </>
   )
 }
 
