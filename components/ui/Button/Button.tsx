@@ -4,13 +4,13 @@ import React, {
   ButtonHTMLAttributes,
   JSXElementConstructor,
   forwardRef,
-  useRef
-} from "react"
+  useRef,
+} from 'react'
 
-import { ButtonTypes } from "@theme/buttons"
-import { LoadingDots } from "@components/ui"
-import { ThemeUIStyleObject } from "theme-ui"
-import mergeRefs from "react-merge-refs"
+import { ButtonTypes } from '@theme/buttons'
+import { LoadingDots } from '@components/ui'
+import { ThemeUIStyleObject } from 'theme-ui'
+import mergeRefs from 'react-merge-refs'
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
@@ -22,7 +22,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    */
   variant?: ButtonTypes
   active?: boolean
-  type?: "submit" | "reset" | "button"
+  type?: 'submit' | 'reset' | 'button'
   Component?: string | JSXElementConstructor<any>
   /**
    * overide the width
@@ -49,7 +49,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
   const {
     className,
-    variant = "primary",
+    variant = 'primary',
     children,
     active,
     width,
@@ -57,7 +57,7 @@ const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
     disabled = false,
     bgOverride,
     textOverride,
-    Component = "button",
+    Component = 'button',
     ...rest
   } = props
 
@@ -68,14 +68,14 @@ const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
   if (bgOverride && bgOverride?.length > 0) {
     colorOverrides = {
       bg: bgOverride,
-      borderColor: bgOverride
+      borderColor: bgOverride,
     }
   }
 
   if (textOverride && textOverride?.length > 0) {
     colorOverrides = {
       ...colorOverrides,
-      color: textOverride
+      color: textOverride,
     }
   }
 
@@ -87,14 +87,14 @@ const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
       sx={{
         variant: `buttons.${variant}`,
         ...colorOverrides,
-        width: width
+        width: width,
       }}
       {...rest}
     >
       {loading ? (
         <i
           sx={{
-            display: "flex"
+            display: 'flex',
           }}
         >
           <LoadingDots />
