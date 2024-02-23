@@ -14,6 +14,10 @@ export default function Colophon() {
           other technology and design combinations away from my work web
           prescene.
         </p>
+        <p className="mt-2 text-sm  antialiased">
+          I am particualy interested in capturing the banality of the seaside
+          and the looming precense of the countryside.
+        </p>
       </div>
       <div>
         <h2 className="m-0  text-sm  font-medium antialiased">Typography</h2>
