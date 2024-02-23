@@ -16,7 +16,7 @@ export default function Guides({ guides }: { guides: SanityGuide[] }) {
 
   return (
     <main className="grid-cols-auto container mx-auto grid snap-proximity gap-8 px-6 py-11">
-      <p>A photographic archive by tbrasington.</p>
+      <p>A photographic journal by Thomas Brasington.</p>
 
       {groupedGuidesByYear.map((year) => {
         return (
