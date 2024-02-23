@@ -27,7 +27,7 @@ export function Logo() {
           fill="currentColor"
         ></path>
         <path
-          className="fill-red-800 dark:fill-red-500"
+          className="motion-safe:animate-spin-slow  origin-center fill-red-800 dark:fill-red-500"
           fillRule="evenodd"
           clipRule="evenodd"
           d="M66.919 93.679L53 116.847l-1 1.664V77.21h5.603c0 .335.009.669.026 1H53v36.695l13.075-21.764c.276.186.558.366.844.538z"
