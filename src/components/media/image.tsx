@@ -36,9 +36,6 @@ export function MediaImage({
   });
   const bg = palette?.muted?.background || "#ccc";
   let aspectRatio = imageProps.width / imageProps.height;
-  if (imageProps.width > imageProps.height) {
-    aspectRatio = imageProps.height / imageProps.width;
-  }
 
   return (
     <div
