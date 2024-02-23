@@ -24,7 +24,7 @@ export default function Colophon() {
           social-networks (around 2004-8) this is what I and most of used to do
           with our photos. This is a bit of a digital garden for me to test out
           other technology and design combinations away from my work web
-          prescene.
+          presence.
         </p>
         <p className="mt-2 text-sm  antialiased">
           I am particualy interested in capturing the banality of the seaside
