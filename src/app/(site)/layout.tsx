@@ -24,9 +24,9 @@ export default function RootLayout({
     <PlausibleProvider domain="thepostchaise.com">
       <html lang="en" className="scroll-smooth">
         <body
-          className={`${GeistSans.variable} ${GeistMono.variable} bg-stone font-sans text-sm dark:bg-stone-950 dark:text-stone-400`}
+          className={`${GeistSans.variable} ${GeistMono.variable} bg-stone min-h-screen font-sans text-sm dark:bg-stone-950 dark:text-stone-400`}
         >
-          <div className="flex flex-col gap-4">
+          <div className="flex min-h-screen flex-col gap-4">
             <header className="container m-auto flex items-center justify-between gap-4 px-4 py-10 md:pt-20">
               <Link
                 href="/"
