@@ -3,12 +3,12 @@ import Layout from "./(site)/layout";
 
 import type { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "The Post Chaise",
-  description: "A guide to getting lost",
+  title: "Page not found | The Post Chaise",
+  description: "",
   metadataBase: new URL(`https://${process.env.VERCEL_URL}`),
   openGraph: {
     title: "404 | The Post Chaise",
-    description: "A guide to getting lost",
+    description: "",
     images: ["/opengraph.png"],
     authors: ["https://www.tbrasington.com"],
   },
