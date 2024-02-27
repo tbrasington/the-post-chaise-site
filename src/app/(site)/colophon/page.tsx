@@ -46,8 +46,9 @@ export default function Colophon() {
         <p className="m-0 mt-2 text-sm  antialiased">
           Written in React via <Link href="https://nextjs.org">Next.js</Link>{" "}
           with <Link href="https://sanity.io">Sanity</Link> providing the CMS.
-          Analytics by privacy focussed{" "}
-          <Link href="https://plausible.io">Plausible</Link>
+          Styling with <Link href="https://tailwindcss.com">Tailwind</Link>.
+          Hosted on <Link href="https://vercel.com">Vercel</Link>. Analytics by
+          privacy focussed <Link href="https://plausible.io">Plausible</Link>
         </p>
       </div>
     </main>
