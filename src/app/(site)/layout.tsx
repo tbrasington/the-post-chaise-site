@@ -39,7 +39,7 @@ export default function RootLayout({
 
             {children}
             {draftMode().isEnabled && <LiveVisualEditing />}
-            <footer className="container mx-auto flex justify-between gap-4 px-6 py-20 text-stone-500">
+            <footer className="container mx-auto flex scroll-px-6 justify-between gap-4 py-20 text-stone-500">
               <Link href="/colophon" className="text-stone-500">
                 Colophon
               </Link>{" "}

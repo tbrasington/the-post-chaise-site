@@ -23,12 +23,12 @@ export function GuideThumbnail({ hero_image, title, slug, lqip, bg }: Props) {
 
   return (
     <div
-      className="group flex flex-col gap-2"
+      className="group flex cursor-pointer flex-col gap-2"
       onMouseDown={click.onMouseDown}
       onMouseUp={click.onMouseUp}
     >
       <div
-        className={`aspect-4/3 relative overflow-hidden transition-opacity duration-300 group-hover:opacity-50`}
+        className={`aspect-4/3 duration-400 relative overflow-hidden transition-opacity group-hover:opacity-50`}
         style={{
           backgroundColor: bg,
         }}
@@ -46,7 +46,10 @@ export function GuideThumbnail({ hero_image, title, slug, lqip, bg }: Props) {
         />
       </div>
       <p className="m-0 text-sm">
-        <Link className="no-underline" href={url}>
+        <Link
+          className="transition-duration-400 underline decoration-stone-100 underline-offset-4 transition-all group-hover:underline group-hover:decoration-stone-500 dark:decoration-stone-800"
+          href={url}
+        >
           {title}
         </Link>
       </p>
