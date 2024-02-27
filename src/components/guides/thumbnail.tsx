@@ -28,7 +28,7 @@ export function GuideThumbnail({ hero_image, title, slug, lqip, bg }: Props) {
       onMouseUp={click.onMouseUp}
     >
       <div
-        className={`aspect-4/3 duration-400 relative overflow-hidden transition-opacity group-hover:opacity-50`}
+        className={`aspect-4/3 relative overflow-hidden`}
         style={{
           backgroundColor: bg,
         }}
@@ -42,7 +42,7 @@ export function GuideThumbnail({ hero_image, title, slug, lqip, bg }: Props) {
           priority={false}
           placeholder={lqip ? "blur" : "empty"}
           blurDataURL={lqip}
-          className="hover:opacity-50"
+          className="duration-400 transition-opacity group-hover:opacity-40"
         />
       </div>
       <p className="m-0 text-sm">
