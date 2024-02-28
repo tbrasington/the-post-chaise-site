@@ -38,6 +38,7 @@ export default function Guides({ guides }: { guides: SanityGuide[] }) {
                     hero_image={guide.hero_image}
                     lqip={guide.lqip}
                     bg={guide.palette?.vibrant?.background || "inherit"}
+                    bgDark={guide.palette?.darkVibrant?.background || "inherit"}
                   />
                 );
               })}

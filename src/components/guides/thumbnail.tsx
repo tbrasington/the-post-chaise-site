@@ -5,12 +5,21 @@ import { client } from "@/sanity/lib/client";
 import { SanityGuide } from "@/sanity/types/guides";
 import { useCardClick } from "@/utils/hooks/useCardClick";
 import NextImage from "next/image";
+import { useEffect, useState } from "react";
 
 type Props = Pick<SanityGuide, "title" | "hero_image" | "slug" | "lqip"> & {
   bg: string;
+  bgDark: string;
 };
 
-export function GuideThumbnail({ hero_image, title, slug, lqip, bg }: Props) {
+export function GuideThumbnail({
+  hero_image,
+  title,
+  slug,
+  lqip,
+  bg,
+  bgDark,
+}: Props) {
   const imageProps = useNextSanityImage(client, hero_image || null, {
     imageBuilder: (returnUrl) =>
       returnUrl.fit("crop").auto("format").quality(70).width(800).height(600),
@@ -19,6 +28,30 @@ export function GuideThumbnail({ hero_image, title, slug, lqip, bg }: Props) {
 
   const click = useCardClick(url);
 
+  // colors for thumb
+  const [bgEffect, setBg] = useState(bg);
+  useEffect(() => {
+    const isBrowser = typeof window !== "undefined" && window.matchMedia;
+    if (isBrowser) {
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      if (mediaQuery) {
+        setBg(mediaQuery.matches ? bgDark : bg);
+        mediaQuery.addEventListener("change", (e) => {
+          setBg(e.matches ? bgDark : bg);
+        });
+      }
+    }
+    return () => {
+      if (isBrowser) {
+        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+        if (mediaQuery) {
+          mediaQuery.removeEventListener("change", () => {});
+        }
+      }
+    };
+  }, [bg, bgDark]);
+
+  // kill if no image
   if (imageProps === null) return null;
 
   return (
@@ -30,7 +63,7 @@ export function GuideThumbnail({ hero_image, title, slug, lqip, bg }: Props) {
       <div
         className={`aspect-4/3 relative overflow-hidden`}
         style={{
-          backgroundColor: bg,
+          backgroundColor: bgEffect,
         }}
       >
         <NextImage
