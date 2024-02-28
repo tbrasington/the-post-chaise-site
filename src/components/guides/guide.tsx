@@ -69,7 +69,7 @@ export default function Guide({ guide }: { guide: SanityGuide }) {
                 key={`further-${item.slug}`}
                 hero_image={item.hero_image}
                 title={item.title}
-                bgDark={item.palette?.darkVibrant?.foreground || "#000"}
+                bgDark={item.palette?.darkVibrant?.background || "#000"}
               />
             );
           })}
