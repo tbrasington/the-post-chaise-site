@@ -24,11 +24,10 @@ export default function Guide({ guide }: { guide: SanityGuide }) {
   });
 
   /// coords
-  const LocationData = location ? location.split(",") : [0, 0];
-  const DMSCoordinates = new DmsCoordinates(
-    Number(LocationData[0]),
-    Number(LocationData[1]),
-  );
+  const LocationData = location ? location.split(",") : ["0", "0"];
+  const l = Number(LocationData[0].trim());
+  const la = Number(LocationData[0].trim());
+  const DMSCoordinates = new DmsCoordinates(l, la);
 
   const { longitude, latitude } = DMSCoordinates.dmsArrays;
   const [dlo, mlo, slo, nsewlo] = longitude;
