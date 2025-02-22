@@ -30,7 +30,7 @@ export async function generateMetadata(
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   // read route params
-  const initial = await loadQuery<SanityGuide>(GUIDE_QUERY, params, {
+  const initial = await loadQuery<SanityGuide>(GUIDE_QUERY, await params, {
     // Because of Next.js, RSC and Dynamic Routes this currently
     // cannot be set on the loadQuery function at the "top level"
     perspective: "published",
@@ -56,9 +56,13 @@ export async function generateMetadata(
     },
   };
 }
-export default async function GuidePage({ params }: { params: QueryParams }) {
+export default async function GuidePage({
+  params,
+}: {
+  params: Promise<QueryParams>;
+}) {
   const { isEnabled: isDraftMode } = await draftMode();
-  const initial = await loadQuery<SanityGuide>(GUIDE_QUERY, params, {
+  const initial = await loadQuery<SanityGuide>(GUIDE_QUERY, await params, {
     // Because of Next.js, RSC and Dynamic Routes this currently
     // cannot be set on the loadQuery function at the "top level"
     perspective: isDraftMode ? "previewDrafts" : "published",

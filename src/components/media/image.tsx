@@ -3,6 +3,9 @@ import Image from "next/image";
 import { SanityDocument, SanityImageAssetDocument } from "next-sanity";
 import { useNextSanityImage } from "next-sanity-image";
 import { client } from "@/sanity/lib/client";
+import { AnimatePresence } from "motion/react";
+import * as motion from "motion/react-client";
+import { useId, useState } from "react";
 
 type Props = {
   image: SanityDocument;
@@ -36,30 +39,75 @@ export function MediaImage({
   });
   const bg = palette?.muted?.background || "#ccc";
   let aspectRatio = imageProps.width / imageProps.height;
-
+  const [isExpanded, setIsExpanded] = useState(false);
+  const layoutId = useId();
   return (
-    <div
-      className={`relative h-auto  w-full`}
-      style={{
-        aspectRatio: `${aspectRatio}`,
-        backgroundColor: bg,
-      }}
-    >
-      <Image
-        src={imageProps.src}
+    <>
+      <motion.div
+        layout
+        className={`relative h-auto w-full`}
         style={{
-          width: "100%",
-          height: "100%",
-          margin: 0,
-          objectFit: "cover",
+          aspectRatio: `${aspectRatio}`,
+          backgroundColor: bg,
         }}
-        alt={alt}
-        fill
-        sizes={sizes}
-        priority={priority}
-        placeholder={placeholder ? "blur" : "empty"}
-        blurDataURL={placeholder}
-      />
-    </div>
+        layoutId={layoutId}
+        onClick={() => setIsExpanded(true)}
+      >
+        <Image
+          src={imageProps.src}
+          style={{
+            width: "100%",
+            height: "100%",
+            margin: 0,
+            objectFit: "cover",
+          }}
+          alt={alt}
+          fill
+          sizes={sizes}
+          priority={priority}
+          placeholder={placeholder ? "blur" : "empty"}
+          blurDataURL={placeholder}
+        />
+      </motion.div>
+      <AnimatePresence mode="wait">
+        {isExpanded && (
+          <motion.div
+            className={`fixed inset-0 z-50 p-4  h-full w-full `}
+            onClick={() => setIsExpanded(false)}
+            style={{
+              backgroundColor: bg,
+              aspectRatio: `${aspectRatio}`,
+            }}
+          >
+            <motion.div
+              transition={{ duration: 0.5 }}
+              layout
+              layoutId={layoutId}
+              className={`relative h-full w-full flex items-center justify-center`}
+              style={{
+                backgroundColor: bg,
+                aspectRatio: `${aspectRatio}`,
+              }}
+            >
+              <Image
+                src={imageProps.src}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  margin: 0,
+                  objectFit: "contain",
+                }}
+                alt={alt}
+                fill
+                sizes={"100vw"}
+                priority={priority}
+                placeholder={placeholder ? "blur" : "empty"}
+                blurDataURL={placeholder}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
