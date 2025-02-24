@@ -20,13 +20,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  {
-    params,
-  }: {
-    params: {
-      slug: string;
-    };
-  },
+  { params }: { params: Promise<QueryParams> },
+
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   // read route params
@@ -62,11 +57,16 @@ export default async function GuidePage({
   params: Promise<QueryParams>;
 }) {
   const { isEnabled: isDraftMode } = await draftMode();
-  const initial = await loadQuery<SanityGuide>(GUIDE_QUERY, await params, {
-    // Because of Next.js, RSC and Dynamic Routes this currently
-    // cannot be set on the loadQuery function at the "top level"
-    perspective: isDraftMode ? "previewDrafts" : "published",
-  });
+  const props = await params;
+  const initial = await loadQuery<SanityGuide>(
+    GUIDE_QUERY,
+    { slug: props.slug },
+    {
+      // Because of Next.js, RSC and Dynamic Routes this currently
+      // cannot be set on the loadQuery function at the "top level"
+      perspective: isDraftMode ? "previewDrafts" : "published",
+    },
+  );
 
   return isDraftMode ? (
     <GuidePreview initial={initial} params={params} />
