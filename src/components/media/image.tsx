@@ -5,7 +5,8 @@ import { useNextSanityImage } from "next-sanity-image";
 import { client } from "@/sanity/lib/client";
 import { AnimatePresence } from "motion/react";
 import * as motion from "motion/react-client";
-import { useId, useState } from "react";
+import { useId, useLayoutEffect, useState } from "react";
+import { useScrollLock } from "usehooks-ts";
 
 type Props = {
   image: SanityDocument;
@@ -39,19 +40,60 @@ export function MediaImage({
   });
   const bg = palette?.muted?.background || "#ccc";
   let aspectRatio = imageProps.width / imageProps.height;
+  const { lock, unlock } = useScrollLock({
+    autoLock: false,
+    lockTarget: "body",
+  });
+
   const [isExpanded, setIsExpanded] = useState(false);
+  const [expandedDimensions, setExpandedDimensions] = useState({
+    width: 0,
+    height: 0,
+  });
+
   const layoutId = useId();
+  useLayoutEffect(() => {
+    const calculateDimensions = () => {
+      if (!isExpanded) return;
+
+      // Get viewport dimensions (subtract padding)
+      const maxWidth = window.innerWidth * 0.9;
+      const maxHeight = window.innerHeight * 0.9;
+
+      let width, height;
+
+      // If fitting to width
+      const potentialHeight = maxWidth / aspectRatio;
+      if (potentialHeight <= maxHeight) {
+        width = maxWidth;
+        height = potentialHeight;
+      } else {
+        // If fitting to height
+        height = maxHeight;
+        width = height * aspectRatio;
+      }
+
+      setExpandedDimensions({ width, height });
+    };
+
+    calculateDimensions();
+    window.addEventListener("resize", calculateDimensions);
+    return () => window.removeEventListener("resize", calculateDimensions);
+  }, [isExpanded, aspectRatio]);
   return (
     <>
       <motion.div
         layout
-        className={`relative h-auto w-full`}
+        className={`relative h-auto w-full `}
         style={{
           aspectRatio: `${aspectRatio}`,
           backgroundColor: bg,
         }}
         layoutId={layoutId}
-        onClick={() => setIsExpanded(true)}
+        onClick={() => {
+          lock();
+          setIsExpanded(true);
+        }}
       >
         <Image
           src={imageProps.src}
@@ -59,7 +101,7 @@ export function MediaImage({
             width: "100%",
             height: "100%",
             margin: 0,
-            objectFit: "cover",
+            objectFit: "contain",
           }}
           alt={alt}
           fill
@@ -72,21 +114,23 @@ export function MediaImage({
       <AnimatePresence mode="wait">
         {isExpanded && (
           <motion.div
-            className={`fixed inset-0 z-50 p-4  h-full w-full `}
-            onClick={() => setIsExpanded(false)}
-            style={{
-              backgroundColor: bg,
-              aspectRatio: `${aspectRatio}`,
+            animate={{ opacity: 1 }}
+            initial={{ opacity: 0 }}
+            exit={{ opacity: 0 }}
+            className={`fixed inset-0 z-50 p-4  h-full w-full flex items-center justify-center bg-black bg-opacity-95`}
+            onClick={() => {
+              setIsExpanded(false);
+              unlock();
             }}
           >
             <motion.div
-              transition={{ duration: 0.5 }}
               layout
               layoutId={layoutId}
-              className={`relative h-full w-full flex items-center justify-center`}
+              className="relative h-[90vh] w-[90vw]"
               style={{
-                backgroundColor: bg,
                 aspectRatio: `${aspectRatio}`,
+                width: expandedDimensions.width,
+                height: expandedDimensions.height,
               }}
             >
               <Image
@@ -100,7 +144,7 @@ export function MediaImage({
                 alt={alt}
                 fill
                 sizes={"100vw"}
-                priority={priority}
+                priority={false}
                 placeholder={placeholder ? "blur" : "empty"}
                 blurDataURL={placeholder}
               />
