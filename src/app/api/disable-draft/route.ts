@@ -1,10 +1,10 @@
 // ./app/api/disable-draft/route.ts
 
-import { draftMode } from 'next/headers'
-import { NextRequest, NextResponse } from 'next/server'
+import { draftMode } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 
-export function GET(request: NextRequest) {
-  draftMode().disable()
-  const url = new URL(request.nextUrl)
-  return NextResponse.redirect(new URL('/', url.origin))
+export async function GET(request: NextRequest) {
+  (await draftMode()).disable();
+  const url = new URL(request.nextUrl);
+  return NextResponse.redirect(new URL("/", url.origin));
 }

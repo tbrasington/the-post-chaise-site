@@ -20,20 +20,15 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  {
-    params,
-  }: {
-    params: {
-      slug: string;
-    };
-  },
+  { params }: { params: Promise<QueryParams> },
+
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   // read route params
-  const initial = await loadQuery<SanityGuide>(GUIDE_QUERY, params, {
+  const initial = await loadQuery<SanityGuide>(GUIDE_QUERY, await params, {
     // Because of Next.js, RSC and Dynamic Routes this currently
     // cannot be set on the loadQuery function at the "top level"
-    perspective: draftMode().isEnabled ? "previewDrafts" : "published",
+    perspective: "published",
   });
   const builder = imageUrlBuilder({ projectId, dataset });
   let seoImage = `opengraph.png`;
@@ -56,14 +51,24 @@ export async function generateMetadata(
     },
   };
 }
-export default async function GuidePage({ params }: { params: QueryParams }) {
-  const initial = await loadQuery<SanityGuide>(GUIDE_QUERY, params, {
-    // Because of Next.js, RSC and Dynamic Routes this currently
-    // cannot be set on the loadQuery function at the "top level"
-    perspective: draftMode().isEnabled ? "previewDrafts" : "published",
-  });
+export default async function GuidePage({
+  params,
+}: {
+  params: Promise<QueryParams>;
+}) {
+  const { isEnabled: isDraftMode } = await draftMode();
+  const props = await params;
+  const initial = await loadQuery<SanityGuide>(
+    GUIDE_QUERY,
+    { slug: props.slug },
+    {
+      // Because of Next.js, RSC and Dynamic Routes this currently
+      // cannot be set on the loadQuery function at the "top level"
+      perspective: isDraftMode ? "previewDrafts" : "published",
+    },
+  );
 
-  return draftMode().isEnabled ? (
+  return isDraftMode ? (
     <GuidePreview initial={initial} params={params} />
   ) : (
     <Guide guide={initial.data} />
