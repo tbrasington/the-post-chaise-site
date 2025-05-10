@@ -19,15 +19,17 @@ export const metadata: Metadata = {
   },
 };
 export default async function Page() {
+  const { isEnabled: isDraftMode } = await draftMode();
+
   const initial = await loadQuery<SanityGuide[]>(
     GUIDE_INDEX_LIST,
     {},
     {
-      perspective: draftMode().isEnabled ? "previewDrafts" : "published",
+      perspective: isDraftMode ? "previewDrafts" : "published",
     },
   );
 
-  return draftMode().isEnabled ? (
+  return isDraftMode ? (
     <GuidesPreview initial={initial} />
   ) : (
     <Guides guides={initial.data} />
