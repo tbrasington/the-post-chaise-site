@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(`https://${process.env.VERCEL_URL}`),
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -38,7 +38,7 @@ export default function RootLayout({
             </header>
 
             {children}
-            {draftMode().isEnabled && <LiveVisualEditing />}
+            {(await draftMode()).isEnabled && <LiveVisualEditing />}
             <footer className="container mx-auto flex  px-6 justify-between gap-4 py-20 text-stone-500">
               <Link href="/colophon" className="text-stone-500">
                 Colophon

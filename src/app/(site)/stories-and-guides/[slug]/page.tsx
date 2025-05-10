@@ -33,7 +33,7 @@ export async function generateMetadata(
   const initial = await loadQuery<SanityGuide>(GUIDE_QUERY, params, {
     // Because of Next.js, RSC and Dynamic Routes this currently
     // cannot be set on the loadQuery function at the "top level"
-    perspective: draftMode().isEnabled ? "previewDrafts" : "published",
+    perspective: (await draftMode()).isEnabled ? "previewDrafts" : "published",
   });
   const builder = imageUrlBuilder({ projectId, dataset });
   let seoImage = `opengraph.png`;
@@ -60,10 +60,10 @@ export default async function GuidePage({ params }: { params: QueryParams }) {
   const initial = await loadQuery<SanityGuide>(GUIDE_QUERY, params, {
     // Because of Next.js, RSC and Dynamic Routes this currently
     // cannot be set on the loadQuery function at the "top level"
-    perspective: draftMode().isEnabled ? "previewDrafts" : "published",
+    perspective: (await draftMode()).isEnabled ? "previewDrafts" : "published",
   });
 
-  return draftMode().isEnabled ? (
+  return (await draftMode()).isEnabled ? (
     <GuidePreview initial={initial} params={params} />
   ) : (
     <Guide guide={initial.data} />
