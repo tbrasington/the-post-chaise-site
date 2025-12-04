@@ -69,7 +69,7 @@ export default async function GuidePage({
   );
 
   return isDraftMode ? (
-    <GuidePreview initial={initial} params={params} />
+    <GuidePreview initial={initial} params={props} />
   ) : (
     <Guide guide={initial.data} />
   );
